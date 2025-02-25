@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist",
+    "site": "cv-app-8b43a",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**", ".firebase"],
+    "frameworksBackend": {
+      "region": "europe-west1"
+    }
+  }
+}
