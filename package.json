@@ -14,7 +14,9 @@
     "@apollo/client": "^3.13.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@hookform/resolvers": "^4.1.2",
     "@mui/material": "^6.4.5",
+    "cv-graphql": "^2.13.2",
     "graphql": "^16.10.0",
     "i18next": "^24.2.2",
     "normalize.css": "^8.0.1",
@@ -24,7 +26,8 @@
     "react-i18next": "^15.4.1",
     "react-icons": "^5.4.0",
     "react-router-dom": "^7.1.5",
-    "react-toastify": "^11.0.3"
+    "react-toastify": "^11.0.3",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
