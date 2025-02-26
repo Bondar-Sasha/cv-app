@@ -1,1 +1,1 @@
-export {}
+export {default as StyledLinkList} from './StyledLinkList/StyledLinkList'
