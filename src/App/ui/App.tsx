@@ -6,6 +6,8 @@ import 'normalize.css'
 
 import {AppRoutes} from '../routes'
 import '../styles/index.css'
+import {client} from '../providers/ApolloClient'
+import {ApolloProvider} from '@apollo/client'
 
 const theme = createTheme({
   palette: {
@@ -18,15 +20,17 @@ const theme = createTheme({
 
 const App: FC = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <AppRoutes />
-      <ToastContainer
-        theme="light"
-        position="bottom-right"
-        autoClose={1500}
-        pauseOnHover
-      />
-    </ThemeProvider>
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
+        <AppRoutes />
+        <ToastContainer
+          theme="light"
+          position="bottom-right"
+          autoClose={1500}
+          pauseOnHover
+        />
+      </ThemeProvider>
+    </ApolloProvider>
   )
 }
 
