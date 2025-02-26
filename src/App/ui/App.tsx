@@ -48,19 +48,19 @@ const App: FC = () => {
   }
 
   return (
-    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
-      <ApolloProvider client={client}>
-        <ThemeContext.Provider value={{themeHandler: handelThemeSwitching}}>
+    <ApolloProvider client={client}>
+      <ThemeContext.Provider value={{themeHandler: handelThemeSwitching}}>
+        <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
           <AppRoutes />
-        </ThemeContext.Provider>
-      </ApolloProvider>
+        </ThemeProvider>
+      </ThemeContext.Provider>
       <ToastContainer
         theme={isDarkTheme ? 'dark' : 'light'}
         position="bottom-right"
         autoClose={1500}
         pauseOnHover
       />
-    </ThemeProvider>
+    </ApolloProvider>
   )
 }
 
