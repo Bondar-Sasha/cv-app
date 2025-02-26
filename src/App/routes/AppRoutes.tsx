@@ -3,6 +3,7 @@ import {Routes, Route, BrowserRouter, Outlet} from 'react-router-dom'
 
 import SecureRoute from './SecureRoute'
 import {AppRouterMap} from '@/Shared'
+import {Auth, ForgotPassword, ResetPassword} from '@/Pages'
 
 const {
   users,
@@ -55,7 +56,7 @@ const AppRoutes: FC = () => {
           path={singUp.path}
           element={
             <SecureRoute redirectTo="/" isRedirection={!!isUser}>
-              <>singUp</>
+              <Auth location="signup" />
             </SecureRoute>
           }
         />
@@ -63,7 +64,7 @@ const AppRoutes: FC = () => {
           path={login.path}
           element={
             <SecureRoute redirectTo="/" isRedirection={!!isUser}>
-              <>login</>
+              <Auth location="login" />
             </SecureRoute>
           }
         />
@@ -71,7 +72,7 @@ const AppRoutes: FC = () => {
           path={forgotPassword.path}
           element={
             <SecureRoute redirectTo="/" isRedirection={!!isUser}>
-              <>forgotPassword</>
+              <ForgotPassword />
             </SecureRoute>
           }
         />
@@ -79,7 +80,7 @@ const AppRoutes: FC = () => {
           path={resetPassword.path}
           element={
             <SecureRoute redirectTo="/" isRedirection={!!isUser}>
-              <>forgotPassword</>
+              <ResetPassword />
             </SecureRoute>
           }
         />
