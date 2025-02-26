@@ -55,33 +55,29 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
       {...register(name)}
       helperText={errors[name]?.message}
       error={!!errors[name]}
-      InputProps={{
-        endAdornment: isPasswordType && (
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
-              edge="end"
-            >
-              {showPassword ? <VisibilityOff /> : icon || <Visibility />}
-            </IconButton>
-          </InputAdornment>
-        ),
+      slotProps={{
+        input: {
+          endAdornment: isPasswordType && (
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : icon || <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        },
       }}
       sx={{
         '& .MuiOutlinedInput-root': {
           '& fieldset': {
             borderRadius: 0,
-            '&:hover': {
-              borderColor: redColor,
-            },
             '&.Mui-focused': {
               borderColor: redColor,
             },
-          },
-          '&:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: redColor,
           },
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
             borderColor: redColor,
@@ -90,13 +86,15 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
             boxShadow: 'none',
           },
           '& input': {
+            padding: '15px',
+
             '&:-webkit-autofill': {
-              '-webkit-box-shadow': '0 0 0 100px white inset',
-              '-webkit-text-fill-color': theme.palette.text.primary,
+              WebkitBoxShadow: '0 0 0 100px white inset',
+              WebkitTextFillColor: theme.palette.text.primary,
             },
             '&:-webkit-autofill:focus': {
-              '-webkit-box-shadow': '0 0 0 100px white inset',
-              '-webkit-text-fill-color': theme.palette.text.primary,
+              WebkitBoxShadow: '0 0 0 100px white inset',
+              WebkitTextFillColor: theme.palette.text.primary,
             },
           },
         },
