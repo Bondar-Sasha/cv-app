@@ -1,4 +1,4 @@
-import {FC} from 'react'
+import {createContext, FC, useState} from 'react'
 import 'react-toastify/dist/ReactToastify.css'
 import {ToastContainer} from 'react-toastify'
 import {createTheme, ThemeProvider} from '@mui/material'
@@ -7,21 +7,51 @@ import 'normalize.css'
 import {AppRoutes} from '../routes'
 import '../styles/index.css'
 
-const MUITheme = createTheme({
+interface ThemeContextValues {
+  themeHandler: () => void
+}
+
+const ThemeContext = createContext<ThemeContextValues>({
+  themeHandler: () => {},
+})
+
+const lightTheme = createTheme({
   palette: {
-    primary: {
-      main: '#ed6e47',
-      dark: '#ed6e47',
+    mode: 'light',
+    background: {
+      default: '#fff',
+    },
+    text: {
+      primary: '#353535',
+    },
+  },
+})
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    background: {
+      default: '#353535',
+    },
+    text: {
+      primary: '#fff',
     },
   },
 })
 
 const App: FC = () => {
+  const [isDarkTheme, setTheme] = useState<boolean>(false)
+  const handelThemeSwitching = () => {
+    setTheme((prev) => !prev)
+  }
+
   return (
-    <ThemeProvider theme={MUITheme}>
-      <AppRoutes />
+    <ThemeProvider theme={isDarkTheme ? darkTheme : lightTheme}>
+      <ThemeContext.Provider value={{themeHandler: handelThemeSwitching}}>
+        <AppRoutes />
+      </ThemeContext.Provider>
       <ToastContainer
-        theme="light"
+        theme={isDarkTheme ? 'dark' : 'light'}
         position="bottom-right"
         autoClose={1500}
         pauseOnHover
