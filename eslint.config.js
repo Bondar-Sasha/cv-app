@@ -26,6 +26,9 @@ export default tseslint.config(
     },
     rules: {
       ...reactHooks.configs.recommended.rules,
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
       'react-refresh/only-export-components': 'off',
       'no-console': ['error', {allow: ['warn', 'error']}],
       'spaced-comment': ['error', 'always'],

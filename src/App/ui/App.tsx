@@ -7,7 +7,7 @@ import 'normalize.css'
 import {AppRoutes} from '../routes'
 import '../styles/index.css'
 
-const theme = createTheme({
+const MUITheme = createTheme({
   palette: {
     primary: {
       main: '#ed6e47',
@@ -18,7 +18,7 @@ const theme = createTheme({
 
 const App: FC = () => {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={MUITheme}>
       <AppRoutes />
       <ToastContainer
         theme="light"

@@ -1,13 +1,89 @@
 import {FC} from 'react'
-import {Routes, Route, BrowserRouter} from 'react-router-dom'
+import {Routes, Route, BrowserRouter, Outlet} from 'react-router-dom'
 
-import {} from '@/Pages'
+import SecureRoute from './SecureRoute'
+import {AppRouterMap} from '@/Shared'
+
+const {
+  users,
+  userCVs,
+  userLanguages,
+  userProfile,
+  userSkills,
+  CVDetails,
+  CVPreview,
+  CVProjects,
+  CVSkills,
+  CVs,
+  positions,
+  project,
+  projects,
+  departments,
+  skills,
+  languages,
+  singUp,
+  login,
+  resetPassword,
+  forgotPassword,
+} = AppRouterMap
 
 const AppRoutes: FC = () => {
+  const isUser = false
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="*" element={<>apptest</>} />
+        <Route path="/" element={<Outlet />}>
+          <Route path={users.path} element={<>users</>} />
+          <Route path={userProfile.path()} element={<>user profile</>} />
+          <Route path={userSkills.path()} element={<>user skills</>} />
+          <Route path={userLanguages.path()} element={<>user lang</>} />
+          <Route path={userCVs.path()} element={<>user cvs</>} />
+          <Route path={projects.path} element={<>projects</>} />
+          <Route path={project.path()} element={<>project details</>} />
+          <Route path={CVs.path} element={<>cvs</>} />
+          <Route path={CVDetails.path()} element={<>cv details</>} />
+          <Route path={CVSkills.path()} element={<>cv skills</>} />
+          <Route path={CVProjects.path()} element={<>cv projects</>} />
+          <Route path={CVPreview.path()} element={<>cv preview</>} />
+          <Route path={departments.path} element={<>departments</>} />
+          <Route path={positions.path} element={<>positions</>} />
+          <Route path={skills.path} element={<>skills</>} />
+          <Route path={languages.path} element={<>languages</>} />
+        </Route>
+
+        <Route
+          path={singUp.path}
+          element={
+            <SecureRoute redirectTo="/" isRedirection={!!isUser}>
+              <>singUp</>
+            </SecureRoute>
+          }
+        />
+        <Route
+          path={login.path}
+          element={
+            <SecureRoute redirectTo="/" isRedirection={!!isUser}>
+              <>login</>
+            </SecureRoute>
+          }
+        />
+        <Route
+          path={forgotPassword.path}
+          element={
+            <SecureRoute redirectTo="/" isRedirection={!!isUser}>
+              <>forgotPassword</>
+            </SecureRoute>
+          }
+        />
+        <Route
+          path={resetPassword.path}
+          element={
+            <SecureRoute redirectTo="/" isRedirection={!!isUser}>
+              <>forgotPassword</>
+            </SecureRoute>
+          }
+        />
+        <Route path="*" element={<>404</>} />
       </Routes>
     </BrowserRouter>
   )
