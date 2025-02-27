@@ -4,9 +4,9 @@ import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {createAuthForm, createAuthShema} from '../api/authShema'
 import {CustomTextField, StyledButton} from '@/Shared/ui'
-import {Wrapper} from './LoginPage'
+import {Wrapper} from './AuthLayout'
 
-interface AuthFormProps {
+export interface AuthFormProps {
   action: 'login' | 'signup'
   handleAuth: (email: string, password: string) => void
 }
@@ -48,7 +48,7 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action}) => {
         errors={errors}
       />
 
-      <Wrapper margin={'40px auto 0'}>
+      <Wrapper margin={'50px auto 0'}>
         <StyledButton
           variant="contained"
           onClick={handleSubmit((data) => {

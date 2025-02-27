@@ -1,16 +1,14 @@
-import LoginPage from './ui/LoginPage'
-import RegisterPage from './ui/RegisterPage'
 import {FC} from 'react'
 import {Box, styled} from '@mui/material'
-
 import {StyledLinkList} from '@/Widgets'
+import LoginPage from './model/LoginPage'
+import SignupPage from './model/SignupPage'
 
 interface AuthProps {
   location: 'login' | 'signup'
 }
 
 const Container = styled(Box)(({theme}) => ({
-  maxWidth: '1440px',
   height: '100vh',
   margin: '0 auto',
   padding: '0 20px',
@@ -18,6 +16,7 @@ const Container = styled(Box)(({theme}) => ({
   flexDirection: 'column',
   alignItems: 'center',
   backgroundColor: theme.palette.background.default,
+  overflow: 'hidden',
 }))
 
 const Header = styled(Box)({
@@ -29,8 +28,12 @@ const Header = styled(Box)({
 })
 
 const Content = styled(Box)({
-  width: '100%',
-  padding: '20px 0',
+  width: '700px',
+  height: 'calc(100% - 56px)',
+  margin: '0px auto',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 })
 
 const Auth: FC<AuthProps> = ({location}) => {
@@ -55,7 +58,7 @@ const Auth: FC<AuthProps> = ({location}) => {
 
       <Content>
         {location === 'login' && <LoginPage />}
-        {location === 'signup' && <RegisterPage />}
+        {location === 'signup' && <SignupPage />}
       </Content>
     </Container>
   )

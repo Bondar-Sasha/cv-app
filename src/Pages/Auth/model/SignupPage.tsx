@@ -1,11 +1,12 @@
 import {useSignup} from '../api/useSignup'
 import {useEffect} from 'react'
-import AuthForm from './AuthForm'
-import {Link, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
+import AuthLayout from '../ui/AuthLayout'
+import AuthForm from '../ui/AuthForm'
 
-const RegisterPage = () => {
-  const [mutateSignup, {data, loading}] = useSignup()
+const SignupPage = () => {
+  const [mutateSignup, {data}] = useSignup()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -30,16 +31,14 @@ const RegisterPage = () => {
   }
 
   return (
-    <>
-      <h2>Register now</h2>
-      <p>Welcome! Sign up to continue</p>
-      <AuthForm handleAuth={handleSignUp} action="signup" />
-
-      {loading && <p>Loading...</p>}
-
-      <Link to={'/auth/login'}>I have an Account</Link>
-    </>
+    <AuthLayout
+      title="Register now"
+      paragraph="Welcome! Sign up to continue"
+      btnTitle="I have an Account"
+      to="/auth/login"
+      form={<AuthForm handleAuth={handleSignUp} action="signup" />}
+    />
   )
 }
 
-export default RegisterPage
+export default SignupPage
