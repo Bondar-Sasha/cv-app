@@ -9,9 +9,9 @@ const TypographyTitle: FC<TypographyTitleProps> = ({title}) => {
   const theme = useTheme()
   return (
     <Typography
-      variant="h2"
-      fontSize={'34px'}
-      fontWeight={400}
+      variant="h4"
+      marginBottom="24px"
+      fontSize={'2.75rem'}
       color={theme.palette.text.primary}
     >
       {title}
