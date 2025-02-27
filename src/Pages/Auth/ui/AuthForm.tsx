@@ -4,7 +4,7 @@ import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {createAuthForm, createAuthShema} from '../api/authShema'
 import {CustomTextField, StyledButton} from '@/Shared/ui'
-import {Wrapper} from './AuthLayout'
+import {Wrapper} from './StyledComponents'
 
 export interface AuthFormProps {
   action: 'login' | 'signup'

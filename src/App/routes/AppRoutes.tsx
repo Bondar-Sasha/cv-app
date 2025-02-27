@@ -3,7 +3,7 @@ import {Routes, Route, BrowserRouter, Outlet} from 'react-router-dom'
 
 import SecureRoute from './SecureRoute'
 import {AppRouterMap} from '@/Shared'
-import {Auth, ForgotPassword, ResetPassword} from '@/Pages'
+import {Auth, ChangePassword, ResetPassword} from '@/Pages'
 
 const {
   users,
@@ -72,7 +72,7 @@ const AppRoutes: FC = () => {
           path={forgotPassword.path}
           element={
             <SecureRoute redirectTo="/" isRedirection={!!isUser}>
-              <ForgotPassword />
+              <ChangePassword />
             </SecureRoute>
           }
         />

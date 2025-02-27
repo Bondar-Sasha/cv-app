@@ -1,22 +1,8 @@
 import {FC} from 'react'
 import {Link} from 'react-router-dom'
-import {Box, Container, styled, Typography, useTheme} from '@mui/material'
+import {Typography, useTheme} from '@mui/material'
 import {StyledButton, TypographyTitle} from '@/Shared/ui'
-
-const StyledContainer = styled(Container)({
-  display: 'flex',
-  Width: '100%',
-  height: 'max-content',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '20px',
-})
-
-export const Wrapper = styled(Box)(() => ({
-  maxWidth: '43%',
-  width: '100%',
-}))
+import {StyledContainer, Wrapper} from './StyledComponents'
 
 interface AuthLayoutProps {
   title: string
