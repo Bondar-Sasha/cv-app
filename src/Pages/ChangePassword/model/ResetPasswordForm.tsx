@@ -33,9 +33,12 @@ const ResetPasswordForm = () => {
     register,
     handleSubmit,
     formState: {errors},
+    watch,
   } = useForm<createPasswordForm>({
     resolver: zodResolver(createPasswordShema),
   })
+
+  const password = watch('newPassword', '')
 
   return (
     <FormControl
@@ -57,7 +60,7 @@ const ResetPasswordForm = () => {
       <Wrapper margin={'50px auto 0'}>
         <StyledButton
           variant="contained"
-          disabled={loading}
+          disabled={loading || password.length === 0}
           onClick={handleSubmit((data) => {
             handleForgot(data.newPassword)
           })}

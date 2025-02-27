@@ -13,10 +13,12 @@ const ForgotPasswordForm = () => {
     register,
     handleSubmit,
     formState: {errors},
+    watch,
   } = useForm<createForgotForm>({
     resolver: zodResolver(createForgotShema),
   })
 
+  const email = watch('email', '')
   const navigate = useNavigate()
   const [mutateForgot, {loading}] = useForgotPassword()
 
@@ -57,7 +59,7 @@ const ForgotPasswordForm = () => {
       <Wrapper margin={'50px auto 0'}>
         <StyledButton
           variant="contained"
-          disabled={loading}
+          disabled={loading || email.length === 0}
           onClick={handleSubmit((data) => {
             handleForgot(data.email)
           })}
