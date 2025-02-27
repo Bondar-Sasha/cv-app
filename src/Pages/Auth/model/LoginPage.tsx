@@ -8,7 +8,7 @@ import AuthLayout from '../ui/AuthLayout'
 // {email: 'nat3@nat.mail.ru', password: 'asd!@123'},
 
 const LoginPage = () => {
-  const [mutateLogin, {data}] = useLogin()
+  const [mutateLogin, {data, loading}] = useLogin()
   const navigate = useNavigate()
 
   const handleLogIn = (email: string, password: string) => {
@@ -38,7 +38,9 @@ const LoginPage = () => {
       paragraph="Hello again! Log in to continue"
       btnTitle="FORGOT PASSWORD"
       to="/forgot-password"
-      form={<AuthForm handleAuth={handleLogIn} action="login" />}
+      form={
+        <AuthForm loading={loading} handleAuth={handleLogIn} action="login" />
+      }
     />
   )
 }

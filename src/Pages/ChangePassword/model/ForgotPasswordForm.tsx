@@ -1,4 +1,4 @@
-import {CustomTextField, StyledButton} from '@/Shared/ui'
+import {CircleProgress, CustomTextField, StyledButton} from '@/Shared/ui'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {FormControl} from '@mui/material'
 import {useForm} from 'react-hook-form'
@@ -18,7 +18,7 @@ const ForgotPasswordForm = () => {
   })
 
   const navigate = useNavigate()
-  const [mutateForgot] = useForgotPassword()
+  const [mutateForgot, {loading}] = useForgotPassword()
 
   const handleForgot = (email: string) => {
     mutateForgot({
@@ -57,11 +57,12 @@ const ForgotPasswordForm = () => {
       <Wrapper margin={'50px auto 0'}>
         <StyledButton
           variant="contained"
+          disabled={loading}
           onClick={handleSubmit((data) => {
             handleForgot(data.email)
           })}
         >
-          Reset password
+          {loading ? <CircleProgress /> : 'Reset password'}
         </StyledButton>
       </Wrapper>
     </FormControl>

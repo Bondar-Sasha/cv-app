@@ -88,11 +88,11 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
           '& input': {
             '&:-webkit-autofill': {
               fontSize: '1.2rem',
-              WebkitBoxShadow: '0 0 0 100px white inset',
+              WebkitBoxShadow: `0 0 0 100px ${theme.palette.background.default} inset`,
               WebkitTextFillColor: theme.palette.text.primary,
             },
             '&:-webkit-autofill:focus': {
-              WebkitBoxShadow: '0 0 0 100px white inset',
+              WebkitBoxShadow: `0 0 0 100px ${theme.palette.background.default} inset`,
               WebkitTextFillColor: theme.palette.text.primary,
             },
           },

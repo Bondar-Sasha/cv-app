@@ -6,7 +6,7 @@ import AuthLayout from '../ui/AuthLayout'
 import AuthForm from '../ui/AuthForm'
 
 const SignupPage = () => {
-  const [mutateSignup, {data}] = useSignup()
+  const [mutateSignup, {data, loading}] = useSignup()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -36,7 +36,9 @@ const SignupPage = () => {
       paragraph="Welcome! Sign up to continue"
       btnTitle="I have an Account"
       to="/auth/login"
-      form={<AuthForm handleAuth={handleSignUp} action="signup" />}
+      form={
+        <AuthForm handleAuth={handleSignUp} loading={loading} action="signup" />
+      }
     />
   )
 }

@@ -1,4 +1,4 @@
-import {CustomTextField, StyledButton} from '@/Shared/ui'
+import {CircleProgress, CustomTextField, StyledButton} from '@/Shared/ui'
 import {FormControl} from '@mui/material'
 import {Wrapper} from '../ui/ContentComponent'
 import {useNavigate} from 'react-router-dom'
@@ -10,7 +10,7 @@ import {createPasswordForm, createPasswordShema} from '../api/passwordShema'
 
 const ResetPasswordForm = () => {
   const navigate = useNavigate()
-  const [mutateForgot] = useResetPassword()
+  const [mutateForgot, {loading}] = useResetPassword()
 
   const handleForgot = (password: string) => {
     mutateForgot({
@@ -57,11 +57,12 @@ const ResetPasswordForm = () => {
       <Wrapper margin={'50px auto 0'}>
         <StyledButton
           variant="contained"
+          disabled={loading}
           onClick={handleSubmit((data) => {
             handleForgot(data.newPassword)
           })}
         >
-          Submit
+          {loading ? <CircleProgress /> : 'Submit'}
         </StyledButton>
       </Wrapper>
     </FormControl>

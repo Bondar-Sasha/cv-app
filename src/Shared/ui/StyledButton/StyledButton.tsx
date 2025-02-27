@@ -1,6 +1,15 @@
-import {Button, styled} from '@mui/material'
+import React from 'react'
+import Button from '@mui/material/Button'
+import {styled} from '@mui/material/styles'
 
-const StyledButton = styled(Button)(({theme, variant}) => ({
+interface StyledButtonProps {
+  variant?: 'contained' | 'outlined' | 'text'
+  loading?: boolean
+  children: React.ReactNode
+  onClick?: () => void
+}
+
+const StyledButton = styled(Button)<StyledButtonProps>(({theme, variant}) => ({
   width: '100%',
   backgroundColor: variant === 'contained' ? theme.palette.error.main : 'none',
   color:
@@ -16,6 +25,9 @@ const StyledButton = styled(Button)(({theme, variant}) => ({
         ? 'rgb(138, 33, 34)'
         : 'rgba(118, 118, 118, 0.04)',
   },
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 }))
 
 export default StyledButton

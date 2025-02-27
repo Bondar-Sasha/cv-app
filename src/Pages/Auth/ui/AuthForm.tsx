@@ -3,15 +3,16 @@ import {FC} from 'react'
 import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {createAuthForm, createAuthShema} from '../api/authShema'
-import {CustomTextField, StyledButton} from '@/Shared/ui'
+import {CircleProgress, CustomTextField, StyledButton} from '@/Shared/ui'
 import {Wrapper} from './StyledComponents'
 
 export interface AuthFormProps {
   action: 'login' | 'signup'
   handleAuth: (email: string, password: string) => void
+  loading: boolean
 }
 
-const AuthForm: FC<AuthFormProps> = ({handleAuth, action}) => {
+const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
   const {
     register,
     handleSubmit,
@@ -51,11 +52,18 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action}) => {
       <Wrapper margin={'50px auto 0'}>
         <StyledButton
           variant="contained"
+          disabled={loading}
           onClick={handleSubmit((data) => {
             handleAuth(data.email, data.password)
           })}
         >
-          {action === 'login' ? 'Log in' : 'Create Account'}
+          {loading ? (
+            <CircleProgress />
+          ) : action === 'login' ? (
+            'Log in'
+          ) : (
+            'Create Account'
+          )}
         </StyledButton>
       </Wrapper>
     </FormControl>
