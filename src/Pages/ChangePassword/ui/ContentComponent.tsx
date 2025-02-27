@@ -13,6 +13,9 @@ export const Container = styled(Box)(({theme}) => ({
 export const Wrapper = styled(Box)(() => ({
   maxWidth: '43%',
   width: '100%',
+  '@media (max-width: 500px)': {
+    maxWidth: '100%',
+  },
 }))
 
 export const Content = styled(Box)({

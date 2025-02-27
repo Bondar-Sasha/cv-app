@@ -1,4 +1,4 @@
-import {FormControl} from '@mui/material'
+import {Box, FormControl} from '@mui/material'
 import {FC} from 'react'
 import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
@@ -22,51 +22,57 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
   })
 
   return (
-    <FormControl
+    <Box
+      component={'form'}
       sx={{
         width: '100%',
         alignItems: 'center',
       }}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onSubmit={handleSubmit((data) => {
+        handleAuth(data.email, data.password)
+      })}
     >
-      <CustomTextField
-        type="email"
-        id="email"
-        label="Email"
-        name="email"
-        autoComplete="email"
-        placeholder="example@mail.com"
-        register={register}
-        errors={errors}
-      />
-      <CustomTextField
-        id="password"
-        type="password"
-        label="Password"
-        name="password"
-        autoComplete="password"
-        placeholder="Enter your password"
-        register={register}
-        errors={errors}
-      />
+      <FormControl
+        sx={{
+          width: '100%',
+          alignItems: 'center',
+        }}
+      >
+        <CustomTextField
+          type="email"
+          id="email"
+          label="Email"
+          name="email"
+          autoComplete="email"
+          placeholder="example@mail.com"
+          register={register}
+          errors={errors}
+        />
+        <CustomTextField
+          id="password"
+          type="password"
+          label="Password"
+          name="password"
+          autoComplete="password"
+          placeholder="Enter your password"
+          register={register}
+          errors={errors}
+        />
 
-      <Wrapper margin={'50px auto 0'}>
-        <StyledButton
-          variant="contained"
-          disabled={loading}
-          onClick={handleSubmit((data) => {
-            handleAuth(data.email, data.password)
-          })}
-        >
-          {loading ? (
-            <CircleProgress />
-          ) : action === 'login' ? (
-            'Log in'
-          ) : (
-            'Create Account'
-          )}
-        </StyledButton>
-      </Wrapper>
-    </FormControl>
+        <Wrapper margin={'50px auto 0'}>
+          <StyledButton variant="contained" disabled={loading} type="submit">
+            {loading ? (
+              <CircleProgress />
+            ) : action === 'login' ? (
+              'Log in'
+            ) : (
+              'Create Account'
+            )}
+          </StyledButton>
+        </Wrapper>
+      </FormControl>
+    </Box>
   )
 }
 

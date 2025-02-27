@@ -19,6 +19,7 @@ const StyledButton = styled(Button)<StyledButtonProps>(({theme, variant}) => ({
   padding: theme.spacing(2),
   fontSize: '16px',
   borderRadius: '40px',
+  textAlign: 'center',
   '&:hover': {
     backgroundColor:
       variant === 'contained'

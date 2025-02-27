@@ -3,9 +3,7 @@ import {useLogin} from '../api/useLogin'
 import AuthForm from '../ui/AuthForm'
 import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
-import AuthLayout from '../ui/AuthLayout'
-
-// {email: 'nat3@nat.mail.ru', password: 'asd!@123'},
+import {AuthLayout} from '@/Features'
 
 const LoginPage = () => {
   const [mutateLogin, {data, loading}] = useLogin()

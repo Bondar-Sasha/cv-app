@@ -13,6 +13,7 @@ const TypographyTitle: FC<TypographyTitleProps> = ({title}) => {
       marginBottom="24px"
       fontSize={'2.75rem'}
       color={theme.palette.text.primary}
+      textAlign="center"
     >
       {title}
     </Typography>

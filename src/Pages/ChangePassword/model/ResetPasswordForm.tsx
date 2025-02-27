@@ -1,5 +1,5 @@
 import {CircleProgress, CustomTextField, StyledButton} from '@/Shared/ui'
-import {FormControl} from '@mui/material'
+import {Box, FormControl} from '@mui/material'
 import {Wrapper} from '../ui/ContentComponent'
 import {useNavigate} from 'react-router-dom'
 import {useResetPassword} from '../api/useResetPassword'
@@ -41,34 +41,44 @@ const ResetPasswordForm = () => {
   const password = watch('newPassword', '')
 
   return (
-    <FormControl
+    <Box
+      component={'form'}
       sx={{
         width: '100%',
         alignItems: 'center',
       }}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onSubmit={handleSubmit((data) => {
+        handleForgot(data.newPassword)
+      })}
     >
-      <CustomTextField
-        type="password"
-        id="newPassword"
-        label="New password"
-        name="newPassword"
-        autoComplete="password"
-        placeholder="Enter new password"
-        register={register}
-        errors={errors}
-      />
-      <Wrapper margin={'50px auto 0'}>
-        <StyledButton
-          variant="contained"
-          disabled={loading || password.length === 0}
-          onClick={handleSubmit((data) => {
-            handleForgot(data.newPassword)
-          })}
-        >
-          {loading ? <CircleProgress /> : 'Submit'}
-        </StyledButton>
-      </Wrapper>
-    </FormControl>
+      <FormControl
+        sx={{
+          width: '100%',
+          alignItems: 'center',
+        }}
+      >
+        <CustomTextField
+          type="password"
+          id="newPassword"
+          label="New password"
+          name="newPassword"
+          autoComplete="password"
+          placeholder="Enter new password"
+          register={register}
+          errors={errors}
+        />
+        <Wrapper margin={'50px auto 0'}>
+          <StyledButton
+            variant="contained"
+            disabled={loading || password.length === 0}
+            type="submit"
+          >
+            {loading ? <CircleProgress /> : 'Submit'}
+          </StyledButton>
+        </Wrapper>
+      </FormControl>
+    </Box>
   )
 }
 

@@ -21,7 +21,8 @@ export const Header = styled(Box)({
 })
 
 export const Content = styled(Box)({
-  width: '700px',
+  maxWidth: '700px',
+  width: '100%',
   height: 'calc(100% - 56px)',
   margin: '0px auto',
   display: 'flex',
@@ -32,14 +33,7 @@ export const Content = styled(Box)({
 export const Wrapper = styled(Box)(() => ({
   maxWidth: '43%',
   width: '100%',
+  '@media (max-width: 500px)': {
+    maxWidth: '100%',
+  },
 }))
-
-export const StyledContainer = styled(Container)({
-  display: 'flex',
-  Width: '100%',
-  height: 'max-content',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '20px',
-})

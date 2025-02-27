@@ -1,4 +1,4 @@
-import AuthLayout from '@/Pages/Auth/ui/AuthLayout'
+import {AuthLayout} from '@/Features'
 import ChangePasswordForm from '../model/ForgotPasswordForm'
 import {Container, Content} from './ContentComponent'
 

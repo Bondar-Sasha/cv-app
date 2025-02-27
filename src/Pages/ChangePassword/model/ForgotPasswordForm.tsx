@@ -1,6 +1,6 @@
 import {CircleProgress, CustomTextField, StyledButton} from '@/Shared/ui'
 import {zodResolver} from '@hookform/resolvers/zod'
-import {FormControl} from '@mui/material'
+import {Box, FormControl} from '@mui/material'
 import {useForm} from 'react-hook-form'
 import {useForgotPassword} from '../api/useForgotPassword'
 import {useNavigate} from 'react-router-dom'
@@ -40,34 +40,44 @@ const ForgotPasswordForm = () => {
   }
 
   return (
-    <FormControl
+    <Box
+      component={'form'}
       sx={{
         width: '100%',
         alignItems: 'center',
       }}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onSubmit={handleSubmit((data) => {
+        handleForgot(data.email)
+      })}
     >
-      <CustomTextField
-        type="email"
-        id="email"
-        label="Email"
-        name="email"
-        autoComplete="email"
-        placeholder="example@mail.com"
-        register={register}
-        errors={errors}
-      />
-      <Wrapper margin={'50px auto 0'}>
-        <StyledButton
-          variant="contained"
-          disabled={loading || email.length === 0}
-          onClick={handleSubmit((data) => {
-            handleForgot(data.email)
-          })}
-        >
-          {loading ? <CircleProgress /> : 'Reset password'}
-        </StyledButton>
-      </Wrapper>
-    </FormControl>
+      <FormControl
+        sx={{
+          width: '100%',
+          alignItems: 'center',
+        }}
+      >
+        <CustomTextField
+          type="email"
+          id="email"
+          label="Email"
+          name="email"
+          autoComplete="email"
+          placeholder="example@mail.com"
+          register={register}
+          errors={errors}
+        />
+        <Wrapper margin={'50px auto 0'}>
+          <StyledButton
+            variant="contained"
+            disabled={loading || email.length === 0}
+            type="submit"
+          >
+            {loading ? <CircleProgress /> : 'Reset password'}
+          </StyledButton>
+        </Wrapper>
+      </FormControl>
+    </Box>
   )
 }
 

@@ -9,7 +9,7 @@ const StyledLink = styled(Button, {
   shouldForwardProp: (prop) => prop !== 'active',
 })<StyledLinkProps>(({theme, active}) => ({
   textDecoration: 'none',
-  padding: '15px 50px 10px 50px',
+  padding: `${theme.spacing(1.5)} ${theme.spacing(6)}`,
   color: active ? theme.palette.error.main : theme.palette.text.primary,
   borderBottom: active ? `2px solid ${theme.palette.error.main}` : 'none',
   cursor: 'pointer',

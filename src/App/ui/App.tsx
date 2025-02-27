@@ -36,7 +36,7 @@ const darkTheme = createTheme({
       default: '#353535',
     },
     text: {
-      primary: '#fff',
+      primary: '#f5f5f7',
     },
   },
 })

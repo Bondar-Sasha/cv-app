@@ -2,7 +2,7 @@ import {FC} from 'react'
 import {Link} from 'react-router-dom'
 import {Typography, useTheme} from '@mui/material'
 import {StyledButton, TypographyTitle} from '@/Shared/ui'
-import {StyledContainer, Wrapper} from './StyledComponents'
+import {StyledContainer, Wrapper} from './StyledComponent'
 
 interface AuthLayoutProps {
   title: string
@@ -29,6 +29,7 @@ const AuthLayout: FC<AuthLayoutProps> = ({
         color={theme.palette.text.primary}
         fontSize={'1.2rem'}
         marginBottom={'10px'}
+        textAlign="center"
       >
         {paragraph}
       </Typography>
