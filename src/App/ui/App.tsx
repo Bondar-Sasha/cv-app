@@ -21,7 +21,7 @@ const lightTheme = createTheme({
   palette: {
     mode: 'light',
     background: {
-      default: '#fff',
+      default: '#f5f5f7',
     },
     text: {
       primary: '#353535',
@@ -36,13 +36,13 @@ const darkTheme = createTheme({
       default: '#353535',
     },
     text: {
-      primary: '#fff',
+      primary: '#f5f5f7',
     },
   },
 })
 
 const App: FC = () => {
-  const [isDarkTheme, setTheme] = useState<boolean>(false)
+  const [isDarkTheme, setTheme] = useState<boolean>(true)
   const handelThemeSwitching = () => {
     setTheme((prev) => !prev)
   }
