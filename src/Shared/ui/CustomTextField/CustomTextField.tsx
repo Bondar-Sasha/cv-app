@@ -86,9 +86,8 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
             boxShadow: 'none',
           },
           '& input': {
-            padding: '15px',
-
             '&:-webkit-autofill': {
+              fontSize: '1.2rem',
               WebkitBoxShadow: '0 0 0 100px white inset',
               WebkitTextFillColor: theme.palette.text.primary,
             },

@@ -1,8 +1,10 @@
-import {Button, TextField} from '@mui/material'
+import {FormControl} from '@mui/material'
 import {FC} from 'react'
 import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {createAuthForm, createAuthShema} from '../api/authShema'
+import {CustomTextField, StyledButton} from '@/Shared/ui'
+import {Wrapper} from './LoginPage'
 
 interface AuthFormProps {
   action: 'login' | 'signup'
@@ -19,35 +21,44 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action}) => {
   })
 
   return (
-    <form>
-      <TextField
+    <FormControl
+      sx={{
+        width: '100%',
+        alignItems: 'center',
+      }}
+    >
+      <CustomTextField
+        type="email"
+        id="email"
         label="Email"
-        {...register('email')}
-        helperText={errors['email']?.message}
-        error={!!errors['email']}
+        name="email"
+        autoComplete="email"
         placeholder="example@mail.com"
-        required
-        autoComplete="on"
+        register={register}
+        errors={errors}
       />
-      <TextField
-        label="Password"
+      <CustomTextField
+        id="password"
         type="password"
-        {...register('password')}
-        helperText={errors['password']?.message}
-        error={!!errors['password']}
+        label="Password"
+        name="password"
+        autoComplete="password"
         placeholder="Enter your password"
-        required
-        autoComplete="on"
+        register={register}
+        errors={errors}
       />
-      <Button
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onClick={handleSubmit((data) => {
-          handleAuth(data.email, data.password)
-        })}
-      >
-        {action === 'login' ? 'Log in' : 'Create Account'}
-      </Button>
-    </form>
+
+      <Wrapper margin={'40px auto 0'}>
+        <StyledButton
+          variant="contained"
+          onClick={handleSubmit((data) => {
+            handleAuth(data.email, data.password)
+          })}
+        >
+          {action === 'login' ? 'Log in' : 'Create Account'}
+        </StyledButton>
+      </Wrapper>
+    </FormControl>
   )
 }
 
