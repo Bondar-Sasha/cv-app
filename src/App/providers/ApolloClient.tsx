@@ -23,14 +23,14 @@ const authLink = setContext(
   }
 )
 
-const isTokenValidOrUndefined = async () => {
+const isTokenValidOrUndefined = () => {
   const token = localStorage.getItem('access_token')
   if (!token) return true
 
   try {
     const {exp} = jwtDecode(token)
     return Date.now() < exp * 1000
-  } catch (error) {
+  } catch {
     return false
   }
 }
