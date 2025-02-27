@@ -1,5 +1,6 @@
 interface IAppRouterMap {
   users: {label: string; path: string}
+  home: {label: string; path: string}
   userProfile: {label: string; path: (userId?: string | number) => string}
   userSkills: {label: string; path: (userId?: string | number) => string}
   userLanguages: {label: string; path: (userId?: string | number) => string}
@@ -22,6 +23,7 @@ interface IAppRouterMap {
 }
 
 export const AppRouterMap: IAppRouterMap = {
+  home: {label: 'home', path: '/'},
   users: {label: 'users', path: '/users'},
   userProfile: {
     label: 'user-profile',
