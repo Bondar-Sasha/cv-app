@@ -1,15 +1,26 @@
 import {CustomSelectComponent} from '@/Shared'
 import {LanguageOptions} from './Options'
+import {useTranslation} from 'react-i18next'
 
 const LanguageChange = () => {
-  const handleChangeLanguage = () => {}
+  const {t, i18n} = useTranslation()
+
+  const changeLanguage = async (lng) => {
+    await i18n.changeLanguage(lng)
+  }
+
+  const handleChangeLanguage = async (e) => {
+    await changeLanguage(e.target.value)
+  }
   return (
-    <CustomSelectComponent
-      value={'ru'}
-      onChange={handleChangeLanguage}
-      options={LanguageOptions}
-      label="Язык"
-    />
+    <>
+      <CustomSelectComponent
+        value={i18n.language}
+        onChange={handleChangeLanguage}
+        options={LanguageOptions}
+        label={t('Язык')}
+      />
+    </>
   )
 }
 

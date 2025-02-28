@@ -9,6 +9,8 @@ import {AppRoutes} from '../routes'
 import '../styles/index.css'
 import {client} from '../providers/ApolloClient'
 import {AllThemes, darkTheme, lightTheme} from '../providers/ThemeProvider'
+import {I18nextProvider} from 'react-i18next'
+import i18n from '@/Shared/i18n/i18n'
 
 export const ThemeContext = createContext<{
   themeMode: AllThemes
@@ -41,17 +43,19 @@ const App: FC = () => {
 
   return (
     <ApolloProvider client={client}>
-      <ThemeContext.Provider value={{themeMode, handleChangeTheme}}>
-        <ThemeProvider theme={theme}>
-          <AppRoutes />
-        </ThemeProvider>
-      </ThemeContext.Provider>
-      <ToastContainer
-        theme={darkTheme ? 'dark' : 'light'}
-        position="bottom-right"
-        autoClose={1500}
-        pauseOnHover
-      />
+      <I18nextProvider i18n={i18n}>
+        <ThemeContext.Provider value={{themeMode, handleChangeTheme}}>
+          <ThemeProvider theme={theme}>
+            <AppRoutes />
+          </ThemeProvider>
+        </ThemeContext.Provider>
+        <ToastContainer
+          theme={darkTheme ? 'dark' : 'light'}
+          position="bottom-right"
+          autoClose={1500}
+          pauseOnHover
+        />
+      </I18nextProvider>
     </ApolloProvider>
   )
 }
