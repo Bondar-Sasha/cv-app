@@ -1,9 +1,10 @@
 import {FC} from 'react'
-import {Routes, Route, BrowserRouter, Outlet} from 'react-router-dom'
+import {Routes, Route, BrowserRouter, Navigate} from 'react-router-dom'
 
 import SecureRoute from './SecureRoute'
 import {AppRouterMap} from '@/Shared'
 import {Auth, ChangePassword, ResetPassword} from '@/Pages'
+import {CommonPageLayout} from '@/Widgets'
 
 const {
   users,
@@ -26,6 +27,7 @@ const {
   login,
   resetPassword,
   forgotPassword,
+  home,
 } = AppRouterMap
 
 const AppRoutes: FC = () => {
@@ -33,7 +35,15 @@ const AppRoutes: FC = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Outlet />}>
+        <Route
+          path="/"
+          element={
+            <SecureRoute redirectTo="/" isRedirection={!!isUser}>
+              <CommonPageLayout />
+            </SecureRoute>
+          }
+        >
+          <Route path={home.path} element={<Navigate to="/users" replace />} />
           <Route path={users.path} element={<>users</>} />
           <Route path={userProfile.path()} element={<>user profile</>} />
           <Route path={userSkills.path()} element={<>user skills</>} />
