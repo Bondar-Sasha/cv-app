@@ -7,10 +7,12 @@ import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {createPasswordForm, createPasswordShema} from '../api/passwordShema'
 import {AppRouterMap} from '@/Shared'
+import {useTranslation} from 'react-i18next'
 
 const ResetPasswordForm = () => {
   const navigate = useNavigate()
   const [mutateForgot, {loading}] = useResetPassword()
+  const {t} = useTranslation()
 
   const handleForgot = (password: string) => {
     mutateForgot({
@@ -51,7 +53,7 @@ const ResetPasswordForm = () => {
         <CustomTextField
           type="password"
           id="newPassword"
-          label="New password"
+          label={t('Новый пароль')}
           name="newPassword"
           autoComplete="password"
           placeholder="Enter new password"
@@ -64,7 +66,7 @@ const ResetPasswordForm = () => {
             disabled={loading || password.length === 0}
             type="submit"
           >
-            {loading ? <CircleProgress /> : 'Submit'}
+            {loading ? <CircleProgress /> : t('Отправить')}
           </StyledButton>
         </Wrapper>
       </FormControlled>

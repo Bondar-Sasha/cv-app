@@ -5,6 +5,7 @@ import {zodResolver} from '@hookform/resolvers/zod'
 import {createAuthForm, createAuthShema} from '../api/authShema'
 import {CircleProgress, CustomTextField, StyledButton} from '@/Shared'
 import {Wrapper} from './StyledComponents'
+import {useTranslation} from 'react-i18next'
 
 export interface AuthFormProps {
   action: 'login' | 'signup'
@@ -20,6 +21,7 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
   } = useForm<createAuthForm>({
     resolver: zodResolver(createAuthShema),
   })
+  const {t} = useTranslation()
 
   return (
     <Box
@@ -42,7 +44,7 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
         <CustomTextField
           type="email"
           id="email"
-          label="Email"
+          label={t('Почта')}
           name="email"
           autoComplete="email"
           placeholder="example@mail.com"
@@ -52,7 +54,7 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
         <CustomTextField
           id="password"
           type="password"
-          label="Password"
+          label={t('Пароль')}
           name="password"
           autoComplete="password"
           placeholder="Enter your password"
@@ -65,9 +67,9 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
             {loading ? (
               <CircleProgress />
             ) : action === 'login' ? (
-              'Log in'
+              t('Войти')
             ) : (
-              'Create Account'
+              t('Создать аккаунт')
             )}
           </StyledButton>
         </Wrapper>

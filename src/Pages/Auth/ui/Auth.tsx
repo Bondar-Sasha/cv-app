@@ -4,21 +4,23 @@ import LoginPage from '../model/LoginPage'
 import SignupPage from '../model/SignupPage'
 import {Container, Content, Header} from './StyledComponents'
 import {AppRouterMap} from '@/Shared'
+import {useTranslation} from 'react-i18next'
 
 interface AuthProps {
   location: 'login' | 'signup'
 }
 
 const Auth: FC<AuthProps> = ({location}) => {
+  const {t} = useTranslation()
   const links = [
     {
       to: AppRouterMap.login.path,
-      label: 'Log In',
+      label: t('Войти'),
       active: location === 'login',
     },
     {
       to: AppRouterMap.singUp.path,
-      label: 'Sign Up',
+      label: t('Создать'),
       active: location === 'signup',
     },
   ]

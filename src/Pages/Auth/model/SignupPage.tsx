@@ -5,10 +5,12 @@ import {toast} from 'react-toastify'
 import AuthForm from '../ui/AuthForm'
 import {AuthLayout} from '@/Features'
 import {AppRouterMap} from '@/Shared'
+import {useTranslation} from 'react-i18next'
 
 const SignupPage = () => {
   const [mutateSignup, {data, loading}] = useSignup()
   const navigate = useNavigate()
+  const {t} = useTranslation()
 
   useEffect(() => {
     if (data) {
@@ -33,9 +35,9 @@ const SignupPage = () => {
 
   return (
     <AuthLayout
-      title="Register now"
-      paragraph="Welcome! Sign up to continue"
-      btnTitle="I have an Account"
+      title={t('Зарегистрируйтесь')}
+      paragraph={t('Добро пожаловать! Создайте аккаунт, чтобы продолжить')}
+      btnTitle={t('У меня есть аккаунт')}
       to={AppRouterMap.login.path}
       form={
         <AuthForm handleAuth={handleSignUp} loading={loading} action="signup" />
