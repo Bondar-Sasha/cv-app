@@ -9,7 +9,6 @@ import langIcon from './assets/lang.svg'
 import usersIcon from './assets/users.svg'
 import upIcon from './assets/up.svg'
 import profileIcon from './assets/profile.svg'
-import SettingsPage from '@/Pages/SettingsPage/ui/SettingsPage'
 
 const Container = styled('div')(({theme}) => ({
   color: theme.palette.text.primary,
@@ -75,7 +74,6 @@ const CommonPageLayout: FC = () => {
       <main className={layoutStyles.main}>
         <header className={layoutStyles.header}></header>
         <Outlet />
-        <SettingsPage />
       </main>
     </Container>
   )
