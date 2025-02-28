@@ -1,13 +1,15 @@
 import {ComponentProps, FC, useState} from 'react'
 import {styled, useTheme} from '@mui/material/styles'
-import {Outlet, useLocation, useNavigate} from 'react-router-dom'
+import {Outlet, useLocation, useNavigate, Link} from 'react-router-dom'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import IconButton from '@mui/material/IconButton'
+import {BreadcrumbsRoute, getBreadcrumbs} from 'use-react-router-breadcrumbs'
 
 import layoutStyles from './styles/layout.module.css'
 import {AppRouterMap} from '@/Shared'
 import AsideSvg from './assets/AsideSvg'
-import {Box} from '@mui/material'
+import CustomLink from '@mui/material/Link'
+import {Box, Breadcrumbs} from '@mui/material'
 
 const Container = styled('div')(({theme}) => ({
   color: theme.palette.text.primary,
@@ -61,6 +63,21 @@ const asideMarkersMap: AsideMarkersMap[] = [
   {id: 4, icon: 'profile', label: 'CVs', handlingPath: AppRouterMap.CVs.path},
 ]
 
+const preparedRoutes: BreadcrumbsRoute[] = Object.keys(AppRouterMap)
+  .map((item) => {
+    const myRoute = AppRouterMap[item as keyof typeof AppRouterMap]
+
+    if (!myRoute) {
+      return undefined
+    }
+
+    return {
+      path: typeof myRoute.path === 'function' ? myRoute.path() : myRoute.path,
+      breadcrumb: myRoute.label,
+    }
+  })
+  .filter((route) => route !== undefined)
+
 const CommonPageLayout: FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
@@ -70,6 +87,11 @@ const CommonPageLayout: FC = () => {
   const changeAsideState = () => {
     setAsideState((prev) => !prev)
   }
+
+  const breadcrumbs = getBreadcrumbs({location, routes: preparedRoutes}).filter(
+    ({match}) => match.pathname !== '/'
+  )
+
   return (
     <Container className={layoutStyles.layout_container}>
       <aside
@@ -117,7 +139,21 @@ const CommonPageLayout: FC = () => {
         </div>
       </aside>
       <main className={layoutStyles.main}>
-        <header className={layoutStyles.header}></header>
+        <header className={layoutStyles.header}>
+          <Breadcrumbs separator=">" aria-label="breadcrumb">
+            {breadcrumbs.map(({breadcrumb, match}) => (
+              <CustomLink
+                component={Link}
+                to={match.pathname}
+                key={match.pathname}
+                underline="hover"
+                color="inherit"
+              >
+                {breadcrumb}
+              </CustomLink>
+            ))}
+          </Breadcrumbs>
+        </header>
         <Outlet />
       </main>
     </Container>

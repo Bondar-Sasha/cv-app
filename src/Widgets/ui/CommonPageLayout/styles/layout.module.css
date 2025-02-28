@@ -14,6 +14,8 @@
 }
 
 .header {
+  display: flex;
+  align-items: end;
   background-color: inherit;
   color: inherit;
   width: 100%;
@@ -21,6 +23,7 @@
   position: sticky;
   top: 0;
   left: 0;
+  padding-bottom: 4px;
 }
 
 .main {
@@ -41,6 +44,10 @@
 @media (width > 768px) {
   .layout_container {
     grid-template-columns: auto 1fr;
+  }
+  .main {
+    padding-left: 44px;
+    box-sizing: border-box;
   }
   .aside {
     top: 0;
@@ -78,6 +85,9 @@
 @media (width <= 768px) {
   .aside > div:last-child > :last-child {
     display: none;
+  }
+  .header {
+    padding-left: 15px;
   }
 
   .layout_container {
