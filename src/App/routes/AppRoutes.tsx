@@ -23,6 +23,7 @@ const {
   departments,
   skills,
   languages,
+  settings,
   singUp,
   login,
   resetPassword,
@@ -60,6 +61,7 @@ const AppRoutes: FC = () => {
           <Route path={positions.path} element={<>positions</>} />
           <Route path={skills.path} element={<>skills</>} />
           <Route path={languages.path} element={<>languages</>} />
+          <Route path={settings.path} element={<>settings</>} />
         </Route>
 
         <Route

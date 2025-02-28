@@ -20,6 +20,7 @@ interface IAppRouterMap {
   login: {label: string; path: string}
   forgotPassword: {label: string; path: string}
   resetPassword: {label: string; path: string}
+  settings: {label: string; path: string}
 }
 
 export const AppRouterMap: IAppRouterMap = {
@@ -71,4 +72,5 @@ export const AppRouterMap: IAppRouterMap = {
   login: {label: 'login', path: '/auth/login'},
   forgotPassword: {label: 'forgot-password', path: '/forgot-password'},
   resetPassword: {label: 'reset-password', path: '/reset-password'},
+  settings: {label: 'settings', path: '/settings'},
 }

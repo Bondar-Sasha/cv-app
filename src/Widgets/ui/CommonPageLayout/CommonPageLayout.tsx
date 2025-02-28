@@ -1,46 +1,52 @@
-import {FC, useState} from 'react'
-import {styled} from '@mui/material/styles'
+import {ComponentProps, FC, useState} from 'react'
+import {styled, useTheme} from '@mui/material/styles'
 import {Outlet, useLocation, useNavigate} from 'react-router-dom'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import IconButton from '@mui/material/IconButton'
 
 import layoutStyles from './styles/layout.module.css'
-import langIcon from './assets/lang.svg'
-import usersIcon from './assets/users.svg'
-import upIcon from './assets/up.svg'
-import profileIcon from './assets/profile.svg'
+
 import {AppRouterMap} from '@/Shared'
+import AsideSvg from './assets/AsideSvg'
 
 const Container = styled('div')(({theme}) => ({
   color: theme.palette.text.primary,
   backgroundColor: theme.palette.background.default,
 }))
 
-const asideMarkersMap = [
+interface AsideMarkersMap {
+  id: number
+  icon: ComponentProps<typeof AsideSvg>['type']
+  label: string
+  handlingPath: string
+}
+
+const asideMarkersMap: AsideMarkersMap[] = [
   {
     id: 1,
-    icon: usersIcon,
+    icon: 'users',
     label: 'Employees',
     handlingPath: AppRouterMap.users.path,
   },
   {
     id: 2,
-    icon: upIcon,
+    icon: 'up',
     label: 'Skills',
     handlingPath: AppRouterMap.skills.path,
   },
   {
     id: 3,
-    icon: langIcon,
+    icon: 'lang',
     label: 'Languages',
     handlingPath: AppRouterMap.languages.path,
   },
-  {id: 4, icon: profileIcon, label: 'CVs', handlingPath: AppRouterMap.CVs.path},
+  {id: 4, icon: 'profile', label: 'CVs', handlingPath: AppRouterMap.CVs.path},
 ]
 
 const CommonPageLayout: FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
+  const theme = useTheme()
 
   const [asideState, setAsideState] = useState<boolean>(true)
   const changeAsideState = () => {
@@ -61,7 +67,10 @@ const CommonPageLayout: FC = () => {
                 }}
                 className={`${layoutStyles.asideMarker} ${marker.handlingPath === location.pathname ? layoutStyles.picked : ''}`}
               >
-                <img src={marker.icon} alt={marker.label} />
+                <AsideSvg
+                  color={theme.palette.text.primary}
+                  type={marker.icon}
+                />
 
                 <span>{marker.label}</span>
               </div>
