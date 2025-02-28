@@ -1,40 +1,97 @@
-import {FC, useState} from 'react'
-import {styled} from '@mui/material/styles'
-import {Outlet, useLocation, useNavigate} from 'react-router-dom'
+import {ComponentProps, FC, useState} from 'react'
+import {styled, useTheme} from '@mui/material/styles'
+import {Outlet, useLocation, useNavigate, Link} from 'react-router-dom'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import IconButton from '@mui/material/IconButton'
+import {BreadcrumbsRoute, getBreadcrumbs} from 'use-react-router-breadcrumbs'
 
 import layoutStyles from './styles/layout.module.css'
-import langIcon from './assets/lang.svg'
-import usersIcon from './assets/users.svg'
-import upIcon from './assets/up.svg'
-import profileIcon from './assets/profile.svg'
+import {AppRouterMap} from '@/Shared'
+import AsideSvg from './assets/AsideSvg'
+import CustomLink from '@mui/material/Link'
+import {Box, Breadcrumbs} from '@mui/material'
 
 const Container = styled('div')(({theme}) => ({
   color: theme.palette.text.primary,
   backgroundColor: theme.palette.background.default,
 }))
 
-const asideMarkersMap = [
+interface AsideMarkerProps {
+  isPicked: boolean
+}
+
+const AsideMarker = styled('div')<AsideMarkerProps>(({theme, isPicked}) => {
+  const colorsMap = {
+    light: 'rgba(0, 0, 0, 0.04)',
+    dark: 'rgba(255, 255, 255, 0.08)',
+  }
+
+  return {
+    ':hover': {
+      background: colorsMap[theme.palette.mode],
+    },
+    backgroundColor: isPicked ? colorsMap[theme.palette.mode] : '',
+  }
+})
+
+interface AsideMarkersMap {
+  id: number
+  icon: ComponentProps<typeof AsideSvg>['type']
+  label: string
+  handlingPath: string
+}
+
+const asideMarkersMap: AsideMarkersMap[] = [
   {
     id: 1,
-    icon: usersIcon,
+    icon: 'users',
     label: 'Employees',
-    handlingPath: '/users',
+    handlingPath: AppRouterMap.users.path,
   },
-  {id: 2, icon: upIcon, label: 'Skills', handlingPath: '/skills'},
-  {id: 3, icon: langIcon, label: 'Languages', handlingPath: '/languages'},
-  {id: 4, icon: profileIcon, label: 'CVs', handlingPath: '/cvs'},
+  {
+    id: 2,
+    icon: 'up',
+    label: 'Skills',
+    handlingPath: AppRouterMap.skills.path,
+  },
+  {
+    id: 3,
+    icon: 'lang',
+    label: 'Languages',
+    handlingPath: AppRouterMap.languages.path,
+  },
+  {id: 4, icon: 'profile', label: 'CVs', handlingPath: AppRouterMap.CVs.path},
 ]
+
+const preparedRoutes: BreadcrumbsRoute[] = Object.keys(AppRouterMap)
+  .map((item) => {
+    const myRoute = AppRouterMap[item as keyof typeof AppRouterMap]
+
+    if (!myRoute) {
+      return undefined
+    }
+
+    return {
+      path: typeof myRoute.path === 'function' ? myRoute.path() : myRoute.path,
+      breadcrumb: myRoute.label,
+    }
+  })
+  .filter((route) => route !== undefined)
 
 const CommonPageLayout: FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
+  const theme = useTheme()
 
   const [asideState, setAsideState] = useState<boolean>(true)
   const changeAsideState = () => {
     setAsideState((prev) => !prev)
   }
+
+  const breadcrumbs = getBreadcrumbs({location, routes: preparedRoutes}).filter(
+    ({match}) => match.pathname !== '/'
+  )
+
   return (
     <Container className={layoutStyles.layout_container}>
       <aside
@@ -43,21 +100,31 @@ const CommonPageLayout: FC = () => {
         <div>
           {asideMarkersMap.map((marker) => {
             return (
-              <div
+              <AsideMarker
                 key={marker.id}
                 onClick={() => {
                   void navigate(marker.handlingPath)
                 }}
-                className={`${layoutStyles.asideMarker} ${marker.handlingPath === location.pathname ? layoutStyles.picked : ''}`}
+                isPicked={marker.handlingPath === location.pathname}
+                className={layoutStyles.asideMarker}
               >
-                <img src={marker.icon} alt={marker.label} />
+                <AsideSvg
+                  color={theme.palette.text.primary}
+                  type={marker.icon}
+                />
+
                 <span>{marker.label}</span>
-              </div>
+              </AsideMarker>
             )
           })}
         </div>
         <div>
-          <div>
+          <Box
+            height="70px"
+            display="flex"
+            alignItems="center"
+            paddingLeft="10px"
+          >
             <IconButton
               onClick={changeAsideState}
               className={`${layoutStyles.asideIcon} ${
@@ -66,13 +133,27 @@ const CommonPageLayout: FC = () => {
                   : layoutStyles.asideIconClosed
               }`}
             >
-              <KeyboardArrowLeftIcon />
+              <KeyboardArrowLeftIcon color="inherit" />
             </IconButton>
-          </div>
+          </Box>
         </div>
       </aside>
       <main className={layoutStyles.main}>
-        <header className={layoutStyles.header}></header>
+        <header className={layoutStyles.header}>
+          <Breadcrumbs separator=">" aria-label="breadcrumb">
+            {breadcrumbs.map(({breadcrumb, match}) => (
+              <CustomLink
+                component={Link}
+                to={match.pathname}
+                key={match.pathname}
+                underline="hover"
+                color="inherit"
+              >
+                {breadcrumb}
+              </CustomLink>
+            ))}
+          </Breadcrumbs>
+        </header>
         <Outlet />
       </main>
     </Container>
