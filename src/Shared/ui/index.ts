@@ -4,5 +4,6 @@ import TypographyTitle from "./TypographyTitle/TypographyTitle";
 import StyledButton from "./StyledButton/StyledButton";
 import CircleProgress from "./CircleProgress/CircleProgress";
 import LoaderBackdrop from "./LoaderBackdrop/LoaderBackdrop";
+import CustomSelectComponent from "./CustomSelectComponent/CustomSelectComponent";
 
-export { StyledLink, CustomTextField, TypographyTitle, StyledButton, CircleProgress, LoaderBackdrop };
+export { StyledLink, CustomTextField, TypographyTitle, StyledButton, CircleProgress, LoaderBackdrop, CustomSelectComponent };
