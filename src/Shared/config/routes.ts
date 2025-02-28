@@ -1,6 +1,5 @@
 interface IAppRouterMap {
   users: {label: string; path: string}
-  home: {label: string; path: string}
   userProfile: {label: string; path: (userId?: string | number) => string}
   userSkills: {label: string; path: (userId?: string | number) => string}
   userLanguages: {label: string; path: (userId?: string | number) => string}
@@ -20,11 +19,11 @@ interface IAppRouterMap {
   login: {label: string; path: string}
   forgotPassword: {label: string; path: string}
   resetPassword: {label: string; path: string}
+  settings: {label: string; path: string}
 }
 
 export const AppRouterMap: IAppRouterMap = {
-  home: {label: 'home', path: '/'},
-  users: {label: 'users', path: '/users'},
+  users: {label: 'Employees', path: '/users'},
   userProfile: {
     label: 'user-profile',
     path: (userId = ':userId') => `/users/${userId}/profile`,
@@ -65,10 +64,11 @@ export const AppRouterMap: IAppRouterMap = {
   },
   departments: {label: 'departments', path: '/departments'},
   positions: {label: 'positions', path: '/positions'},
-  skills: {label: 'skills', path: '/skills'},
-  languages: {label: 'languages', path: '/languages'},
+  skills: {label: 'Skills', path: '/skills'},
+  languages: {label: 'Languages', path: '/languages'},
   singUp: {label: 'signup', path: '/auth/signup'},
   login: {label: 'login', path: '/auth/login'},
   forgotPassword: {label: 'forgot-password', path: '/forgot-password'},
   resetPassword: {label: 'reset-password', path: '/reset-password'},
+  settings: {label: 'Settings', path: '/settings'},
 }
