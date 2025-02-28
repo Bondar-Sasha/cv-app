@@ -5,14 +5,32 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import IconButton from '@mui/material/IconButton'
 
 import layoutStyles from './styles/layout.module.css'
-
 import {AppRouterMap} from '@/Shared'
 import AsideSvg from './assets/AsideSvg'
+import {Box} from '@mui/material'
 
 const Container = styled('div')(({theme}) => ({
   color: theme.palette.text.primary,
   backgroundColor: theme.palette.background.default,
 }))
+
+interface AsideMarkerProps {
+  isPicked: boolean
+}
+
+const AsideMarker = styled('div')<AsideMarkerProps>(({theme, isPicked}) => {
+  const colorsMap = {
+    light: 'rgba(0, 0, 0, 0.04)',
+    dark: 'rgba(255, 255, 255, 0.08)',
+  }
+
+  return {
+    ':hover': {
+      background: colorsMap[theme.palette.mode],
+    },
+    backgroundColor: isPicked ? colorsMap[theme.palette.mode] : '',
+  }
+})
 
 interface AsideMarkersMap {
   id: number
@@ -60,12 +78,13 @@ const CommonPageLayout: FC = () => {
         <div>
           {asideMarkersMap.map((marker) => {
             return (
-              <div
+              <AsideMarker
                 key={marker.id}
                 onClick={() => {
                   void navigate(marker.handlingPath)
                 }}
-                className={`${layoutStyles.asideMarker} ${marker.handlingPath === location.pathname ? layoutStyles.picked : ''}`}
+                isPicked={marker.handlingPath === location.pathname}
+                className={layoutStyles.asideMarker}
               >
                 <AsideSvg
                   color={theme.palette.text.primary}
@@ -73,12 +92,17 @@ const CommonPageLayout: FC = () => {
                 />
 
                 <span>{marker.label}</span>
-              </div>
+              </AsideMarker>
             )
           })}
         </div>
         <div>
-          <div>
+          <Box
+            height="70px"
+            display="flex"
+            alignItems="center"
+            paddingLeft="10px"
+          >
             <IconButton
               onClick={changeAsideState}
               className={`${layoutStyles.asideIcon} ${
@@ -89,7 +113,7 @@ const CommonPageLayout: FC = () => {
             >
               <KeyboardArrowLeftIcon color="inherit" />
             </IconButton>
-          </div>
+          </Box>
         </div>
       </aside>
       <main className={layoutStyles.main}>
