@@ -1,8 +1,10 @@
+import {useMediaQuery} from '@mui/material'
 import {createTheme} from '@mui/material/styles'
+import {createContext, useContext, useMemo, useState} from 'react'
 
 export type AllThemes = 'light' | 'dark' | 'device'
 
-const lightTheme = createTheme({
+export const lightTheme = createTheme({
   palette: {
     mode: 'light',
     background: {
@@ -14,7 +16,7 @@ const lightTheme = createTheme({
   },
 })
 
-const darkTheme = createTheme({
+export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     background: {
@@ -26,4 +28,36 @@ const darkTheme = createTheme({
   },
 })
 
-export {lightTheme, darkTheme}
+export const ThemeContext = createContext<{
+  themeMode: AllThemes
+  handleChangeTheme: (newTheme: AllThemes) => void
+}>({
+  themeMode: 'light',
+  handleChangeTheme: () => {},
+})
+
+export const useThemeContext = () => useContext(ThemeContext)
+
+const useThemeMode = () => {
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+  const [themeMode, setThemeMode] = useState<AllThemes>(
+    prefersDarkMode ? 'dark' : 'light'
+  )
+
+  const theme = useMemo(
+    () => (themeMode === 'dark' ? darkTheme : lightTheme),
+    [themeMode]
+  )
+
+  const handleChangeTheme = (newTheme: AllThemes) => {
+    if (newTheme === 'device') {
+      setThemeMode(prefersDarkMode ? 'dark' : 'light')
+    } else {
+      setThemeMode(newTheme)
+    }
+  }
+
+  return {theme, themeMode, handleChangeTheme}
+}
+
+export default useThemeMode

@@ -1,45 +1,19 @@
-import {createContext, FC, useContext, useMemo, useState} from 'react'
+import {FC} from 'react'
 import 'react-toastify/dist/ReactToastify.css'
 import {ToastContainer} from 'react-toastify'
-import {ThemeProvider, useMediaQuery} from '@mui/material'
+import {ThemeProvider} from '@mui/material'
 import {ApolloProvider} from '@apollo/client'
 import 'normalize.css'
 
 import {AppRoutes} from '../routes'
 import '../styles/index.css'
 import {client} from '../providers/ApolloClient'
-import {AllThemes, darkTheme, lightTheme} from '../providers/ThemeProvider'
+import useThemeMode, {darkTheme, ThemeContext} from '../providers/ThemeProvider'
 import {I18nextProvider} from 'react-i18next'
 import i18n from '@/Shared/i18n/i18n'
 
-export const ThemeContext = createContext<{
-  themeMode: AllThemes
-  handleChangeTheme: (newTheme: AllThemes) => void
-}>({
-  themeMode: 'light',
-  handleChangeTheme: () => {},
-})
-
-export const useThemeContext = () => useContext(ThemeContext)
-
 const App: FC = () => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
-  const [themeMode, setThemeMode] = useState<AllThemes>(
-    prefersDarkMode ? 'dark' : 'light'
-  )
-
-  const theme = useMemo(
-    () => (themeMode === 'dark' ? darkTheme : lightTheme),
-    [themeMode]
-  )
-
-  const handleChangeTheme = (newTheme: AllThemes) => {
-    if (newTheme === 'device') {
-      setThemeMode(prefersDarkMode ? 'dark' : 'light')
-    } else {
-      setThemeMode(newTheme)
-    }
-  }
+  const {theme, themeMode, handleChangeTheme} = useThemeMode()
 
   return (
     <ApolloProvider client={client}>
