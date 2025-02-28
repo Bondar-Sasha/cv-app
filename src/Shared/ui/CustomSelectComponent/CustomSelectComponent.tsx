@@ -1,5 +1,6 @@
 import {InputLabel} from '@mui/material'
 import {CustomFormControl, CustomMenuItem, CustomSelect} from './StyledElement'
+import {useTranslation} from 'react-i18next'
 
 interface CustomSelectComponentProps {
   value: string
@@ -14,9 +15,10 @@ const CustomSelectComponent: React.FC<CustomSelectComponentProps> = ({
   options,
   label,
 }) => {
+  const {t} = useTranslation()
   return (
     <CustomFormControl fullWidth>
-      <InputLabel id="custom-select-label">{label}</InputLabel>
+      <InputLabel id="custom-select-label">{t(label)}</InputLabel>
       <CustomSelect
         labelId="custom-select-label"
         id="custom-select"
@@ -26,7 +28,7 @@ const CustomSelectComponent: React.FC<CustomSelectComponentProps> = ({
       >
         {options.map((option) => (
           <CustomMenuItem key={option.value} value={option.value}>
-            {option.label}
+            {t(option.label)}
           </CustomMenuItem>
         ))}
       </CustomSelect>

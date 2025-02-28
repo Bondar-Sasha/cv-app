@@ -1,4 +1,7 @@
 {
   "Внешний вид": "Appearance",
-  "Язык": "Language"
+  "Язык": "Language",
+  "Светлый": "Light",
+  "Темный": "Dark",
+  "Настройки устройства": "Device Settings"
 }

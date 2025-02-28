@@ -1,5 +1,4 @@
-import {AllThemes} from '@/App'
-import {useThemeContext} from '@/App/ui/App'
+import {AllThemes, useThemeContext} from '@/App'
 import {CustomSelectComponent} from '@/Shared'
 import {SelectChangeEvent} from '@mui/material'
 import {useState} from 'react'
