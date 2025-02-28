@@ -4,7 +4,6 @@ export const Container = styled(Box)(({theme}) => ({
   height: '100vh',
   width: '100%',
   margin: '0 auto',
-  padding: '0 20px',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
