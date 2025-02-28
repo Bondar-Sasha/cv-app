@@ -27,6 +27,7 @@ const App: FC = () => {
   )
 
   const theme = useMemo(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     () => (themeMode === 'dark' ? darkTheme : lightTheme),
     [themeMode]
   )
