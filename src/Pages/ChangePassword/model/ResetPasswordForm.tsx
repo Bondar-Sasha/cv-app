@@ -1,12 +1,12 @@
 import {CircleProgress, CustomTextField, StyledButton} from '@/Shared/ui'
-import {Box, FormControl} from '@mui/material'
-import {Wrapper} from '../ui/ContentComponent'
+import {CustomForm, FormControlled, Wrapper} from '../ui/ContentComponent'
 import {useNavigate} from 'react-router-dom'
 import {useResetPassword} from '../api/useResetPassword'
 import {toast} from 'react-toastify'
 import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {createPasswordForm, createPasswordShema} from '../api/passwordShema'
+import {AppRouterMap} from '@/Shared'
 
 const ResetPasswordForm = () => {
   const navigate = useNavigate()
@@ -18,7 +18,7 @@ const ResetPasswordForm = () => {
         auth: {newPassword: password},
       },
       onCompleted() {
-        void navigate('/auth/login')
+        void navigate(AppRouterMap.login.path)
         toast('Password has been reset')
       },
       onError(error) {
@@ -41,23 +41,13 @@ const ResetPasswordForm = () => {
   const password = watch('newPassword', '')
 
   return (
-    <Box
-      component={'form'}
-      sx={{
-        width: '100%',
-        alignItems: 'center',
-      }}
+    <CustomForm
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit((data) => {
         handleForgot(data.newPassword)
       })}
     >
-      <FormControl
-        sx={{
-          width: '100%',
-          alignItems: 'center',
-        }}
-      >
+      <FormControlled>
         <CustomTextField
           type="password"
           id="newPassword"
@@ -77,8 +67,8 @@ const ResetPasswordForm = () => {
             {loading ? <CircleProgress /> : 'Submit'}
           </StyledButton>
         </Wrapper>
-      </FormControl>
-    </Box>
+      </FormControlled>
+    </CustomForm>
   )
 }
 

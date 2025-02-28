@@ -13,7 +13,7 @@ interface CustomTextFieldProps {
   type: string
   autoComplete: string
   placeholder: string
-  register: UseFormRegister<any>
+  register: UseFormRegister<Record<string, unknown>>
   errors: FieldErrors
   icon?: React.ReactNode
 }
@@ -53,7 +53,7 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
       placeholder={placeholder}
       type={showPassword && isPasswordType ? 'text' : type}
       {...register(name)}
-      helperText={errors[name]?.message}
+      helperText={errors[name]?.message?.toString()}
       error={!!errors[name]}
       slotProps={{
         input: {

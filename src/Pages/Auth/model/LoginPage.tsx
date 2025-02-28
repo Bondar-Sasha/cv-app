@@ -4,6 +4,7 @@ import AuthForm from '../ui/AuthForm'
 import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {AuthLayout} from '@/Features'
+import {AppRouterMap} from '@/Shared'
 
 const LoginPage = () => {
   const [mutateLogin, {data, loading}] = useLogin()
@@ -26,7 +27,7 @@ const LoginPage = () => {
     if (data?.login) {
       localStorage.setItem('access_token', data.login.access_token)
       localStorage.setItem('refresh_token', data.login.refresh_token)
-      void navigate('/')
+      void navigate(AppRouterMap.users.path)
     }
   }, [data, navigate])
 
@@ -35,7 +36,7 @@ const LoginPage = () => {
       title="Welcome back"
       paragraph="Hello again! Log in to continue"
       btnTitle="FORGOT PASSWORD"
-      to="/forgot-password"
+      to={AppRouterMap.forgotPassword.path}
       form={
         <AuthForm loading={loading} handleAuth={handleLogIn} action="login" />
       }

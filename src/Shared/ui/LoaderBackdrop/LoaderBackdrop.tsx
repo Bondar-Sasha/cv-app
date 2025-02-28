@@ -1,7 +1,6 @@
 import {styled} from '@mui/material/styles'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
-import {createPortal} from 'react-dom'
 import {FC} from 'react'
 
 const Loader = styled(Backdrop)(({theme}) => ({
@@ -14,12 +13,12 @@ interface LoaderBackdropProps {
   loading: boolean
 }
 
-const LoaderBackdrop: FC<LoaderBackdropProps> = ({loading}) =>
-  createPortal(
+const LoaderBackdrop: FC<LoaderBackdropProps> = ({loading}) => {
+  return (
     <Loader open={loading}>
       <CircularProgress color="inherit" />
-    </Loader>,
-    document.body
+    </Loader>
   )
+}
 
 export default LoaderBackdrop

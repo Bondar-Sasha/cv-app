@@ -1,1 +1,2 @@
-export {default as StyledLinkList} from './StyledLinkList/StyledLinkList'
+import StyledLinkList from "./StyledLinkList/StyledLinkList";
+export { StyledLinkList };

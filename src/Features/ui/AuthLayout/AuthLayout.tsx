@@ -1,7 +1,7 @@
 import {FC} from 'react'
 import {Link} from 'react-router-dom'
 import {Typography, useTheme} from '@mui/material'
-import {StyledButton, TypographyTitle} from '@/Shared/ui'
+import {StyledButton, TypographyTitle} from '@/Shared'
 import {StyledContainer, Wrapper} from './StyledComponent'
 
 interface AuthLayoutProps {

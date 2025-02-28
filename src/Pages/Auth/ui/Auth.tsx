@@ -1,8 +1,9 @@
 import {FC} from 'react'
 import {StyledLinkList} from '@/Widgets'
-import LoginPage from './model/LoginPage'
-import SignupPage from './model/SignupPage'
-import {Container, Content, Header} from './ui/StyledComponents'
+import LoginPage from '../model/LoginPage'
+import SignupPage from '../model/SignupPage'
+import {Container, Content, Header} from './StyledComponents'
+import {AppRouterMap} from '@/Shared'
 
 interface AuthProps {
   location: 'login' | 'signup'
@@ -11,12 +12,12 @@ interface AuthProps {
 const Auth: FC<AuthProps> = ({location}) => {
   const links = [
     {
-      to: '/auth/login',
+      to: AppRouterMap.login.path,
       label: 'Log In',
       active: location === 'login',
     },
     {
-      to: '/auth/signup',
+      to: AppRouterMap.singUp.path,
       label: 'Sign Up',
       active: location === 'signup',
     },

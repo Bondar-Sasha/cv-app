@@ -3,7 +3,7 @@ import {FC} from 'react'
 import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {createAuthForm, createAuthShema} from '../api/authShema'
-import {CircleProgress, CustomTextField, StyledButton} from '@/Shared/ui'
+import {CircleProgress, CustomTextField, StyledButton} from '@/Shared'
 import {Wrapper} from './StyledComponents'
 
 export interface AuthFormProps {

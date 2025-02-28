@@ -1,4 +1,4 @@
-import {Box, styled} from '@mui/material'
+import {Box, FormControl, styled} from '@mui/material'
 
 export const Container = styled(Box)(({theme}) => ({
   width: '100%',
@@ -23,4 +23,13 @@ export const Content = styled(Box)({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+})
+
+export const FormControlled = styled(FormControl)({
+  width: '100%',
+  alignItems: 'center',
+})
+
+export const CustomForm = styled('form')({
+  width: '100%',
 })

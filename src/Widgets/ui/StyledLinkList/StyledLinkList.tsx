@@ -1,6 +1,6 @@
 import {FC} from 'react'
 import Box from '@mui/material/Box'
-import {StyledLink} from '@/Shared/ui'
+import {StyledLink} from '@/Shared'
 import {Link} from 'react-router-dom'
 
 interface LinkProps {

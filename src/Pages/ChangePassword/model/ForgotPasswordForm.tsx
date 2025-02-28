@@ -1,11 +1,15 @@
-import {CircleProgress, CustomTextField, StyledButton} from '@/Shared/ui'
+import {
+  AppRouterMap,
+  CircleProgress,
+  CustomTextField,
+  StyledButton,
+} from '@/Shared'
 import {zodResolver} from '@hookform/resolvers/zod'
-import {Box, FormControl} from '@mui/material'
 import {useForm} from 'react-hook-form'
 import {useForgotPassword} from '../api/useForgotPassword'
 import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
-import {Wrapper} from '../ui/ContentComponent'
+import {CustomForm, FormControlled, Wrapper} from '../ui/ContentComponent'
 import {createForgotForm, createForgotShema} from '../api/forgotShema'
 
 const ForgotPasswordForm = () => {
@@ -28,7 +32,7 @@ const ForgotPasswordForm = () => {
         auth: {email: email},
       },
       onCompleted() {
-        void navigate('/auth/login')
+        void navigate(AppRouterMap.login.path)
         toast('Check your email inbox')
       },
       onError(error) {
@@ -40,23 +44,12 @@ const ForgotPasswordForm = () => {
   }
 
   return (
-    <Box
-      component={'form'}
-      sx={{
-        width: '100%',
-        alignItems: 'center',
-      }}
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    <CustomForm // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit((data) => {
         handleForgot(data.email)
       })}
     >
-      <FormControl
-        sx={{
-          width: '100%',
-          alignItems: 'center',
-        }}
-      >
+      <FormControlled>
         <CustomTextField
           type="email"
           id="email"
@@ -76,8 +69,8 @@ const ForgotPasswordForm = () => {
             {loading ? <CircleProgress /> : 'Reset password'}
           </StyledButton>
         </Wrapper>
-      </FormControl>
-    </Box>
+      </FormControlled>
+    </CustomForm>
   )
 }
 

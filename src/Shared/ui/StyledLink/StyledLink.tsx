@@ -1,7 +1,10 @@
 import {Button, ButtonProps, styled} from '@mui/material'
 import {LinkProps} from 'react-router-dom'
 
-interface StyledLinkProps extends ButtonProps, LinkProps {
+type ButtonWithoutColor = Omit<ButtonProps, 'color'>
+
+interface StyledLinkProps
+  extends Omit<ButtonWithoutColor & LinkProps, 'onAbort'> {
   active?: boolean
 }
 
