@@ -1,13 +1,13 @@
 import {useEffect} from 'react'
 import {useLogin} from '../api/useLogin'
-import AuthForm from './AuthForm'
-import {Link, useNavigate} from 'react-router-dom'
+import AuthForm from '../ui/AuthForm'
+import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
-
-// {email: 'nat3@nat.mail.ru', password: 'asd!@123'},
+import {AuthLayout} from '@/Features'
+import {AppRouterMap} from '@/Shared'
 
 const LoginPage = () => {
-  const [mutateLogin, {loading, data}] = useLogin()
+  const [mutateLogin, {data, loading}] = useLogin()
   const navigate = useNavigate()
 
   const handleLogIn = (email: string, password: string) => {
@@ -27,19 +27,20 @@ const LoginPage = () => {
     if (data?.login) {
       localStorage.setItem('access_token', data.login.access_token)
       localStorage.setItem('refresh_token', data.login.refresh_token)
-      void navigate('/')
+      void navigate(AppRouterMap.users.path)
     }
   }, [data, navigate])
 
   return (
-    <>
-      <h2>Welcome back</h2>
-      <p>Hello again! Log in to continue</p>
-      <AuthForm handleAuth={handleLogIn} action="login" />
-
-      <Link to={'/forgot-password'}>Forgot Password</Link>
-      {loading && <p>Loading...</p>}
-    </>
+    <AuthLayout
+      title="Welcome back"
+      paragraph="Hello again! Log in to continue"
+      btnTitle="FORGOT PASSWORD"
+      to={AppRouterMap.forgotPassword.path}
+      form={
+        <AuthForm loading={loading} handleAuth={handleLogIn} action="login" />
+      }
+    />
   )
 }
 

@@ -1,70 +1,21 @@
-import {Button, TextField} from '@mui/material'
-import {Link, useNavigate} from 'react-router-dom'
-import {toast} from 'react-toastify'
-import {useForm} from 'react-hook-form'
-import {zodResolver} from '@hookform/resolvers/zod'
-import {createPasswordForm, createPasswordShema} from '../api/passwordShema'
-import {useResetPassword} from '../api/useResetPassword'
+import {AuthLayout} from '@/Features'
+import ResetPasswordForm from '../model/ResetPasswordForm'
+import {Container, Content} from './ContentComponent'
+import {AppRouterMap} from '@/Shared'
 
 const ResetPassword = () => {
-  const navigate = useNavigate()
-  const [mutateForgot, {loading}] = useResetPassword()
-
-  const handleForgot = (password: string) => {
-    mutateForgot({
-      variables: {
-        auth: {newPassword: password},
-      },
-      onCompleted() {
-        void navigate('/auth/login')
-        toast('Password has been reset')
-      },
-      onError(error) {
-        toast(error.message)
-      },
-    }).catch((error) => {
-      console.error(error)
-    })
-  }
-
-  const {
-    register,
-    handleSubmit,
-    formState: {errors},
-  } = useForm<createPasswordForm>({
-    resolver: zodResolver(createPasswordShema),
-  })
-
   return (
-    <div>
-      <h2>Set a new password</h2>
-      <p>Almost done! Now create a new password</p>
-
-      <form>
-        <TextField
-          label="New password"
-          type="password"
-          {...register('newPassword')}
-          helperText={errors['newPassword']?.message}
-          error={!!errors['newPassword']}
-          required
-          placeholder="Enter new password"
-          autoComplete="on"
+    <Container>
+      <Content>
+        <AuthLayout
+          title="Set a new password"
+          paragraph="Almost done! Now create a new password"
+          btnTitle="Back to log in"
+          to={AppRouterMap.login.path}
+          form={<ResetPasswordForm />}
         />
-
-        <Button
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onClick={handleSubmit((data) => {
-            handleForgot(data.newPassword)
-          })}
-        >
-          Submit
-        </Button>
-
-        {loading && <p>Loading...</p>}
-      </form>
-      <Link to={'/auth/login'}>Back to log in</Link>
-    </div>
+      </Content>
+    </Container>
   )
 }
 

@@ -1,10 +1,12 @@
 import {useSignup} from '../api/useSignup'
 import {useEffect} from 'react'
-import AuthForm from './AuthForm'
-import {Link, useNavigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
+import AuthForm from '../ui/AuthForm'
+import {AuthLayout} from '@/Features'
+import {AppRouterMap} from '@/Shared'
 
-const RegisterPage = () => {
+const SignupPage = () => {
   const [mutateSignup, {data, loading}] = useSignup()
   const navigate = useNavigate()
 
@@ -12,7 +14,7 @@ const RegisterPage = () => {
     if (data) {
       localStorage.setItem('access_token', data.signup.access_token)
       localStorage.setItem('refresh_token', data.signup.refresh_token)
-      void navigate('/')
+      void navigate(AppRouterMap.users.path)
     }
   }, [data, navigate])
 
@@ -30,16 +32,16 @@ const RegisterPage = () => {
   }
 
   return (
-    <>
-      <h2>Register now</h2>
-      <p>Welcome! Sign up to continue</p>
-      <AuthForm handleAuth={handleSignUp} action="signup" />
-
-      {loading && <p>Loading...</p>}
-
-      <Link to={'/auth/login'}>I have an Account</Link>
-    </>
+    <AuthLayout
+      title="Register now"
+      paragraph="Welcome! Sign up to continue"
+      btnTitle="I have an Account"
+      to={AppRouterMap.login.path}
+      form={
+        <AuthForm handleAuth={handleSignUp} loading={loading} action="signup" />
+      }
+    />
   )
 }
 
-export default RegisterPage
+export default SignupPage

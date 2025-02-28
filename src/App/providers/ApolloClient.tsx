@@ -1,4 +1,4 @@
-import {ApolloClient, InMemoryCache, HttpLink, from} from '@apollo/client'
+import {ApolloClient, InMemoryCache, HttpLink} from '@apollo/client'
 import {setContext} from '@apollo/client/link/context'
 import {onError} from '@apollo/client/link/error'
 
@@ -39,7 +39,7 @@ const errorLink = onError(({graphQLErrors, networkError, protocolErrors}) => {
 })
 
 export const client = new ApolloClient({
-  link: from([authLink, httpLink, errorLink]),
+  link: authLink.concat(httpLink).concat(errorLink),
   headers: {
     'Content-Type': 'application/json',
   },
