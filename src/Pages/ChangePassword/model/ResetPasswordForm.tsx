@@ -53,7 +53,7 @@ const ResetPasswordForm = () => {
         <CustomTextField
           type="password"
           id="newPassword"
-          label={t('Новый пароль')}
+          label="Новый пароль"
           name="newPassword"
           autoComplete="password"
           placeholder="Enter new password"

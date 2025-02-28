@@ -1,5 +1,6 @@
 import {Typography, useTheme} from '@mui/material'
 import {FC} from 'react'
+import {useTranslation} from 'react-i18next'
 
 interface TypographyTitleProps {
   title: string
@@ -7,6 +8,7 @@ interface TypographyTitleProps {
 
 const TypographyTitle: FC<TypographyTitleProps> = ({title}) => {
   const theme = useTheme()
+  const {t} = useTranslation()
   return (
     <Typography
       variant="h4"
@@ -15,7 +17,7 @@ const TypographyTitle: FC<TypographyTitleProps> = ({title}) => {
       color={theme.palette.text.primary}
       textAlign="center"
     >
-      {title}
+      {t(title)}
     </Typography>
   )
 }

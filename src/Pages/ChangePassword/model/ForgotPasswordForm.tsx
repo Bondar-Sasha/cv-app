@@ -55,7 +55,7 @@ const ForgotPasswordForm = () => {
         <CustomTextField
           type="email"
           id="email"
-          label={t('Почта')}
+          label="Почта"
           name="email"
           autoComplete="email"
           placeholder="example@mail.com"

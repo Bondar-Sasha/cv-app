@@ -5,12 +5,10 @@ import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {AuthLayout} from '@/Features'
 import {AppRouterMap} from '@/Shared'
-import {useTranslation} from 'react-i18next'
 
 const LoginPage = () => {
   const [mutateLogin, {data, loading}] = useLogin()
   const navigate = useNavigate()
-  const {t} = useTranslation()
 
   const handleLogIn = (email: string, password: string) => {
     mutateLogin({
@@ -35,9 +33,9 @@ const LoginPage = () => {
 
   return (
     <AuthLayout
-      title={t('С возвращением')}
-      paragraph={t('Рады вас видеть! Войдите, чтобы продолжить')}
-      btnTitle={t('Забыли пароль')}
+      title="С возвращением"
+      paragraph="Рады вас видеть! Войдите, чтобы продолжить"
+      btnTitle="Забыли пароль"
       to={AppRouterMap.forgotPassword.path}
       form={
         <AuthForm loading={loading} handleAuth={handleLogIn} action="login" />

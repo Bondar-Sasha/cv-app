@@ -23,7 +23,7 @@ const CustomSelectComponent: React.FC<CustomSelectComponentProps> = ({
         labelId="custom-select-label"
         id="custom-select"
         value={value}
-        label={label}
+        label={t(label)}
         onChange={onChange}
       >
         {options.map((option) => (

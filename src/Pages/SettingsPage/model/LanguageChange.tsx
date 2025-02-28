@@ -3,7 +3,7 @@ import {LanguageOptions} from './Options'
 import {useTranslation} from 'react-i18next'
 
 const LanguageChange = () => {
-  const {t, i18n} = useTranslation()
+  const {i18n} = useTranslation()
 
   const changeLanguage = async (lng) => {
     await i18n.changeLanguage(lng)
@@ -18,7 +18,7 @@ const LanguageChange = () => {
         value={i18n.language}
         onChange={handleChangeLanguage}
         options={LanguageOptions}
-        label={t('Язык')}
+        label="Язык"
       />
     </>
   )
