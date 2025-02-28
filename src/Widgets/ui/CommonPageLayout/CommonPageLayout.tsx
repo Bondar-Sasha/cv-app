@@ -9,6 +9,7 @@ import langIcon from './assets/lang.svg'
 import usersIcon from './assets/users.svg'
 import upIcon from './assets/up.svg'
 import profileIcon from './assets/profile.svg'
+import {AppRouterMap} from '@/Shared'
 
 const Container = styled('div')(({theme}) => ({
   color: theme.palette.text.primary,
@@ -20,11 +21,21 @@ const asideMarkersMap = [
     id: 1,
     icon: usersIcon,
     label: 'Employees',
-    handlingPath: '/users',
+    handlingPath: AppRouterMap.users.path,
   },
-  {id: 2, icon: upIcon, label: 'Skills', handlingPath: '/skills'},
-  {id: 3, icon: langIcon, label: 'Languages', handlingPath: '/languages'},
-  {id: 4, icon: profileIcon, label: 'CVs', handlingPath: '/cvs'},
+  {
+    id: 2,
+    icon: upIcon,
+    label: 'Skills',
+    handlingPath: AppRouterMap.skills.path,
+  },
+  {
+    id: 3,
+    icon: langIcon,
+    label: 'Languages',
+    handlingPath: AppRouterMap.languages.path,
+  },
+  {id: 4, icon: profileIcon, label: 'CVs', handlingPath: AppRouterMap.CVs.path},
 ]
 
 const CommonPageLayout: FC = () => {
@@ -51,6 +62,7 @@ const CommonPageLayout: FC = () => {
                 className={`${layoutStyles.asideMarker} ${marker.handlingPath === location.pathname ? layoutStyles.picked : ''}`}
               >
                 <img src={marker.icon} alt={marker.label} />
+
                 <span>{marker.label}</span>
               </div>
             )
@@ -66,7 +78,7 @@ const CommonPageLayout: FC = () => {
                   : layoutStyles.asideIconClosed
               }`}
             >
-              <KeyboardArrowLeftIcon />
+              <KeyboardArrowLeftIcon color="inherit" />
             </IconButton>
           </div>
         </div>

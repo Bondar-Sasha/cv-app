@@ -42,7 +42,7 @@ const darkTheme = createTheme({
 })
 
 const App: FC = () => {
-  const [isDarkTheme, setTheme] = useState<boolean>(true)
+  const [isDarkTheme, setTheme] = useState<boolean>(false)
   const handelThemeSwitching = () => {
     setTheme((prev) => !prev)
   }
