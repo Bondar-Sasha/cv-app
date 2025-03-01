@@ -3,7 +3,13 @@ import {Routes, Route, BrowserRouter, Navigate} from 'react-router-dom'
 
 import SecureRoute from './SecureRoute'
 import {AppRouterMap} from '@/Shared'
-import {Auth, ChangePassword, ResetPassword, SettingsPage} from '@/Pages'
+import {
+  Auth,
+  ChangePassword,
+  ResetPassword,
+  SettingsPage,
+  SkillsPage,
+} from '@/Pages'
 import {CommonPageLayout} from '@/Widgets'
 
 const {
@@ -58,7 +64,7 @@ const AppRoutes: FC = () => {
           <Route path={CVPreview.path()} element={<>cv preview</>} />
           <Route path={departments.path} element={<>departments</>} />
           <Route path={positions.path} element={<>positions</>} />
-          <Route path={skills.path} element={<>skills</>} />
+          <Route path={skills.path} element={<SkillsPage />} />
           <Route path={languages.path} element={<>languages</>} />
           <Route path={settings.path} element={<SettingsPage />} />
         </Route>
