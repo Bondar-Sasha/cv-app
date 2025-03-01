@@ -18,7 +18,7 @@ const LanguageChange = () => {
         value={i18n.language}
         onChange={handleChangeLanguage}
         options={LanguageOptions}
-        label="Язык"
+        label="Language"
       />
     </>
   )

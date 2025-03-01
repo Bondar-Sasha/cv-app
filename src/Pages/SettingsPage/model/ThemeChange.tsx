@@ -19,7 +19,7 @@ const ThemeChange = () => {
       value={theme}
       onChange={handleChangeThemes}
       options={ThemeOptions}
-      label="Внешний вид"
+      label="Appearance"
     />
   )
 }

@@ -55,7 +55,7 @@ const ForgotPasswordForm = () => {
         <CustomTextField
           type="email"
           id="email"
-          label="Почта"
+          label="Email"
           name="email"
           autoComplete="email"
           placeholder="example@mail.com"
@@ -68,7 +68,7 @@ const ForgotPasswordForm = () => {
             disabled={loading || email.length === 0}
             type="submit"
           >
-            {loading ? <CircleProgress /> : t('Сбросить пароль')}
+            {loading ? <CircleProgress /> : t('Reset password')}
           </StyledButton>
         </Wrapper>
       </FormControlled>

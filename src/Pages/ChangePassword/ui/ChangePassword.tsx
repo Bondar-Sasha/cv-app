@@ -8,9 +8,9 @@ const ChangePassword = () => {
     <Container>
       <Content>
         <AuthLayout
-          title="Забыли пароль"
-          paragraph="Мы отправим вам письмо с дальнейшими инструкциями"
-          btnTitle="Отмена"
+          title="Forgot password"
+          paragraph="We will sent you an email with further instructions"
+          btnTitle="Cancel"
           to={AppRouterMap.login.path}
           form={<ChangePasswordForm />}
         />

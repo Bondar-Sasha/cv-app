@@ -53,7 +53,7 @@ const ResetPasswordForm = () => {
         <CustomTextField
           type="password"
           id="newPassword"
-          label="Новый пароль"
+          label="New password"
           name="newPassword"
           autoComplete="password"
           placeholder="Enter new password"
@@ -66,7 +66,7 @@ const ResetPasswordForm = () => {
             disabled={loading || password.length === 0}
             type="submit"
           >
-            {loading ? <CircleProgress /> : t('Отправить')}
+            {loading ? <CircleProgress /> : t('Submit')}
           </StyledButton>
         </Wrapper>
       </FormControlled>

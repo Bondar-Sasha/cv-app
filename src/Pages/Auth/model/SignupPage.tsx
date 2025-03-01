@@ -33,9 +33,9 @@ const SignupPage = () => {
 
   return (
     <AuthLayout
-      title="Зарегистрируйтесь"
-      paragraph="Добро пожаловать! Создайте аккаунт, чтобы продолжить"
-      btnTitle="У меня есть аккаунт"
+      title="Register now"
+      paragraph="Welcome! Sign up to continue"
+      btnTitle="I have an account"
       to={AppRouterMap.login.path}
       form={
         <AuthForm handleAuth={handleSignUp} loading={loading} action="signup" />

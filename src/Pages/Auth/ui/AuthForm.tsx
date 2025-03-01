@@ -40,7 +40,7 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
         <CustomTextField
           type="email"
           id="email"
-          label="Почта"
+          label="Email"
           name="email"
           autoComplete="email"
           placeholder="example@mail.com"
@@ -50,7 +50,7 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
         <CustomTextField
           id="password"
           type="password"
-          label="Пароль"
+          label="Password"
           name="password"
           autoComplete="password"
           placeholder="Enter your password"
@@ -63,9 +63,9 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
             {loading ? (
               <CircleProgress />
             ) : action === 'login' ? (
-              t('Войти')
+              t('Log in')
             ) : (
-              t('Создать аккаунт')
+              t('Create account')
             )}
           </StyledButton>
         </Wrapper>

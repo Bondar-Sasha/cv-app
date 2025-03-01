@@ -5,7 +5,7 @@ export const LanguageOptions = [
 ]
 
 export const ThemeOptions = [
-    {value: 'light', label: 'Светлый'},
-    {value: 'dark', label: 'Темный'},
-    {value: 'device', label: 'Настройки устройства'},
+    {value: 'light', label: 'Light'},
+    {value: 'dark', label: 'Dark'},
+    {value: 'device', label: 'Device Settings'},
 ]

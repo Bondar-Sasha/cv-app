@@ -8,9 +8,9 @@ const ResetPassword = () => {
     <Container>
       <Content>
         <AuthLayout
-          title="Установите новый пароль"
-          paragraph="Почти готово! Теперь создайте новый пароль"
-          btnTitle="Вернуться"
+          title="Set a new password"
+          paragraph="Almost done! Now create a new password"
+          btnTitle="Back to log in"
           to={AppRouterMap.login.path}
           form={<ResetPasswordForm />}
         />
