@@ -1,22 +1,26 @@
-import {FormControl, InputLabel, MenuItem} from '@mui/material'
-import {CustomSelect} from '../ui/StyledComponents'
+import {CustomSelectComponent} from '@/Shared'
+import {LanguageOptions} from './Options'
+import {useTranslation} from 'react-i18next'
 
 const LanguageChange = () => {
+  const {i18n} = useTranslation()
+
+  const changeLanguage = async (lng) => {
+    await i18n.changeLanguage(lng)
+  }
+
+  const handleChangeLanguage = async (e) => {
+    await changeLanguage(e.target.value)
+  }
   return (
-    <FormControl fullWidth>
-      <InputLabel id="select-language-label">{'Язык'}</InputLabel>
-      <CustomSelect
-        labelId="select-language-label"
-        id="select-language"
-        value={'ru'}
-        label="Язык"
-        // OnChange={handleChange}
-      >
-        <MenuItem value={'en'}>English</MenuItem>
-        <MenuItem value={'de'}>Deutsch</MenuItem>
-        <MenuItem value={'ru'}>Русский</MenuItem>
-      </CustomSelect>
-    </FormControl>
+    <>
+      <CustomSelectComponent
+        value={i18n.language}
+        onChange={handleChangeLanguage}
+        options={LanguageOptions}
+        label="Language"
+      />
+    </>
   )
 }
 

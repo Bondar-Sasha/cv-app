@@ -13,12 +13,12 @@ const Auth: FC<AuthProps> = ({location}) => {
   const links = [
     {
       to: AppRouterMap.login.path,
-      label: 'Log In',
+      label: 'Log in',
       active: location === 'login',
     },
     {
       to: AppRouterMap.singUp.path,
-      label: 'Sign Up',
+      label: 'Sign up',
       active: location === 'signup',
     },
   ]
