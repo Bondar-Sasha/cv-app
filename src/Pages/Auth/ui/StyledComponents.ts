@@ -29,13 +29,13 @@ export const Content = styled(Box)({
   alignItems: 'center',
 })
 
-export const Wrapper = styled(Box)(() => ({
+export const Wrapper = styled(Box) ({
   maxWidth: '43%',
   width: '100%',
   '@media (max-width: 500px)': {
     maxWidth: '100%',
   },
-}))
+})
 
 export const BoxCustom = styled(Box)<BoxProps>(() => ({
   width: '100%',

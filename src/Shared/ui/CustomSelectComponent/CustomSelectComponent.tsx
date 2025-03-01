@@ -1,6 +1,7 @@
 import {InputLabel} from '@mui/material'
 import {CustomFormControl, CustomMenuItem, CustomSelect} from './StyledElement'
 import {useTranslation} from 'react-i18next'
+import {FC} from 'react'
 
 interface CustomSelectComponentProps {
   value: string
@@ -9,7 +10,7 @@ interface CustomSelectComponentProps {
   label: string
 }
 
-const CustomSelectComponent: React.FC<CustomSelectComponentProps> = ({
+const CustomSelectComponent: FC<CustomSelectComponentProps> = ({
   value,
   onChange,
   options,
