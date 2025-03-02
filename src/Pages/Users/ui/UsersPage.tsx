@@ -1,5 +1,16 @@
 import {FC, useState} from 'react'
-import {Box, InputAdornment, styled, TextField} from '@mui/material'
+import {
+  Box,
+  InputAdornment,
+  Paper,
+  styled,
+  Table,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 
 const CustomTextField = styled(TextField)(({theme}) => ({
@@ -8,14 +19,14 @@ const CustomTextField = styled(TextField)(({theme}) => ({
     borderRadius: '20px',
     backgroundColor: theme.palette.background.default,
     '& fieldset': {
-      border: '1px solid rgba(255, 255, 255, 0.5)',
+      border: '1px solid rgba(153, 153, 153, 0.5)',
       borderRadius: '20px',
     },
     '&:hover fieldset': {
-      border: '1px solid rgba(255, 255, 255, 0.8)',
+      border: '1px solid rgba(153, 153, 153, 0.5)',
     },
     '&.Mui-focused fieldset': {
-      border: '1px solid rgba(255, 255, 255, 1)',
+      border: '1px solid rgba(153, 153, 153, 0.5)',
     },
   },
   '& .MuiOutlinedInput-input': {
@@ -23,6 +34,15 @@ const CustomTextField = styled(TextField)(({theme}) => ({
     height: '43px',
     padding: '0 14px',
   },
+}))
+
+const CustomTableHead = styled(TableHead)(({theme}) => ({
+  backgroundColor: theme.palette.background.default,
+  color: theme.palette.text.primary,
+  width: '100%',
+  position: 'sticky',
+  top: 0,
+  left: 0,
 }))
 
 interface Filters {
@@ -64,8 +84,37 @@ const UsersPage: FC = () => {
             },
           }}
         />
-        <Box component="div" position="sticky" top="0" left="0"></Box>
       </Box>
+      <TableContainer component={Paper}>
+        <Table aria-label="simple table">
+          <CustomTableHead>
+            <TableRow>
+              <TableCell></TableCell>
+              <TableCell>Dessert (100g serving)</TableCell>
+              <TableCell>Calories</TableCell>
+              <TableCell>Fat&nbsp;(g)</TableCell>
+              <TableCell>Carbs&nbsp;(g)</TableCell>
+              <TableCell>Protein&nbsp;(g)</TableCell>
+            </TableRow>
+          </CustomTableHead>
+          {/* <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row.name}
+                sx={{'&:last-child td, &:last-child th': {border: 0}}}
+              >
+                <TableCell component="th" scope="row">
+                  {row.name}
+                </TableCell>
+                <TableCell align="right">{row.calories}</TableCell>
+                <TableCell align="right">{row.fat}</TableCell>
+                <TableCell align="right">{row.carbs}</TableCell>
+                <TableCell align="right">{row.protein}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody> */}
+        </Table>
+      </TableContainer>
     </>
   )
 }
