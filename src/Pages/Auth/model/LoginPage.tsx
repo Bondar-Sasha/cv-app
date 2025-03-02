@@ -35,7 +35,7 @@ const LoginPage = () => {
     <AuthLayout
       title="Welcome back"
       paragraph="Hello again! Log in to continue"
-      btnTitle="FORGOT PASSWORD"
+      btnTitle="Forgot password"
       to={AppRouterMap.forgotPassword.path}
       form={
         <AuthForm loading={loading} handleAuth={handleLogIn} action="login" />

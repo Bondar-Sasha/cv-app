@@ -1,10 +1,11 @@
-import {Box, FormControl} from '@mui/material'
+import {FormControl} from '@mui/material'
 import {FC} from 'react'
 import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {createAuthForm, createAuthShema} from '../api/authShema'
 import {CircleProgress, CustomTextField, StyledButton} from '@/Shared'
-import {Wrapper} from './StyledComponents'
+import {BoxCustom, Wrapper} from './StyledComponents'
+import {useTranslation} from 'react-i18next'
 
 export interface AuthFormProps {
   action: 'login' | 'signup'
@@ -20,14 +21,11 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
   } = useForm<createAuthForm>({
     resolver: zodResolver(createAuthShema),
   })
+  const {t} = useTranslation()
 
   return (
-    <Box
+    <BoxCustom
       component={'form'}
-      sx={{
-        width: '100%',
-        alignItems: 'center',
-      }}
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit((data) => {
         handleAuth(data.email, data.password)
@@ -65,14 +63,14 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
             {loading ? (
               <CircleProgress />
             ) : action === 'login' ? (
-              'Log in'
+              t('Log in')
             ) : (
-              'Create Account'
+              t('Create account')
             )}
           </StyledButton>
         </Wrapper>
       </FormControl>
-    </Box>
+    </BoxCustom>
   )
 }
 

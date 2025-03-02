@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton'
 import {Visibility, VisibilityOff} from '@mui/icons-material'
 import {useTheme} from '@mui/material/styles'
 import {FieldErrors, UseFormRegister} from 'react-hook-form'
+import {useTranslation} from 'react-i18next'
 
 interface CustomTextFieldProps {
   id: string
@@ -32,6 +33,7 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
   const theme = useTheme()
   const redColor = theme.palette.error.main
   const [showPassword, setShowPassword] = useState(false)
+  const {t} = useTranslation()
 
   const handleClickShowPassword = () => setShowPassword(!showPassword)
   const handleMouseDownPassword = (
@@ -48,9 +50,9 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
       margin="normal"
       fullWidth
       id={id}
-      label={label}
+      label={t(label)}
       autoComplete={autoComplete}
-      placeholder={placeholder}
+      placeholder={t(placeholder)}
       type={showPassword && isPasswordType ? 'text' : type}
       {...register(name)}
       helperText={errors[name]?.message?.toString()}

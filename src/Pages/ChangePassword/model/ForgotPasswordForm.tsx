@@ -11,6 +11,7 @@ import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {CustomForm, FormControlled, Wrapper} from '../ui/ContentComponent'
 import {createForgotForm, createForgotShema} from '../api/forgotShema'
+import {useTranslation} from 'react-i18next'
 
 const ForgotPasswordForm = () => {
   const {
@@ -25,6 +26,7 @@ const ForgotPasswordForm = () => {
   const email = watch('email', '')
   const navigate = useNavigate()
   const [mutateForgot, {loading}] = useForgotPassword()
+  const {t} = useTranslation()
 
   const handleForgot = (email: string) => {
     mutateForgot({
@@ -66,7 +68,7 @@ const ForgotPasswordForm = () => {
             disabled={loading || email.length === 0}
             type="submit"
           >
-            {loading ? <CircleProgress /> : 'Reset password'}
+            {loading ? <CircleProgress /> : t('Reset password')}
           </StyledButton>
         </Wrapper>
       </FormControlled>

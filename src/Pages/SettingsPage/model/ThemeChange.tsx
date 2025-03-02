@@ -1,13 +1,8 @@
-import {AllThemes} from '@/App'
-import {useThemeContext} from '@/App/ui/App'
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  SelectChangeEvent,
-} from '@mui/material'
+import {AllThemes, useThemeContext} from '@/App'
+import {CustomSelectComponent} from '@/Shared'
+import {SelectChangeEvent} from '@mui/material'
 import {useState} from 'react'
-import {CustomSelect} from '../ui/StyledComponents'
+import {ThemeOptions} from './Options'
 
 const ThemeChange = () => {
   const {themeMode, handleChangeTheme} = useThemeContext()
@@ -20,20 +15,12 @@ const ThemeChange = () => {
   }
 
   return (
-    <FormControl fullWidth>
-      <InputLabel id="select-theme-label">Внешний вид</InputLabel>
-      <CustomSelect
-        labelId="select-theme-label"
-        id="select-theme"
-        value={theme}
-        label="Внешний вид"
-        onChange={handleChangeThemes}
-      >
-        <MenuItem value={'light'}>Светлый</MenuItem>
-        <MenuItem value={'dark'}>Темный</MenuItem>
-        <MenuItem value={'device'}>Настройки устройства</MenuItem>
-      </CustomSelect>
-    </FormControl>
+    <CustomSelectComponent
+      value={theme}
+      onChange={handleChangeThemes}
+      options={ThemeOptions}
+      label="Appearance"
+    />
   )
 }
 

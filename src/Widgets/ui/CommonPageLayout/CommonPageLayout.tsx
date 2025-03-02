@@ -10,6 +10,7 @@ import {AppRouterMap} from '@/Shared'
 import AsideSvg from './assets/AsideSvg'
 import CustomLink from '@mui/material/Link'
 import {Box, Breadcrumbs} from '@mui/material'
+import {useTranslation} from 'react-i18next'
 
 const Container = styled('div')(({theme}) => ({
   color: theme.palette.text.primary,
@@ -82,6 +83,7 @@ const CommonPageLayout: FC = () => {
   const location = useLocation()
   const navigate = useNavigate()
   const theme = useTheme()
+  const {t} = useTranslation()
 
   const [asideState, setAsideState] = useState<boolean>(true)
   const changeAsideState = () => {
@@ -113,7 +115,7 @@ const CommonPageLayout: FC = () => {
                   type={marker.icon}
                 />
 
-                <span>{marker.label}</span>
+                <span>{t(marker.label)}</span>
               </AsideMarker>
             )
           })}
@@ -149,7 +151,7 @@ const CommonPageLayout: FC = () => {
                 underline="hover"
                 color="inherit"
               >
-                {breadcrumb}
+                {t(breadcrumb.props.children)}
               </CustomLink>
             ))}
           </Breadcrumbs>

@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {Typography, useTheme} from '@mui/material'
 import {StyledButton, TypographyTitle} from '@/Shared'
 import {StyledContainer, Wrapper} from './StyledComponent'
+import {useTranslation} from 'react-i18next'
 
 interface AuthLayoutProps {
   title: string
@@ -20,6 +21,7 @@ const AuthLayout: FC<AuthLayoutProps> = ({
   form,
 }) => {
   const theme = useTheme()
+  const {t} = useTranslation()
 
   return (
     <StyledContainer>
@@ -31,14 +33,14 @@ const AuthLayout: FC<AuthLayoutProps> = ({
         marginBottom={'10px'}
         textAlign="center"
       >
-        {paragraph}
+        {t(paragraph)}
       </Typography>
 
       {form}
 
       <Wrapper>
         <StyledButton variant="text" component={Link} to={to}>
-          {btnTitle}
+          {t(btnTitle)}
         </StyledButton>
       </Wrapper>
     </StyledContainer>
