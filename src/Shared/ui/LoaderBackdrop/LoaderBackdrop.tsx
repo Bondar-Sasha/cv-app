@@ -5,8 +5,13 @@ import {FC} from 'react'
 
 const Loader = styled(Backdrop)(({theme}) => ({
   zIndex: theme.zIndex.drawer + 1,
-  color: theme.palette.common.white,
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  color: theme.palette.error.light,
+  backgroundColor: 'transparent',
+  position: 'static',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
 }))
 
 interface LoaderBackdropProps {
