@@ -18,18 +18,19 @@
   align-items: end;
   background-color: inherit;
   box-sizing: border-box;
-  margin-bottom: 5px;
   color: inherit;
   width: 100%;
   height: 44px;
   position: sticky;
   top: 0;
   left: 0;
+  z-index: 100;
   padding-bottom: 4px;
 }
 
-.main {
+.main_wrapper {
   background-color: inherit;
+  overflow-y: auto;
   color: inherit;
   width: 100%;
 }
@@ -47,7 +48,7 @@
   .layout_container {
     grid-template-columns: auto 1fr;
   }
-  .main {
+  .main_wrapper {
     padding-left: 44px;
     box-sizing: border-box;
   }
@@ -88,6 +89,9 @@
   .aside > div:last-child > :last-child {
     display: none;
   }
+  .main_wrapper::-webkit-scrollbar {
+    display: none;
+  }
   .header {
     padding-left: 15px;
   }
@@ -115,7 +119,7 @@
     padding: 0 20px;
   }
 
-  .main {
+  .main_wrapper {
     order: 1;
   }
 }

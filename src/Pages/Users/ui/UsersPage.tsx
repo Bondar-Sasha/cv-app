@@ -1,19 +1,18 @@
 import {FC, useState} from 'react'
-import {
-  Box,
-  InputAdornment,
-  Paper,
-  styled,
-  Table,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TextField,
-} from '@mui/material'
+import {Box, IconButton, InputAdornment, styled, TextField} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
+import {useTranslation} from 'react-i18next'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import {Table, TableHead, TableBody, TableRow, TableCell} from '@mui/material'
+
+import {useUsers} from '../api'
+import {AppRouterMap, CircleProgress, EnvUserLogo} from '@/Shared'
+import {useNavigate} from 'react-router-dom'
 
 const CustomTextField = styled(TextField)(({theme}) => ({
+  zIndex: 100,
   width: '320px',
   '& .MuiOutlinedInput-root': {
     borderRadius: '20px',
@@ -22,11 +21,8 @@ const CustomTextField = styled(TextField)(({theme}) => ({
       border: '1px solid rgba(153, 153, 153, 0.5)',
       borderRadius: '20px',
     },
-    '&:hover fieldset': {
-      border: '1px solid rgba(153, 153, 153, 0.5)',
-    },
     '&.Mui-focused fieldset': {
-      border: '1px solid rgba(153, 153, 153, 0.5)',
+      border: '1px solid rgba(78, 78, 78, 0.5)',
     },
   },
   '& .MuiOutlinedInput-input': {
@@ -36,43 +32,123 @@ const CustomTextField = styled(TextField)(({theme}) => ({
   },
 }))
 
-const CustomTableHead = styled(TableHead)(({theme}) => ({
-  backgroundColor: theme.palette.background.default,
-  color: theme.palette.text.primary,
-  width: '100%',
-  position: 'sticky',
-  top: 0,
-  left: 0,
-}))
+const CustomCell = styled(TableCell)({
+  cursor: 'pointer',
+})
+const CustomIconButton = styled(IconButton)({
+  zIndex: 0,
+  '& .MuiSvgIcon-root': {
+    fontSize: '16px',
+    zIndex: 0,
+  },
+})
 
 interface Filters {
   searchState: string
-  firstName: boolean
-  lastName: boolean
-  email: boolean
-  department: boolean
-  position: boolean
+  currentFilter: {
+    id: 'firstName' | 'lastName' | 'email' | 'department' | 'position'
+    state: boolean
+  }
 }
 
+interface THeadItem {
+  id: Filters['currentFilter']['id']
+  label: string
+}
+
+const THeadItems: THeadItem[] = [
+  {id: 'firstName', label: 'First Name'},
+  {id: 'lastName', label: 'Last Name'},
+  {id: 'email', label: 'Email'},
+  {id: 'department', label: 'Department'},
+  {id: 'position', label: 'Position'},
+]
+
+interface CustomArrowProps {
+  arrowState: boolean | null
+}
+
+const CustomArrow = styled(ArrowUpwardIcon, {
+  shouldForwardProp: (prop) => prop !== 'arrowState',
+})<CustomArrowProps>(({arrowState}) => ({
+  color: 'inherit',
+  fontSize: '12px',
+  marginLeft: '7px',
+  cursor: 'pointer',
+  visibility: arrowState === null ? 'hidden' : 'visible',
+  transform: arrowState ? 'rotate(0deg)' : 'rotate(180deg)',
+}))
+
 const UsersPage: FC = () => {
+  const navigate = useNavigate()
+  const {data, loading} = useUsers()
+  const {t} = useTranslation()
+
   const [filtersState, setFilters] = useState<Filters>({
     searchState: '',
-    firstName: true,
-    lastName: false,
-    email: false,
-    department: false,
-    position: false,
+    currentFilter: {
+      id: 'firstName',
+      state: false,
+    },
   })
+
+  const toggleFilter = (id: Filters['currentFilter']['id']) => {
+    setFilters({
+      searchState: filtersState.searchState,
+      currentFilter: {
+        id,
+        state:
+          filtersState.currentFilter.id === id
+            ? !filtersState.currentFilter.state
+            : true,
+      },
+    })
+  }
+
+  if (loading) {
+    return (
+      <Box
+        width="100%"
+        height="300px"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <CircleProgress />
+      </Box>
+    )
+  }
+  if (!data) {
+    return (
+      <Box
+        width="100%"
+        height="300px"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        There are no users
+      </Box>
+    )
+  }
 
   return (
     <>
-      <Box component="div" position="sticky" top="0" left="0">
+      <Box
+        position="sticky"
+        top="44px"
+        zIndex="100"
+        bgcolor="inherit"
+        display="flex"
+        alignItems="end"
+        height="50px"
+      >
         <CustomTextField
           variant="outlined"
           value={filtersState.searchState}
-          onChange={(e) => {
+          onChange={(e) =>
             setFilters({...filtersState, searchState: e.target.value})
-          }}
+          }
           placeholder="Search..."
           slotProps={{
             input: {
@@ -85,36 +161,93 @@ const UsersPage: FC = () => {
           }}
         />
       </Box>
-      <TableContainer component={Paper}>
-        <Table aria-label="simple table">
-          <CustomTableHead>
-            <TableRow>
-              <TableCell></TableCell>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell>Calories</TableCell>
-              <TableCell>Fat&nbsp;(g)</TableCell>
-              <TableCell>Carbs&nbsp;(g)</TableCell>
-              <TableCell>Protein&nbsp;(g)</TableCell>
-            </TableRow>
-          </CustomTableHead>
-          {/* <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.name}
-                sx={{'&:last-child td, &:last-child th': {border: 0}}}
+
+      <Box component={Table} bgcolor="inherit">
+        <Box
+          component={TableHead}
+          position="sticky"
+          top="94px"
+          height="58px"
+          zIndex="100"
+          bgcolor="inherit"
+        >
+          <TableRow>
+            <TableCell width="80px"></TableCell>
+            {THeadItems.map((item) => (
+              <CustomCell
+                align="left"
+                key={item.id}
+                onClick={() => toggleFilter(item.id)}
               >
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
-              </TableRow>
+                <span>{t(item.label)}</span>
+                <CustomArrow
+                  arrowState={
+                    filtersState.currentFilter.id === item.id
+                      ? filtersState.currentFilter.state
+                      : null
+                  }
+                />
+              </CustomCell>
             ))}
-          </TableBody> */}
-        </Table>
-      </TableContainer>
+            <TableCell width="80px"></TableCell>
+          </TableRow>
+        </Box>
+        <TableBody>
+          <TableRow style={{height: '73px'}}>
+            <TableCell>
+              <EnvUserLogo latter={'d'} />
+            </TableCell>
+            <TableCell>{'dwdw'}</TableCell>
+            <TableCell>{'dwdw'}</TableCell>
+            <TableCell>{'dwdw'}</TableCell>
+            <TableCell>{'dwdw'}</TableCell>
+            <TableCell>{'dwdw'}</TableCell>
+            <TableCell>
+              {
+                <CustomIconButton>
+                  <MoreVertIcon />
+                </CustomIconButton>
+              }
+            </TableCell>
+          </TableRow>
+          {data.users.map(({id, ...user}) => (
+            <TableRow key={id} style={{height: '73px'}}>
+              <TableCell>
+                {user.profile.avatar ? (
+                  <Box
+                    component="img"
+                    src={user.profile.avatar}
+                    alt="User Avatar"
+                    style={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '20px',
+                    }}
+                  ></Box>
+                ) : (
+                  <EnvUserLogo latter={user.email[0]} />
+                )}
+              </TableCell>
+              <TableCell>{user.profile.first_name}</TableCell>
+              <TableCell>{user.profile.last_name}</TableCell>
+              <TableCell>{user.email}</TableCell>
+              <TableCell>{user.department?.name}</TableCell>
+              <TableCell>{user.position?.name}</TableCell>
+              <TableCell>
+                {
+                  <CustomIconButton
+                    onClick={() => {
+                      void navigate(AppRouterMap.userProfile.path(443))
+                    }}
+                  >
+                    <ArrowForwardIosIcon />
+                  </CustomIconButton>
+                }
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Box>
     </>
   )
 }

@@ -87,7 +87,7 @@ const CommonPageLayout: FC = () => {
 
   const [asideState, setAsideState] = useState<boolean>(true)
   const changeAsideState = () => {
-    setAsideState((prev) => !prev)
+    requestAnimationFrame(() => setAsideState((prev) => !prev))
   }
 
   const breadcrumbs = getBreadcrumbs({location, routes: preparedRoutes}).filter(
@@ -140,7 +140,7 @@ const CommonPageLayout: FC = () => {
           </Box>
         </div>
       </aside>
-      <main className={layoutStyles.main}>
+      <div className={layoutStyles.main_wrapper}>
         <header className={layoutStyles.header}>
           <Breadcrumbs separator=">" aria-label="breadcrumb">
             {breadcrumbs.map(({breadcrumb, match}) => (
@@ -157,7 +157,7 @@ const CommonPageLayout: FC = () => {
           </Breadcrumbs>
         </header>
         <Outlet />
-      </main>
+      </div>
     </Container>
   )
 }
