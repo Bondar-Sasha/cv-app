@@ -31,17 +31,7 @@ const UsersList: FC<UsersListProps> = memo(
     const {t} = useTranslation()
 
     if (!listData) {
-      return (
-        <Box
-          width="100%"
-          height="50%"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          {t('There are no users')}
-        </Box>
-      )
+      return null
     }
 
     return (

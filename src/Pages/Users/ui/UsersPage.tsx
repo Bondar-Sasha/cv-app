@@ -11,14 +11,17 @@ import {
   TableRow,
   TableCell,
   Popover,
+  Button,
+  useTheme,
 } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import {useTranslation} from 'react-i18next'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+import {useNavigate} from 'react-router-dom'
 
 import {useUsers} from '../api'
-import {CircleProgress} from '@/Shared'
+import {CircleProgress, AppRouterMap} from '@/Shared'
 import {PreparedUser} from '../api/useUsers'
 import UsersList from './UsersList'
 
@@ -148,8 +151,10 @@ const filterFunc = (data?: PreparedUser[]) => {
 }
 
 const UsersPage: FC = () => {
+  const theme = useTheme()
   const {data, loading} = useUsers()
   const {t} = useTranslation()
+  const navigate = useNavigate()
   const [popoverState, setPopover] = useState<boolean>(false)
   const [filtersState, setFilters] = useState<Filters>({
     searchState: '',
@@ -195,20 +200,6 @@ const UsersPage: FC = () => {
         justifyContent="center"
       >
         <CircleProgress />
-      </Box>
-    )
-  }
-
-  if (!filteredData) {
-    return (
-      <Box
-        width="100%"
-        height="50%"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        {t('There are no users')}
       </Box>
     )
   }
@@ -289,10 +280,27 @@ const UsersPage: FC = () => {
                 onClose={() => setPopover(false)}
                 anchorOrigin={{
                   vertical: 'bottom',
-                  horizontal: 'left',
+                  horizontal: 'center',
                 }}
               >
-                <span>The content of the Popover.</span>
+                <Box
+                  width="210px"
+                  display="flex"
+                  flexDirection="column"
+                  color={theme.palette.text.primary}
+                  bgcolor={theme.palette.background.default}
+                >
+                  <Button
+                    color="inherit"
+                    onClick={() =>
+                      void navigate(AppRouterMap.userProfile.path('32'))
+                    }
+                  >
+                    {t('Profile')}
+                  </Button>
+                  <Button color="inherit">{t('Update user')}</Button>
+                  <Button color="inherit">{t('Delete user')}</Button>
+                </Box>
               </Popover>
             </CustomTdCell>
           </Box>
