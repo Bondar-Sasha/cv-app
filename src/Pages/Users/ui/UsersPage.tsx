@@ -1,4 +1,4 @@
-import {FC, useMemo, useRef, useState} from 'react'
+import {FC, useCallback, useEffect, useMemo, useRef, useState} from 'react'
 import {
   Box,
   IconButton,
@@ -19,6 +19,7 @@ import {useTranslation} from 'react-i18next'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import {useNavigate} from 'react-router-dom'
+import {debounce} from 'lodash'
 
 import {useUsers} from '../api'
 import {CircleProgress, AppRouterMap} from '@/Shared'
@@ -125,28 +126,26 @@ const CustomArrow = styled(ArrowUpwardIcon, {
 }))
 
 const filterFunc = (data?: PreparedUser[]) => {
-  return (
-    str: string,
-    curFilter: Filters['currentFilter']['id'],
-    filterState: boolean
-  ): PreparedUser[] | null | undefined => {
-    return (
-      data &&
-      data
-        .filter(
-          (user) =>
-            (user.first_name || '').includes(str) ||
-            (user.last_name || '').includes(str)
-        )
-        .sort((a, b) => {
-          const aValue = a[curFilter]?.toLowerCase() || ''
-          const bValue = b[curFilter]?.toLowerCase() || ''
+  return (curFilter: Filters['currentFilter']['id'], filterState: boolean) => {
+    return (str: string): PreparedUser[] | null | undefined => {
+      return (
+        data &&
+        data
+          .filter(
+            (user) =>
+              (user.first_name || '').includes(str) ||
+              (user.last_name || '').includes(str)
+          )
+          .sort((a, b) => {
+            const aValue = a[curFilter]?.toLowerCase() || ''
+            const bValue = b[curFilter]?.toLowerCase() || ''
 
-          return filterState
-            ? aValue.localeCompare(bValue)
-            : bValue.localeCompare(aValue)
-        })
-    )
+            return filterState
+              ? aValue.localeCompare(bValue)
+              : bValue.localeCompare(aValue)
+          })
+      )
+    }
   }
 }
 
@@ -165,6 +164,38 @@ const UsersPage: FC = () => {
   })
   const popoverAnchor = useRef<HTMLButtonElement | null>(null)
 
+  const [debouncedSearchState, setDebouncedSearch] = useState(
+    filtersState.searchState
+  )
+
+  const updateDebouncedSearchState = useCallback(
+    debounce((searchTerm) => {
+      setDebouncedSearch(searchTerm)
+    }, 300),
+    []
+  )
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      updateDebouncedSearchState(filtersState.searchState)
+    }, 300)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [filtersState.searchState, updateDebouncedSearchState])
+
+  const filteredData = useMemo(() => {
+    return filterFunc(data)(
+      filtersState.currentFilter.id,
+      filtersState.currentFilter.state
+    )(debouncedSearchState)
+  }, [
+    data,
+    debouncedSearchState,
+    filtersState.currentFilter.id,
+    filtersState.currentFilter.state,
+  ])
   const toggleFilter = (id: Filters['currentFilter']['id']) => {
     setFilters((prev) => ({
       searchState: prev.searchState,
@@ -174,21 +205,6 @@ const UsersPage: FC = () => {
       },
     }))
   }
-
-  const filteredData = useMemo(
-    () =>
-      filterFunc(data)(
-        filtersState.searchState,
-        filtersState.currentFilter.id,
-        filtersState.currentFilter.state
-      ),
-    [
-      data,
-      filtersState.searchState,
-      filtersState.currentFilter.id,
-      filtersState.currentFilter.state,
-    ]
-  )
 
   if (loading) {
     return (
