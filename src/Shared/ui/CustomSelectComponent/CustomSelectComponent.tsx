@@ -1,13 +1,14 @@
-import {InputLabel} from '@mui/material'
+import {InputLabel, SelectChangeEvent} from '@mui/material'
 import {CustomFormControl, CustomMenuItem, CustomSelect} from './StyledElement'
 import {useTranslation} from 'react-i18next'
 import {FC} from 'react'
 
 interface CustomSelectComponentProps {
   value: string
-  onChange: (event: React.ChangeEvent<{value: unknown}>) => void
+  onChange: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void
   options: {value: string; label: string}[]
   label: string
+  disabled?: boolean
 }
 
 const CustomSelectComponent: FC<CustomSelectComponentProps> = ({
@@ -15,10 +16,11 @@ const CustomSelectComponent: FC<CustomSelectComponentProps> = ({
   onChange,
   options,
   label,
+  disabled,
 }) => {
   const {t} = useTranslation()
   return (
-    <CustomFormControl fullWidth>
+    <CustomFormControl fullWidth disabled={disabled}>
       <InputLabel id="custom-select-label">{t(label)}</InputLabel>
       <CustomSelect
         labelId="custom-select-label"

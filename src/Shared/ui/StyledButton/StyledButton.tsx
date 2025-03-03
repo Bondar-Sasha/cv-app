@@ -19,6 +19,8 @@ const StyledButton = styled(Button)<StyledButtonProps>(({theme, variant}) => ({
   padding: theme.spacing(2),
   fontSize: '16px',
   borderRadius: '40px',
+  borderColor:
+    variant === 'outlined' ? theme.palette.text.secondary : 'transparent',
   textAlign: 'center',
   '&:hover': {
     backgroundColor:

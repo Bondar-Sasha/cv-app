@@ -4,9 +4,13 @@ import {useTranslation} from 'react-i18next'
 
 interface StyledButtonWrapperProps {
   title: string
+  onClick?: () => void
 }
 
-const StyledButtonWrapper: FC<StyledButtonWrapperProps> = ({title}) => {
+const StyledButtonWrapper: FC<StyledButtonWrapperProps> = ({
+  title,
+  onClick,
+}) => {
   const {t} = useTranslation()
   return (
     <StyledButton
@@ -16,6 +20,7 @@ const StyledButtonWrapper: FC<StyledButtonWrapperProps> = ({title}) => {
         borderColor: theme.palette.text.secondary,
       })}
       variant={title === 'Confirm' ? 'contained' : 'outlined'}
+      onClick={onClick}
     >
       {t(title)}
     </StyledButton>

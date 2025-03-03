@@ -1,16 +1,17 @@
 import {CustomSelectComponent} from '@/Shared'
 import {LanguageOptions} from './Options'
 import {useTranslation} from 'react-i18next'
+import {SelectChangeEvent} from '@mui/material'
 
 const LanguageChange = () => {
   const {i18n} = useTranslation()
 
-  const changeLanguage = async (lng) => {
+  const changeLanguage = async (lng: string) => {
     await i18n.changeLanguage(lng)
   }
 
-  const handleChangeLanguage = async (e) => {
-    await changeLanguage(e.target.value)
+  const handleChangeLanguage = async (event: SelectChangeEvent<unknown>) => {
+    await changeLanguage(event.target.value as string)
   }
   return (
     <>

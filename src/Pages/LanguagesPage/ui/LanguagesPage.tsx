@@ -9,7 +9,7 @@ const LanguagesPage = () => {
   return (
     <InnerWrapper>
       <StyledButton>
-        <AddIcon style={{marginRight: '8px'}} /> {t('Add skill')}
+        <AddIcon style={{marginRight: '8px'}} /> {t('Add language')}
       </StyledButton>
     </InnerWrapper>
   )

@@ -1,5 +1,5 @@
 import { AllThemes, useThemeContext, ThemeContext } from "./ThemeProvider";
-import {useUser, UserContext, UserProvider} from "./UserProvider";
+import { getUser } from "./getUser";
 
 export type {AllThemes}
-export {useThemeContext, ThemeContext, UserContext, useUser, UserProvider}
+export {useThemeContext, ThemeContext, getUser}

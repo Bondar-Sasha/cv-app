@@ -6,6 +6,7 @@ import {AppRouterMap} from '@/Shared'
 import {
   Auth,
   ChangePassword,
+  LanguagesPage,
   ResetPassword,
   SettingsPage,
   SkillsPage,
@@ -65,7 +66,7 @@ const AppRoutes: FC = () => {
           <Route path={departments.path} element={<>departments</>} />
           <Route path={positions.path} element={<>positions</>} />
           <Route path={skills.path} element={<SkillsPage />} />
-          <Route path={languages.path} element={<>languages</>} />
+          <Route path={languages.path} element={<LanguagesPage />} />
           <Route path={settings.path} element={<SettingsPage />} />
         </Route>
 

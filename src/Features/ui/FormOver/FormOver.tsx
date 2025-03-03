@@ -11,48 +11,70 @@ import {
   Title,
 } from './StyledComponents'
 import StyledButtonWrapper from './StyledButtonWrapper'
-import {FC} from 'react'
+import {FC, useState} from 'react'
+import {SelectChangeEvent} from '@mui/material'
 
-export const ThemeOptions = [
-  {value: 'Skill', label: 'Skill'},
+export const SkillMasteryOptions = [
   {value: 'Novice', label: 'Novice'},
+  {value: 'Advanced', label: 'Advanced'},
+  {value: 'Competent', label: 'Competent'},
+  {value: 'Proficient', label: 'Proficient'},
+  {value: 'Expert', label: 'Expert'},
 ]
+
+export const SkillOptions = [{value: 'JavaScript', label: 'JavaScript'}]
 
 interface FormOverProps {
   onClose: () => void
+  title: string
 }
 
-const FormOver: FC<FormOverProps> = ({onClose}) => {
+const FormOver: FC<FormOverProps> = ({onClose, title}) => {
   const {t} = useTranslation()
+  const [skillMaster, setSkillMaster] = useState('Novice')
+  const [skill, setSkill] = useState('')
 
   const handleClose = () => {
     onClose()
   }
 
-  const handleChangeLanguage = () => {}
+  const handleChangeSkill = (event: SelectChangeEvent<unknown>) => {
+    const value = event.target.value as string
+    setSkill(value)
+  }
+  const handleChangeSkillMastery = (event: SelectChangeEvent<unknown>) => {
+    const value = event.target.value as string
+    setSkillMaster(value)
+  }
 
   return createPortal(
-    <Overlay>
-      <FormBox as="form">
+    <Overlay onClick={handleClose}>
+      <FormBox
+        as="form"
+        onClick={(e) => {
+          e.stopPropagation()
+        }}
+      >
         <Form>
           <CloseButton aria-label="close" onClick={handleClose}>
             <CloseIcon />
           </CloseButton>
-          <Title variant="h2">{t('Add skill')}</Title>
+          <Title variant="h2">{t(title)}</Title>
           <CustomSelectComponent
-            value="Skill"
-            onChange={handleChangeLanguage}
-            options={ThemeOptions}
+            value={skill}
+            onChange={handleChangeSkill}
+            options={SkillOptions}
             label="Skill"
           />
           <CustomSelectComponent
-            value="Novice"
-            onChange={handleChangeLanguage}
-            options={ThemeOptions}
+            disabled={!skill}
+            value={skillMaster}
+            onChange={handleChangeSkillMastery}
+            options={SkillMasteryOptions}
             label="Skill mastery"
           />
           <ButtonContainer>
-            <StyledButtonWrapper title="Cancel" />
+            <StyledButtonWrapper onClick={handleClose} title="Cancel" />
             <StyledButtonWrapper title="Confirm" />
           </ButtonContainer>
         </Form>
