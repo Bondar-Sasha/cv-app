@@ -15,12 +15,12 @@ import {
 import SearchIcon from '@mui/icons-material/Search'
 import {useTranslation} from 'react-i18next'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
+
 import {useUsers} from '../api'
-import {AppRouterMap, CircleProgress, EnvUserLogo} from '@/Shared'
-import {useNavigate} from 'react-router-dom'
+import {CircleProgress} from '@/Shared'
 import {PreparedUser} from '../api/useUsers'
+import UsersList from './UsersList'
 
 const CustomTextField = styled(TextField)(({theme}) => ({
   zIndex: 100,
@@ -67,8 +67,10 @@ const CustomTable = styled(Table)({
 
 const CustomThCell = styled(TableCell)({
   cursor: 'pointer',
+  paddingRight: 0,
   border: 'none',
 })
+
 const CustomTdCell = styled(TableCell)({
   textOverflow: 'ellipsis',
   border: 'none',
@@ -146,7 +148,6 @@ const filterFunc = (data?: PreparedUser[]) => {
 }
 
 const UsersPage: FC = () => {
-  const navigate = useNavigate()
   const {data, loading} = useUsers()
   const {t} = useTranslation()
   const [popoverState, setPopover] = useState<boolean>(false)
@@ -176,14 +177,19 @@ const UsersPage: FC = () => {
         filtersState.currentFilter.id,
         filtersState.currentFilter.state
       ),
-    [data, filtersState]
+    [
+      data,
+      filtersState.searchState,
+      filtersState.currentFilter.id,
+      filtersState.currentFilter.state,
+    ]
   )
 
   if (loading) {
     return (
       <Box
         width="100%"
-        height="300px"
+        height="50%"
         display="flex"
         alignItems="center"
         justifyContent="center"
@@ -197,12 +203,12 @@ const UsersPage: FC = () => {
     return (
       <Box
         width="100%"
-        height="300px"
+        height="50%"
         display="flex"
         alignItems="center"
         justifyContent="center"
       >
-        There are no users
+        {t('There are no users')}
       </Box>
     )
   }
@@ -269,12 +275,11 @@ const UsersPage: FC = () => {
           </TableRow>
         </Box>
         <TableBody>
-          <TableRow style={{height: '73px'}}>
+          <Box component={TableRow} height="73px">
             <CustomTdCell colSpan={6}>
               <CustomIconButton
                 ref={popoverAnchor}
                 onClick={() => setPopover((prev) => !prev)}
-                aria-label="More options"
               >
                 <MoreVertIcon />
               </CustomIconButton>
@@ -290,52 +295,8 @@ const UsersPage: FC = () => {
                 <span>The content of the Popover.</span>
               </Popover>
             </CustomTdCell>
-          </TableRow>
-          {filteredData.map(
-            ({
-              id,
-              first_name,
-              last_name,
-              email,
-              department,
-              position,
-              avatar,
-            }) => (
-              <TableRow key={id} style={{height: '73px'}}>
-                <CustomTdCell>
-                  {avatar ? (
-                    <Box
-                      component="img"
-                      src={avatar}
-                      alt="User Avatar"
-                      style={{
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '20px',
-                      }}
-                    />
-                  ) : (
-                    <EnvUserLogo latter={email[0]} />
-                  )}
-                </CustomTdCell>
-                <CustomTdCell>{first_name}</CustomTdCell>
-                <CustomTdCell>{last_name}</CustomTdCell>
-                <CustomTdCell>{email}</CustomTdCell>
-                <CustomTdCell>{department}</CustomTdCell>
-                <CustomTdCell>{position}</CustomTdCell>
-                <CustomTdCell>
-                  <CustomIconButton
-                    onClick={() => {
-                      void navigate(AppRouterMap.userProfile.path(id))
-                    }}
-                    aria-label={`Go to profile of ${first_name} ${last_name}`}
-                  >
-                    <ArrowForwardIosIcon />
-                  </CustomIconButton>
-                </CustomTdCell>
-              </TableRow>
-            )
-          )}
+          </Box>
+          <UsersList listData={filteredData} />
         </TableBody>
       </CustomTable>
     </>
