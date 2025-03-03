@@ -1,15 +1,26 @@
-import {FC, useState} from 'react'
-import {Box, IconButton, InputAdornment, styled, TextField} from '@mui/material'
+import {FC, useMemo, useRef, useState} from 'react'
+import {
+  Box,
+  IconButton,
+  InputAdornment,
+  styled,
+  TextField,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Popover,
+} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import {useTranslation} from 'react-i18next'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import {Table, TableHead, TableBody, TableRow, TableCell} from '@mui/material'
-
 import {useUsers} from '../api'
 import {AppRouterMap, CircleProgress, EnvUserLogo} from '@/Shared'
 import {useNavigate} from 'react-router-dom'
+import {PreparedUser} from '../api/useUsers'
 
 const CustomTextField = styled(TextField)(({theme}) => ({
   zIndex: 100,
@@ -32,13 +43,42 @@ const CustomTextField = styled(TextField)(({theme}) => ({
   },
 }))
 
-const CustomCell = styled(TableCell)({
-  cursor: 'pointer',
+const CustomTable = styled(Table)({
+  background: 'inherit',
+  '@media (max-width: 1260px)': {
+    '& :is(td, th):nth-last-of-type(3)': {
+      display: 'none',
+    },
+    '& :is(td, th):nth-last-of-type(2)': {
+      display: 'none',
+    },
+  },
+  '@media (max-width: 1080px)': {
+    '& :is(td, th):nth-last-of-type(4)': {
+      display: 'none',
+    },
+  },
+  '@media (max-width: 480px)': {
+    '& :is(td, th):nth-last-of-type(5)': {
+      display: 'none',
+    },
+  },
 })
+
+const CustomThCell = styled(TableCell)({
+  cursor: 'pointer',
+  border: 'none',
+})
+const CustomTdCell = styled(TableCell)({
+  textOverflow: 'ellipsis',
+  border: 'none',
+  maxWidth: '300px',
+})
+
 const CustomIconButton = styled(IconButton)({
   zIndex: 0,
   '& .MuiSvgIcon-root': {
-    fontSize: '16px',
+    fontSize: '14px',
     zIndex: 0,
   },
 })
@@ -46,7 +86,7 @@ const CustomIconButton = styled(IconButton)({
 interface Filters {
   searchState: string
   currentFilter: {
-    id: 'firstName' | 'lastName' | 'email' | 'department' | 'position'
+    id: 'first_name' | 'last_name' | 'email' | 'department' | 'position'
     state: boolean
   }
 }
@@ -57,8 +97,8 @@ interface THeadItem {
 }
 
 const THeadItems: THeadItem[] = [
-  {id: 'firstName', label: 'First Name'},
-  {id: 'lastName', label: 'Last Name'},
+  {id: 'first_name', label: 'First Name'},
+  {id: 'last_name', label: 'Last Name'},
   {id: 'email', label: 'Email'},
   {id: 'department', label: 'Department'},
   {id: 'position', label: 'Position'},
@@ -79,31 +119,65 @@ const CustomArrow = styled(ArrowUpwardIcon, {
   transform: arrowState ? 'rotate(0deg)' : 'rotate(180deg)',
 }))
 
+const filterFunc = (data?: PreparedUser[]) => {
+  return (
+    str: string,
+    curFilter: Filters['currentFilter']['id'],
+    filterState: boolean
+  ): PreparedUser[] | null | undefined => {
+    return (
+      data &&
+      data
+        .filter(
+          (user) =>
+            (user.first_name || '').includes(str) ||
+            (user.last_name || '').includes(str)
+        )
+        .sort((a, b) => {
+          const aValue = a[curFilter]?.toLowerCase() || ''
+          const bValue = b[curFilter]?.toLowerCase() || ''
+
+          return filterState
+            ? aValue.localeCompare(bValue)
+            : bValue.localeCompare(aValue)
+        })
+    )
+  }
+}
+
 const UsersPage: FC = () => {
   const navigate = useNavigate()
   const {data, loading} = useUsers()
   const {t} = useTranslation()
-
+  const [popoverState, setPopover] = useState<boolean>(false)
   const [filtersState, setFilters] = useState<Filters>({
     searchState: '',
     currentFilter: {
-      id: 'firstName',
+      id: 'first_name',
       state: false,
     },
   })
+  const popoverAnchor = useRef<HTMLButtonElement | null>(null)
 
   const toggleFilter = (id: Filters['currentFilter']['id']) => {
-    setFilters({
-      searchState: filtersState.searchState,
+    setFilters((prev) => ({
+      searchState: prev.searchState,
       currentFilter: {
         id,
-        state:
-          filtersState.currentFilter.id === id
-            ? !filtersState.currentFilter.state
-            : true,
+        state: prev.currentFilter.id === id ? !prev.currentFilter.state : true,
       },
-    })
+    }))
   }
+
+  const filteredData = useMemo(
+    () =>
+      filterFunc(data)(
+        filtersState.searchState,
+        filtersState.currentFilter.id,
+        filtersState.currentFilter.state
+      ),
+    [data, filtersState]
+  )
 
   if (loading) {
     return (
@@ -118,7 +192,8 @@ const UsersPage: FC = () => {
       </Box>
     )
   }
-  if (!data) {
+
+  if (!filteredData) {
     return (
       <Box
         width="100%"
@@ -147,7 +222,7 @@ const UsersPage: FC = () => {
           variant="outlined"
           value={filtersState.searchState}
           onChange={(e) =>
-            setFilters({...filtersState, searchState: e.target.value})
+            setFilters((prev) => ({...prev, searchState: e.target.value}))
           }
           placeholder="Search..."
           slotProps={{
@@ -162,7 +237,7 @@ const UsersPage: FC = () => {
         />
       </Box>
 
-      <Box component={Table} bgcolor="inherit">
+      <CustomTable>
         <Box
           component={TableHead}
           position="sticky"
@@ -172,12 +247,13 @@ const UsersPage: FC = () => {
           bgcolor="inherit"
         >
           <TableRow>
-            <TableCell width="80px"></TableCell>
+            <CustomTdCell width="80px"></CustomTdCell>
             {THeadItems.map((item) => (
-              <CustomCell
+              <CustomThCell
                 align="left"
                 key={item.id}
                 onClick={() => toggleFilter(item.id)}
+                aria-label={`Sort by ${item.label}`}
               >
                 <span>{t(item.label)}</span>
                 <CustomArrow
@@ -187,67 +263,81 @@ const UsersPage: FC = () => {
                       : null
                   }
                 />
-              </CustomCell>
+              </CustomThCell>
             ))}
-            <TableCell width="80px"></TableCell>
+            <CustomTdCell width="80px"></CustomTdCell>
           </TableRow>
         </Box>
         <TableBody>
           <TableRow style={{height: '73px'}}>
-            <TableCell>
-              <EnvUserLogo latter={'d'} />
-            </TableCell>
-            <TableCell>{'dwdw'}</TableCell>
-            <TableCell>{'dwdw'}</TableCell>
-            <TableCell>{'dwdw'}</TableCell>
-            <TableCell>{'dwdw'}</TableCell>
-            <TableCell>{'dwdw'}</TableCell>
-            <TableCell>
-              {
-                <CustomIconButton>
-                  <MoreVertIcon />
-                </CustomIconButton>
-              }
-            </TableCell>
+            <CustomTdCell colSpan={6}>
+              <CustomIconButton
+                ref={popoverAnchor}
+                onClick={() => setPopover((prev) => !prev)}
+                aria-label="More options"
+              >
+                <MoreVertIcon />
+              </CustomIconButton>
+              <Popover
+                anchorEl={popoverAnchor.current}
+                open={popoverState}
+                onClose={() => setPopover(false)}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+              >
+                <span>The content of the Popover.</span>
+              </Popover>
+            </CustomTdCell>
           </TableRow>
-          {data.users.map(({id, ...user}) => (
-            <TableRow key={id} style={{height: '73px'}}>
-              <TableCell>
-                {user.profile.avatar ? (
-                  <Box
-                    component="img"
-                    src={user.profile.avatar}
-                    alt="User Avatar"
-                    style={{
-                      width: '40px',
-                      height: '40px',
-                      borderRadius: '20px',
-                    }}
-                  ></Box>
-                ) : (
-                  <EnvUserLogo latter={user.email[0]} />
-                )}
-              </TableCell>
-              <TableCell>{user.profile.first_name}</TableCell>
-              <TableCell>{user.profile.last_name}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>{user.department?.name}</TableCell>
-              <TableCell>{user.position?.name}</TableCell>
-              <TableCell>
-                {
+          {filteredData.map(
+            ({
+              id,
+              first_name,
+              last_name,
+              email,
+              department,
+              position,
+              avatar,
+            }) => (
+              <TableRow key={id} style={{height: '73px'}}>
+                <CustomTdCell>
+                  {avatar ? (
+                    <Box
+                      component="img"
+                      src={avatar}
+                      alt="User Avatar"
+                      style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '20px',
+                      }}
+                    />
+                  ) : (
+                    <EnvUserLogo latter={email[0]} />
+                  )}
+                </CustomTdCell>
+                <CustomTdCell>{first_name}</CustomTdCell>
+                <CustomTdCell>{last_name}</CustomTdCell>
+                <CustomTdCell>{email}</CustomTdCell>
+                <CustomTdCell>{department}</CustomTdCell>
+                <CustomTdCell>{position}</CustomTdCell>
+                <CustomTdCell>
                   <CustomIconButton
                     onClick={() => {
-                      void navigate(AppRouterMap.userProfile.path(443))
+                      void navigate(AppRouterMap.userProfile.path(id))
                     }}
+                    aria-label={`Go to profile of ${first_name} ${last_name}`}
                   >
                     <ArrowForwardIosIcon />
                   </CustomIconButton>
-                }
-              </TableCell>
-            </TableRow>
-          ))}
+                </CustomTdCell>
+              </TableRow>
+            )
+          )}
         </TableBody>
-      </Box>
+      </CustomTable>
     </>
   )
 }
