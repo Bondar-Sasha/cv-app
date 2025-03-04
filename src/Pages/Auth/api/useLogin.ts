@@ -1,13 +1,13 @@
-import { gql, useLazyQuery } from "@apollo/client";
-import type { AuthInput, AuthResult } from "cv-graphql";
+import {gql, useLazyQuery} from '@apollo/client'
+import type {AuthInput, AuthResult} from 'cv-graphql'
 
 export type LoginArgs = {
-  auth: AuthInput;
-};
+  auth: AuthInput
+}
 
 export type LoginResult = {
-  login: AuthResult;
-};
+  login: AuthResult
+}
 
 export const LOGIN = gql`
   query Login($auth: AuthInput!) {
@@ -20,8 +20,17 @@ export const LOGIN = gql`
       refresh_token
     }
   }
-`;
+`
 
 export const useLogin = () => {
-  return useLazyQuery<LoginResult, LoginArgs>(LOGIN)
+  const loginHandlers = useLazyQuery<LoginResult, LoginArgs>(LOGIN)
+  const loginFetchingData = loginHandlers[1]
+  if (!loginFetchingData.loading && loginFetchingData.data) {
+    localStorage.setItem(
+      'refreshToken',
+      loginFetchingData.data.login.refresh_token
+    )
+    localStorage.setItem('userId', loginFetchingData.data.login.user.id)
+  }
+  return loginHandlers
 }
