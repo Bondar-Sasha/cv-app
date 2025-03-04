@@ -5,7 +5,8 @@ import {createContext, FC, useState} from 'react'
 import {EditBox, ResponsiveButtonBox} from './StyledComponents'
 import SkillsPart from './SkillsPart'
 import WrapperButton from './WrapperButton'
-import {FormOver} from '@/Features'
+import {filterData} from '@/Pages/SkillsPage/ui/SkillsPage'
+import {TransformedSkill} from '@/Pages/SkillsPage/model/addCategoryAndProficiencyToUserSkills'
 
 export interface Skill {
   name: string
@@ -19,7 +20,10 @@ export interface SkillPart {
 }
 
 export interface AllSkillsProps {
-  dataObject: SkillPart[]
+  dataObject: filterData[]
+  dataForSelect: TransformedSkill[]
+  formOpen: () => void
+  deleteFunc: (edit: Set<string>) => void
 }
 
 interface EditContextProps {
@@ -27,26 +31,17 @@ interface EditContextProps {
   setIsEdit: React.Dispatch<React.SetStateAction<boolean>>
   edit: Set<string>
   setEdit: React.Dispatch<React.SetStateAction<Set<string>>>
+  formOpen: () => void
 }
 
 export const EditContext = createContext<EditContextProps | undefined>(
   undefined
 )
 
-const AllSkills: FC<AllSkillsProps> = ({dataObject}) => {
+const AllSkills: FC<AllSkillsProps> = ({dataObject, formOpen, deleteFunc}) => {
   const {t} = useTranslation()
-  const [open, setOpen] = useState(false)
-
   const [edit, setEdit] = useState<Set<string>>(new Set())
   const [isEdit, setIsEdit] = useState(false)
-
-  const handleOpen = () => {
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
 
   const handleDelete = () => {
     setIsEdit(!isEdit)
@@ -57,12 +52,16 @@ const AllSkills: FC<AllSkillsProps> = ({dataObject}) => {
     setEdit(new Set())
   }
 
+  const handleDeleteSkills = () => {
+    deleteFunc(edit)
+    handleCancel()
+  }
+
   return (
-    <EditContext.Provider value={{edit, setEdit, isEdit, setIsEdit}}>
+    <EditContext.Provider value={{edit, setEdit, isEdit, setIsEdit, formOpen}}>
       {dataObject.map((elem) => (
-        <SkillsPart key={elem.id} data={elem} />
+        <SkillsPart key={elem.category} data={elem} />
       ))}
-      {open && <FormOver onClose={handleClose} title="Add skill" />}
 
       <ResponsiveButtonBox>
         {isEdit ? (
@@ -70,14 +69,18 @@ const AllSkills: FC<AllSkillsProps> = ({dataObject}) => {
             <WrapperButton variant="outlined" onClick={handleCancel}>
               {t('Cancel')}
             </WrapperButton>
-            <WrapperButton disabled={!edit.size} variant="contained">
+            <WrapperButton
+              disabled={!edit.size}
+              variant="contained"
+              onClick={handleDeleteSkills}
+            >
               {t('Delete')}
               {edit.size > 0 && <EditBox>{edit.size}</EditBox>}
             </WrapperButton>
           </>
         ) : (
           <>
-            <WrapperButton onClick={handleOpen}>
+            <WrapperButton onClick={formOpen}>
               <AddIcon style={{marginRight: '14px'}} /> {t('Add skill')}
             </WrapperButton>
             <WrapperButton color="rgb(198, 48, 49)" onClick={handleDelete}>

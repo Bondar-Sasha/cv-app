@@ -7,10 +7,10 @@ import {
 } from './StyledComponents'
 import SkillItem from './SkillItem'
 import {Typography} from '@mui/material'
-import {SkillPart} from './AllSkills'
+import {filterData} from '@/Pages/SkillsPage/ui/SkillsPage'
 
 interface SkillPartProps {
-  data: SkillPart
+  data: filterData
 }
 
 const SkillsPart: FC<SkillPartProps> = ({data}) => {
@@ -18,13 +18,13 @@ const SkillsPart: FC<SkillPartProps> = ({data}) => {
   return (
     <SkillsWarpper>
       <Typography variant="h6" fontSize={'1rem'}>
-        {t(data.part)}
+        {t(data.category)}
       </Typography>
 
       <SkillItemWarpper>
-        {data.elements.map((elem) => (
+        {data.technologies.map((elem) => (
           <ResponsiveBox key={elem.name}>
-            <SkillItem name={elem.name} proficiency={elem.size} />
+            <SkillItem name={elem.name} proficiency={elem.proficiency} />
           </ResponsiveBox>
         ))}
       </SkillItemWarpper>

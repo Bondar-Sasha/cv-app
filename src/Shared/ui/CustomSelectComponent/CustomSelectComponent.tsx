@@ -1,4 +1,4 @@
-import {InputLabel, SelectChangeEvent} from '@mui/material'
+import {InputLabel, SelectChangeEvent, useTheme} from '@mui/material'
 import {CustomFormControl, CustomMenuItem, CustomSelect} from './StyledElement'
 import {useTranslation} from 'react-i18next'
 import {FC} from 'react'
@@ -19,6 +19,7 @@ const CustomSelectComponent: FC<CustomSelectComponentProps> = ({
   disabled,
 }) => {
   const {t} = useTranslation()
+  const theme = useTheme()
   return (
     <CustomFormControl fullWidth disabled={disabled}>
       <InputLabel id="custom-select-label">{t(label)}</InputLabel>
@@ -28,12 +29,35 @@ const CustomSelectComponent: FC<CustomSelectComponentProps> = ({
         value={value}
         label={t(label)}
         onChange={onChange}
+        MenuProps={{
+          PaperProps: {
+            style: {
+              maxHeight: 350,
+              overflowY: 'auto',
+            },
+          },
+        }}
       >
-        {options.map((option) => (
-          <CustomMenuItem key={option.value} value={option.value}>
-            {t(option.label)}
-          </CustomMenuItem>
-        ))}
+        {options.map((option) => {
+          const isNumber = !isNaN(option.value)
+          return (
+            <CustomMenuItem
+              key={crypto.randomUUID()}
+              value={option.value}
+              style={{
+                position: isNumber ? 'sticky' : 'static',
+                backgroundColor: isNumber ? '#f0f0f0' : 'inherit',
+                color: isNumber ? theme.palette.error.main : 'inherit',
+                top: isNumber ? 0 : 'auto',
+                padding: isNumber ? '20px 15px' : '13px 30px',
+                fontSize: isNumber ? '15px' : '18px',
+                cursor: isNumber ? 'default' : 'pointer',
+              }}
+            >
+              {t(option.label)}
+            </CustomMenuItem>
+          )
+        })}
       </CustomSelect>
     </CustomFormControl>
   )

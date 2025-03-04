@@ -3,42 +3,96 @@ import {useTranslation} from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
 import {InnerWrapper} from '../../ui/StyledComponents'
 import {AllSkills, FormOver} from '@/Features'
-import {useGetSkills} from '../api/getSkills'
 import {getUser} from '@/App'
 import {toast} from 'react-toastify'
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
+import {useAddUserSkill} from '../api/useAddUserSkill'
+import useSkillsData from '../model/useSkillsData'
+import {useDeleteUserSkill} from '../api/useDeleteSkill'
+import {TransformedArray} from '@/Features/ui/FormOver/FormOver'
+import {Mastery} from 'cv-graphql'
 
-// Add load data
+interface techno {
+  category: string
+  categoryId: string
+  mastery: string
+  name: string
+  proficiency: number
+}
 
-const skillsObject = [
-  {
-    id: 0,
-    part: 'Programming languages',
-    elements: [
-      {name: 'JavaScript', size: 20},
-      {name: 'TypeScript', size: 40},
-      {name: 'Node', size: 60},
-    ],
-  },
-  {
-    id: 1,
-    part: 'Frontend',
-    elements: [
-      {name: 'HTML5', size: 20},
-      {name: 'CSS3', size: 80},
-      {name: 'React', size: 100},
-    ],
-  },
-]
+export interface filterData {
+  category: string
+  technologies: [techno]
+}
+
+export type FiltersTechnologies = filterData
 
 const SkillsPage = () => {
   const {t} = useTranslation()
   const user = getUser()
-  const {loading, error, data} = useGetSkills(user.id)
-
   const [open, setOpen] = useState(false)
 
-  const handleClick = () => {
+  const [
+    mutateAddSkill,
+    {data: AddSkillData, loading: AddSkillLoading, error: AddSkillError},
+  ] = useAddUserSkill()
+
+  const [
+    mutateDeleteSkill,
+    {loading: DeleteSkillLoading, error: DeleteSkillError},
+  ] = useDeleteUserSkill()
+
+  const {
+    error,
+    groupedData,
+    loading,
+    transformedSkills,
+    userSkillsData,
+    refetch,
+  } = useSkillsData(user.id)
+
+  const handleDeleteSkill = async (arr: Set<string>) => {
+    try {
+      await mutateDeleteSkill({
+        variables: {
+          skill: {
+            userId: user.id,
+            name: [...arr],
+          },
+        },
+      })
+      toast.success('Skill was removed')
+      await refetch()
+    } catch {
+      toast.error(DeleteSkillError?.message)
+    }
+  }
+
+  const handleAddSkill = async (
+    transformArray: TransformedArray[],
+    skill: string,
+    skillMaster: string
+  ) => {
+    const techno = transformArray.filter((elem) => elem.label === skill)
+    try {
+      await mutateAddSkill({
+        variables: {
+          skill: {
+            name: skill,
+            mastery: skillMaster as Mastery,
+            userId: user.id,
+            categoryId: techno[0].id,
+          },
+        },
+      })
+      handleClose()
+      toast.success('Skill was added')
+    } catch {
+      toast.error(AddSkillError?.message)
+    }
+  }
+
+  const handleOpen = () => {
     setOpen(true)
   }
 
@@ -46,26 +100,40 @@ const SkillsPage = () => {
     setOpen(false)
   }
 
-  useEffect(() => {
-    if (error) {
-      toast(error.message)
-    }
-  }, [error])
+  if (AddSkillData) {
+    void refetch()
+  }
 
-  if (loading) {
+  if (error) {
+    toast(error.message)
+  }
+
+  if (loading || DeleteSkillLoading || AddSkillLoading) {
     return <LoaderBackdrop loading />
   }
 
   return (
     <InnerWrapper>
-      {open && <FormOver onClose={handleClose} title="Add skill" />}
+      {open && (
+        <FormOver
+          dataForSelect={transformedSkills}
+          onClose={handleClose}
+          title="Add skill"
+          addFunc={handleAddSkill}
+        />
+      )}
 
-      {data?.user.profile.skills.length === 0 ? (
-        <StyledButton onClick={handleClick}>
+      {userSkillsData?.length === 0 ? (
+        <StyledButton onClick={handleOpen}>
           <AddIcon style={{marginRight: '8px'}} /> {t('Add skill')}
         </StyledButton>
       ) : (
-        <AllSkills dataObject={skillsObject} />
+        <AllSkills
+          formOpen={handleOpen}
+          dataForSelect={transformedSkills}
+          dataObject={groupedData}
+          deleteFunc={handleDeleteSkill}
+        />
       )}
     </InnerWrapper>
   )

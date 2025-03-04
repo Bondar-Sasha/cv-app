@@ -1,7 +1,6 @@
 import {Box, Typography} from '@mui/material'
 import {FC, useContext, useEffect, useState} from 'react'
 import {SkillBar, SkillBarFilled, SkillItemButton} from './StyledComponents'
-import {FormOver} from '@/Features'
 import {EditContext} from './AllSkills'
 
 export interface SkillItemProps {
@@ -10,7 +9,6 @@ export interface SkillItemProps {
 }
 
 const SkillItem: FC<SkillItemProps> = ({name, proficiency}) => {
-  const [open, setOpen] = useState(false)
   const context = useContext(EditContext)
   const [transform, setTransform] = useState(false)
   const [reverseTransform, setReverseTransform] = useState(false)
@@ -40,17 +38,12 @@ const SkillItem: FC<SkillItemProps> = ({name, proficiency}) => {
         return newSet
       })
     } else {
-      setOpen(true)
+      context?.formOpen()
     }
   }
 
-  const handleClose = () => {
-    setOpen(false)
-  }
   return (
     <SkillItemButton onClick={handleClick}>
-      {open && <FormOver onClose={handleClose} title="Update skill" />}
-
       <Box display="flex" alignItems="center">
         <SkillBar
           proficiency={proficiency}
