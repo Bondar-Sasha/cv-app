@@ -1,34 +1,22 @@
-import {FC, memo} from 'react'
-import {Box, TableRow, TableCell, styled, IconButton} from '@mui/material'
-import {useNavigate} from 'react-router-dom'
-import {useTranslation} from 'react-i18next'
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import {FC, memo, RefObject} from 'react'
+import {useVirtualizer} from '@tanstack/react-virtual'
 
 import {PreparedUser} from '../api/useUsers'
-import {AppRouterMap, EnvUserLogo} from '@/Shared'
+import UserRow from './UserRow'
 
 interface UsersListProps {
   listData?: PreparedUser[] | null
+  parentRef: RefObject<HTMLTableSectionElement>
 }
 
-const CustomTdCell = styled(TableCell)({
-  textOverflow: 'ellipsis',
-  border: 'none',
-  maxWidth: '300px',
-})
-
-const CustomIconButton = styled(IconButton)({
-  zIndex: 0,
-  '& .MuiSvgIcon-root': {
-    fontSize: '14px',
-    zIndex: 0,
-  },
-})
-
 const UsersList: FC<UsersListProps> = memo(
-  ({listData}) => {
-    const navigate = useNavigate()
-    const {t} = useTranslation()
+  ({listData, parentRef}) => {
+    const rowVirtualizer = useVirtualizer({
+      count: listData?.length || 0,
+      getScrollElement: () => parentRef.current,
+      estimateSize: () => 73,
+      overscan: 5,
+    })
 
     if (!listData) {
       return null
@@ -36,48 +24,17 @@ const UsersList: FC<UsersListProps> = memo(
 
     return (
       <>
-        {listData.map(
-          ({
-            id,
-            first_name,
-            last_name,
-            email,
-            department,
-            position,
-            avatar,
-          }) => (
-            <Box component={TableRow} key={id} height="73px">
-              <CustomTdCell>
-                {avatar ? (
-                  <Box
-                    component="img"
-                    src={avatar}
-                    alt="User Avatar"
-                    width="40px"
-                    height="40px"
-                    borderRadius="20px"
-                  />
-                ) : (
-                  <EnvUserLogo latter={email[0]} />
-                )}
-              </CustomTdCell>
-              <CustomTdCell>{t(first_name)}</CustomTdCell>
-              <CustomTdCell>{t(last_name)}</CustomTdCell>
-              <CustomTdCell>{t(email)}</CustomTdCell>
-              <CustomTdCell>{department && t(department)}</CustomTdCell>
-              <CustomTdCell>{position && t(position)}</CustomTdCell>
-              <CustomTdCell>
-                <CustomIconButton
-                  onClick={() => {
-                    void navigate(AppRouterMap.userProfile.path(id))
-                  }}
-                >
-                  <ArrowForwardIosIcon />
-                </CustomIconButton>
-              </CustomTdCell>
-            </Box>
+        {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+          const {department, position, ...userInf} = listData[virtualRow.index]
+          return (
+            <UserRow
+              {...userInf}
+              key={userInf.id}
+              department={department || ''}
+              position={position || ''}
+            />
           )
-        )}
+        })}
       </>
     )
   },

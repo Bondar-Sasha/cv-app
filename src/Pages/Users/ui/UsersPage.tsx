@@ -154,6 +154,7 @@ const UsersPage: FC = () => {
   const {data, loading} = useUsers()
   const {t} = useTranslation()
   const navigate = useNavigate()
+  const tbodyRef = useRef<HTMLTableSectionElement | null>(null)
   const [popoverState, setPopover] = useState<boolean>(false)
   const [filtersState, setFilters] = useState<Filters>({
     searchState: '',
@@ -281,7 +282,7 @@ const UsersPage: FC = () => {
             <CustomTdCell width="80px"></CustomTdCell>
           </TableRow>
         </Box>
-        <TableBody>
+        <TableBody ref={tbodyRef}>
           <Box component={TableRow} height="73px">
             <CustomTdCell colSpan={6}>
               <CustomIconButton
@@ -320,7 +321,7 @@ const UsersPage: FC = () => {
               </Popover>
             </CustomTdCell>
           </Box>
-          <UsersList listData={filteredData} />
+          <UsersList listData={filteredData} parentRef={tbodyRef} />
         </TableBody>
       </CustomTable>
     </>
