@@ -11,6 +11,9 @@ import useSkillsData from '../model/useSkillsData'
 import {useDeleteUserSkill} from '../api/useDeleteSkill'
 import {TransformedArray} from '@/Features/ui/FormOver/FormOver'
 import {Mastery} from 'cv-graphql'
+import {useUpdateUserSkill} from '../api/useUpdateSkills'
+import {MasteryOptions} from '../utilits/MasteryOptions'
+import useFormData from '../model/useFormData'
 
 interface techno {
   category: string
@@ -30,17 +33,15 @@ export type FiltersTechnologies = filterData
 const SkillsPage = () => {
   const {t} = useTranslation()
   const user = getUser()
-  const [open, setOpen] = useState(false)
+  const [openAdd, setOpen] = useState(false)
 
-  const [
-    mutateAddSkill,
-    {data: AddSkillData, loading: AddSkillLoading, error: AddSkillError},
-  ] = useAddUserSkill()
+  const [mutateAddSkill, {data: AddSkillData, error: AddSkillError}] =
+    useAddUserSkill()
 
-  const [
-    mutateDeleteSkill,
-    {loading: DeleteSkillLoading, error: DeleteSkillError},
-  ] = useDeleteUserSkill()
+  const [mutateDeleteSkill, {error: DeleteSkillError}] = useDeleteUserSkill()
+
+  const [mutateUpdateSkill, {data: UpdateSkillData, error: UpdateSkillError}] =
+    useUpdateUserSkill()
 
   const {
     error,
@@ -68,12 +69,16 @@ const SkillsPage = () => {
     }
   }
 
-  const handleAddSkill = async (
-    transformArray: TransformedArray[],
-    skill: string,
-    skillMaster: string
-  ) => {
-    const techno = transformArray.filter((elem) => elem.label === skill)
+  const transformArray: TransformedArray[] = []
+  transformedSkills.map((elem) => {
+    transformArray.push({value: '0', label: elem.category})
+    transformArray.push(...elem.technologies)
+  })
+
+  const handleAddSkill = async (skill: string, skillMaster: string) => {
+    const techno = formData.firstSelectOptions.filter(
+      (elem) => elem.label === skill
+    )
     try {
       await mutateAddSkill({
         variables: {
@@ -92,15 +97,35 @@ const SkillsPage = () => {
     }
   }
 
-  const handleOpen = () => {
-    setOpen(true)
+  const handleUpdateSkill = async (skill: string, skillMaster: string) => {
+    const techno = formData.firstSelectOptions.filter(
+      (elem) => elem.label === skill
+    )
+    try {
+      await mutateUpdateSkill({
+        variables: {
+          skill: {
+            name: skill,
+            mastery: skillMaster as Mastery,
+            userId: user.id,
+            categoryId: techno[0].id,
+          },
+        },
+      })
+      handleClose()
+      toast.success('Skill was updated')
+    } catch {
+      toast.error(UpdateSkillError?.message)
+    }
   }
+
+  const {formData, handleOpenAdd, handleOpenEdit} = useFormData(transformArray)
 
   const handleClose = () => {
     setOpen(false)
   }
 
-  if (AddSkillData) {
+  if (AddSkillData || UpdateSkillData) {
     void refetch()
   }
 
@@ -108,28 +133,47 @@ const SkillsPage = () => {
     toast(error.message)
   }
 
-  if (loading || DeleteSkillLoading || AddSkillLoading) {
+  if (loading) {
     return <LoaderBackdrop loading />
   }
 
   return (
     <InnerWrapper>
-      {open && (
+      {openAdd && (
         <FormOver
-          dataForSelect={transformedSkills}
           onClose={handleClose}
-          title="Add skill"
-          addFunc={handleAddSkill}
+          title={formData.title}
+          mutateFunc={
+            formData.title.includes('Add') ? handleAddSkill : handleUpdateSkill
+          }
+          firstSelectValue={formData.firstSelectValue}
+          firstSelectOptions={formData.firstSelectOptions}
+          firstSelectTitle={formData.firstSelectTitle}
+          secondSelectValue={formData.secondSelectValue}
+          secondSelectOptions={MasteryOptions}
+          secondSelectTitle={formData.secondSelectTitle}
         />
       )}
 
       {userSkillsData?.length === 0 ? (
-        <StyledButton onClick={handleOpen}>
+        <StyledButton
+          onClick={() => {
+            handleOpenAdd()
+            setOpen(true)
+          }}
+        >
           <AddIcon style={{marginRight: '8px'}} /> {t('Add skill')}
         </StyledButton>
       ) : (
         <AllSkills
-          formOpen={handleOpen}
+          formOpenAdd={() => {
+            handleOpenAdd()
+            setOpen(true)
+          }}
+          formOpen={(objData, mastery) => {
+            handleOpenEdit(objData, mastery)
+            setOpen(true)
+          }}
           dataForSelect={transformedSkills}
           dataObject={groupedData}
           deleteFunc={handleDeleteSkill}

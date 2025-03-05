@@ -24,7 +24,13 @@ const SkillsPart: FC<SkillPartProps> = ({data}) => {
       <SkillItemWarpper>
         {data.technologies.map((elem) => (
           <ResponsiveBox key={elem.name}>
-            <SkillItem name={elem.name} proficiency={elem.proficiency} />
+            <SkillItem
+              name={elem.name}
+              proficiency={elem.proficiency}
+              mastery={elem.mastery}
+              categoryId={elem.categoryId}
+              category={data.category}
+            />
           </ResponsiveBox>
         ))}
       </SkillItemWarpper>

@@ -31,6 +31,6 @@ const StyledButton = styled(Button)<StyledButtonProps>(({theme, variant}) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-}))
+})) as typeof Button
 
 export default StyledButton

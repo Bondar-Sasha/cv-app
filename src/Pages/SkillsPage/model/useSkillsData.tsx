@@ -2,13 +2,13 @@ import {useCallback, useEffect, useState} from 'react'
 import {
   addCategoryAndProficiencyToUserSkills,
   TransformedSkill,
-} from './addCategoryAndProficiencyToUserSkills'
+} from '../utilits/addCategoryAndProficiencyToUserSkills'
 import {useGetSkillsCategories} from '../api/useGetSkillsCategories'
 import {useGetSkills} from '../api/useGetSkills'
-import {groupByCategory} from './groupByCategory'
+import {groupByCategory} from '../utilits/groupByCategory'
 import {Skill} from 'cv-graphql'
 import {FiltersTechnologies} from '../ui/SkillsPage'
-import {removeTechnologyByName} from './removeTechnologyByName'
+import {removeTechnologyByName} from '../utilits/removeTechnologyByName'
 
 interface Technology {
   value: string

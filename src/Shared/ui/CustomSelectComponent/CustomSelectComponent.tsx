@@ -39,7 +39,7 @@ const CustomSelectComponent: FC<CustomSelectComponentProps> = ({
         }}
       >
         {options.map((option) => {
-          const isNumber = !isNaN(option.value)
+          const isNumber = !isNaN(Number(option.value))
           return (
             <CustomMenuItem
               key={crypto.randomUUID()}

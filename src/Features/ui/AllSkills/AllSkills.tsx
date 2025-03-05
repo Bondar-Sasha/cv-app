@@ -6,7 +6,7 @@ import {EditBox, ResponsiveButtonBox} from './StyledComponents'
 import SkillsPart from './SkillsPart'
 import WrapperButton from './WrapperButton'
 import {filterData} from '@/Pages/SkillsPage/ui/SkillsPage'
-import {TransformedSkill} from '@/Pages/SkillsPage/model/addCategoryAndProficiencyToUserSkills'
+import {TransformedArray} from '../FormOver/FormOver'
 
 export interface Skill {
   name: string
@@ -21,8 +21,9 @@ export interface SkillPart {
 
 export interface AllSkillsProps {
   dataObject: filterData[]
-  dataForSelect: TransformedSkill[]
-  formOpen: () => void
+  dataForSelect: Array<unknown>
+  formOpen: (objData: TransformedArray, mastery: string) => void
+  formOpenAdd: () => void
   deleteFunc: (edit: Set<string>) => void
 }
 
@@ -31,14 +32,19 @@ interface EditContextProps {
   setIsEdit: React.Dispatch<React.SetStateAction<boolean>>
   edit: Set<string>
   setEdit: React.Dispatch<React.SetStateAction<Set<string>>>
-  formOpen: () => void
+  formOpen: (objData: TransformedArray, mastery: string) => void
 }
 
 export const EditContext = createContext<EditContextProps | undefined>(
   undefined
 )
 
-const AllSkills: FC<AllSkillsProps> = ({dataObject, formOpen, deleteFunc}) => {
+const AllSkills: FC<AllSkillsProps> = ({
+  dataObject,
+  formOpen,
+  formOpenAdd,
+  deleteFunc,
+}) => {
   const {t} = useTranslation()
   const [edit, setEdit] = useState<Set<string>>(new Set())
   const [isEdit, setIsEdit] = useState(false)
@@ -80,7 +86,7 @@ const AllSkills: FC<AllSkillsProps> = ({dataObject, formOpen, deleteFunc}) => {
           </>
         ) : (
           <>
-            <WrapperButton onClick={formOpen}>
+            <WrapperButton onClick={formOpenAdd}>
               <AddIcon style={{marginRight: '14px'}} /> {t('Add skill')}
             </WrapperButton>
             <WrapperButton color="rgb(198, 48, 49)" onClick={handleDelete}>

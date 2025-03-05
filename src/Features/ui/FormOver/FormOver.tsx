@@ -13,18 +13,17 @@ import {
 import StyledButtonWrapper from './StyledButtonWrapper'
 import {FC, useState} from 'react'
 import {SelectChangeEvent} from '@mui/material'
-import {TransformedSkill} from '@/Pages/SkillsPage/model/addCategoryAndProficiencyToUserSkills'
-import {MasteryOptions} from './model/MasteryOptions'
 
 interface FormOverProps {
   onClose: () => void
   title: string
-  dataForSelect: TransformedSkill[]
-  addFunc: (
-    transformArray: TransformedArray[],
-    skill: string,
-    skillMaster: string
-  ) => void
+  mutateFunc: (skill: string, skillMaster: string) => void
+  firstSelectValue: string
+  firstSelectOptions: TransformedArray[]
+  firstSelectTitle: string
+  secondSelectValue: string
+  secondSelectOptions: {value: string; label: string}[]
+  secondSelectTitle: string
 }
 
 export interface TransformedArray {
@@ -37,37 +36,36 @@ export interface TransformedArray {
 const FormOver: FC<FormOverProps> = ({
   onClose,
   title,
-  addFunc,
-  dataForSelect,
+  mutateFunc,
+  firstSelectValue,
+  firstSelectOptions,
+  firstSelectTitle,
+  secondSelectValue,
+  secondSelectOptions,
+  secondSelectTitle,
 }) => {
   const {t} = useTranslation()
-  const [skillMaster, setSkillMaster] = useState('Novice')
-  const [skill, setSkill] = useState('')
-
-  const transformArray: TransformedArray[] = []
-  dataForSelect.map((elem) => {
-    transformArray.push({value: '0', label: elem.category})
-    transformArray.push(...elem.technologies)
-  })
+  const [firstSelects, setFirstSelects] = useState(firstSelectValue)
+  const [secondSelects, setSecondSelects] = useState(secondSelectValue)
 
   const handleClose = () => {
     onClose()
   }
 
-  const handleChangeSkill = (event: SelectChangeEvent<unknown>) => {
+  const handleChangeFirstSelect = (event: SelectChangeEvent<unknown>) => {
     const value = event.target.value as string
     if (!isNaN(Number(value))) {
       return
     }
-    setSkill(value)
+    setFirstSelects(value)
   }
-  const handleChangeSkillMastery = (event: SelectChangeEvent<unknown>) => {
+  const handleChangeSecondSelect = (event: SelectChangeEvent<unknown>) => {
     const value = event.target.value as string
-    setSkillMaster(value)
+    setSecondSelects(value)
   }
 
-  const handleAddSkill = () => {
-    addFunc(transformArray, skill, skillMaster)
+  const handleMutateData = () => {
+    mutateFunc(firstSelects, secondSelects)
   }
 
   return createPortal(
@@ -85,25 +83,26 @@ const FormOver: FC<FormOverProps> = ({
           <Title variant="h2">{t(title)}</Title>
 
           <CustomSelectComponent
-            value={skill}
-            onChange={handleChangeSkill}
-            options={transformArray}
-            label="Skill"
+            disabled={!!title.includes('Update')}
+            value={firstSelects}
+            onChange={handleChangeFirstSelect}
+            options={firstSelectOptions}
+            label={firstSelectTitle}
           />
 
           <CustomSelectComponent
-            disabled={!skill}
-            value={skillMaster}
-            onChange={handleChangeSkillMastery}
-            options={MasteryOptions}
-            label="Skill mastery"
+            disabled={!firstSelects}
+            value={secondSelects}
+            onChange={handleChangeSecondSelect}
+            options={secondSelectOptions}
+            label={secondSelectTitle}
           />
           <ButtonContainer>
             <StyledButtonWrapper onClick={handleClose} title="Cancel" />
             <StyledButtonWrapper
-              disabled={!skill}
+              disabled={!firstSelects}
               title="Confirm"
-              onClick={() => void handleAddSkill()}
+              onClick={() => void handleMutateData()}
             />
           </ButtonContainer>
         </Form>
