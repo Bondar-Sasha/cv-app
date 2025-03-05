@@ -14,7 +14,7 @@ interface CustomTextFieldProps {
   type: string
   autoComplete: string
   placeholder: string
-  register: UseFormRegister<Record<string, unknown>>
+  register: UseFormRegister<any>
   errors: FieldErrors
   icon?: React.ReactNode
 }

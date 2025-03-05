@@ -14,6 +14,9 @@ export const LOGIN = gql`
     login(auth: $auth) {
       user {
         id
+        profile {
+          full_name
+        }
         email
       }
       access_token

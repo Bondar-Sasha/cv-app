@@ -1,14 +1,12 @@
-import {useEffect} from 'react'
 import {useLogin} from '../api/useLogin'
 import AuthForm from '../ui/AuthForm'
-import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {AuthLayout} from '@/Features'
 import {AppRouterMap} from '@/Shared'
+import useSetUserData from './useSetUserData'
 
 const LoginPage = () => {
   const [mutateLogin, {data, loading}] = useLogin()
-  const navigate = useNavigate()
 
   const handleLogIn = (email: string, password: string) => {
     mutateLogin({
@@ -23,13 +21,7 @@ const LoginPage = () => {
     })
   }
 
-  useEffect(() => {
-    if (data?.login) {
-      localStorage.setItem('access_token', data.login.access_token)
-      localStorage.setItem('refresh_token', data.login.refresh_token)
-      void navigate(AppRouterMap.users.path)
-    }
-  }, [data, navigate])
+  useSetUserData(data?.login)
 
   return (
     <AuthLayout

@@ -1,7 +1,7 @@
 export const LanguageOptions = [
     {value: 'en', label: 'English'},
     {value: 'de', label: 'Deutsch'},
-    {value: 'ru-RU', label: 'Русский'},
+    {value: 'ru', label: 'Русский'},
 ]
 
 export const ThemeOptions = [

@@ -25,8 +25,9 @@ export const CustomMenuItem = styled(MenuItem)(({theme}) => ({
     backgroundColor: theme.palette.mode === 'light' ? 'rgba(198, 48, 49, 0.12) !important' : 'rgba(198, 48, 49, 0.24) !important',
   },
   '&:hover': {
-    backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.08)',
+    backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.04) !important' : 'rgba(255, 255, 255, 0.08) !important',
   },
+  
 }))
 
 export const CustomSelect = styled(Select)<SelectProps>(({theme}) => ({
