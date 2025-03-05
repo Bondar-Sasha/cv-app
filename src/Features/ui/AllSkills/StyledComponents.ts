@@ -32,7 +32,6 @@ export const SkillsWarpper = styled(Box)({
 export const SkillItemWarpper = styled(Box)({
   display: 'flex',
   flexWrap: 'wrap',
-  justifyContent: 'space-between',
 })
 
 export const SkillItemButton = styled(Button)(({theme}) => ({
