@@ -1,5 +1,7 @@
+import {OneUserLayout} from '@/Features'
+
 const UserLanguagesPage = () => {
-  return <div></div>
+  return <OneUserLayout path="languages" page={<div>User Languages</div>} />
 }
 
 export default UserLanguagesPage
