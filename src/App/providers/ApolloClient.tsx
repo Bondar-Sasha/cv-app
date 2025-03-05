@@ -9,17 +9,15 @@ const httpLink = new HttpLink({
   },
 })
 
-const authLink = setContext(
-  (_, {headers = {}}: {headers?: Record<string, string>}) => {
-    const token = localStorage.getItem('access_token')
+const authLink = (token?: string) =>
+  setContext((_, {headers = {}}: {headers?: Record<string, string>}) => {
     return {
       headers: {
         ...headers,
         authorization: token ? `Bearer ${token}` : '',
       },
     }
-  }
-)
+  })
 
 const errorLink = onError(({graphQLErrors, networkError, protocolErrors}) => {
   if (graphQLErrors)
@@ -37,9 +35,11 @@ const errorLink = onError(({graphQLErrors, networkError, protocolErrors}) => {
 
   if (networkError) console.error(`[Network error]: ${networkError}`)
 })
+export const preparedApolloLink = (token?: string) =>
+  authLink(token).concat(httpLink).concat(errorLink)
 
 export const client = new ApolloClient({
-  link: authLink.concat(httpLink).concat(errorLink),
+  link: preparedApolloLink(),
   headers: {
     'Content-Type': 'application/json',
   },

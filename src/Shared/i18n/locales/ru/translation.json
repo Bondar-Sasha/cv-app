@@ -8,7 +8,7 @@
   "Hello again! Log in to continue": "Рады вас видеть! Войдите, чтобы продолжить",
   "Email": "Почта",
   "Password": "Пароль",
-  "Log in" : "Войти",
+  "Log in": "Войти",
   "Forgot password": "Забыли пароль",
   "Sign up": "Создать",
   "Register now": "Зарегистрируйтесь",
@@ -23,7 +23,7 @@
   "New password": "Новый пароль",
   "Submit": "Отправить",
   "Back to log in": "Вернуться",
-  "Employees":  "Сотрудники",
+  "Employees": "Сотрудники",
   "Skills": "Навыки",
   "Languages": "Языки",
   "CVs": "Резюме",
@@ -46,7 +46,7 @@
   "Add language": "Добавить язык",
   "Remove languages": "Удалить языки",
   "Skill mastery": "Уровень владения",
-  "Confirm": "Подтвердить" ,
+  "Confirm": "Подтвердить",
   "Language proficiency": "Владение языком",
   "Update language": "Обновить язык",
   "Programming languages": "Языки программирования",
@@ -88,4 +88,4 @@
   "Category": "Категория",
   "Logout": "Выйти",
   "Skill": "Навык"
-} 
+}

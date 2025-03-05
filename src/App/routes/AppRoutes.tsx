@@ -10,6 +10,7 @@ import {
   ResetPassword,
   SettingsPage,
   SkillsPage,
+  UsersPage,
 } from '@/Pages'
 import {CommonPageLayout} from '@/Widgets'
 
@@ -51,7 +52,7 @@ const AppRoutes: FC = () => {
           }
         >
           <Route index element={<Navigate to="/users" replace />} />
-          <Route path={users.path} element={<>users</>} />
+          <Route path={users.path} element={<UsersPage />} />
           <Route path={userProfile.path()} element={<>user profile</>} />
           <Route path={userSkills.path()} element={<>user skills</>} />
           <Route path={userLanguages.path()} element={<>user lang</>} />
