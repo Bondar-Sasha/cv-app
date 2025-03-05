@@ -169,12 +169,11 @@ const UsersPage: FC = () => {
     filtersState.searchState
   )
 
-  const updateDebouncedSearchState = useCallback(
-    debounce((searchTerm) => {
+  const updateDebouncedSearchState = useCallback((searchTerm: string) => {
+    debounce(() => {
       setDebouncedSearch(searchTerm)
-    }, 300),
-    []
-  )
+    }, 300)()
+  }, [])
 
   useEffect(() => {
     const handler = setTimeout(() => {
