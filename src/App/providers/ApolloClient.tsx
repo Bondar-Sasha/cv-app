@@ -1,4 +1,4 @@
-import {ApolloClient, InMemoryCache, HttpLink} from '@apollo/client'
+import {ApolloClient, InMemoryCache, HttpLink, ApolloLink} from '@apollo/client'
 import {setContext} from '@apollo/client/link/context'
 import {onError} from '@apollo/client/link/error'
 
@@ -9,7 +9,7 @@ const httpLink = new HttpLink({
   },
 })
 
-const authLink = (token?: string) =>
+const authLink = (token?: string | null) =>
   setContext((_, {headers = {}}: {headers?: Record<string, string>}) => {
     return {
       headers: {
@@ -35,11 +35,11 @@ const errorLink = onError(({graphQLErrors, networkError, protocolErrors}) => {
 
   if (networkError) console.error(`[Network error]: ${networkError}`)
 })
-export const preparedApolloLink = (token?: string) =>
-  authLink(token).concat(httpLink).concat(errorLink)
+export const preparedApolloLink = (token?: string | null) =>
+  ApolloLink.from([authLink(token), errorLink, httpLink])
 
 export const client = new ApolloClient({
-  link: preparedApolloLink(),
+  link: preparedApolloLink(localStorage.getItem('refreshToken')),
   headers: {
     'Content-Type': 'application/json',
   },

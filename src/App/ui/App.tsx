@@ -19,7 +19,9 @@ const App: FC = () => {
   const {isFetching, accessToken} = useTokens()
 
   useEffect(() => {
-    client.setLink(preparedApolloLink(accessToken))
+    if (accessToken) {
+      client.setLink(preparedApolloLink(accessToken))
+    }
   }, [accessToken])
 
   return isFetching ? (
