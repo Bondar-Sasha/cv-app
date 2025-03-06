@@ -3,10 +3,9 @@ import {toast} from 'react-toastify'
 import AuthForm from '../ui/AuthForm'
 import {AuthLayout} from '@/Features'
 import {AppRouterMap} from '@/Shared'
-import useSetUserData from './useSetUserData'
 
 const SignupPage = () => {
-  const [mutateSignup, {data, loading}] = useSignup()
+  const [mutateSignup, {loading}] = useSignup()
 
   const handleSignUp = (email: string, password: string) => {
     mutateSignup({
@@ -20,8 +19,6 @@ const SignupPage = () => {
       console.error(error)
     })
   }
-
-  useSetUserData(data?.signup)
 
   return (
     <AuthLayout
