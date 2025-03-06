@@ -39,9 +39,10 @@ export const preparedApolloLink = (token?: string | null) =>
   ApolloLink.from([authLink(token), errorLink, httpLink])
 
 export const client = new ApolloClient({
-  link: preparedApolloLink(localStorage.getItem('refreshToken')),
+  link: preparedApolloLink(),
   headers: {
     'Content-Type': 'application/json',
   },
+
   cache: new InMemoryCache(),
 })

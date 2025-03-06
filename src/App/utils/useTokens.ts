@@ -1,21 +1,21 @@
-import {gql, useLazyQuery, useMutation} from '@apollo/client'
+import {
+  gql,
+  useApolloClient,
+  useLazyQuery,
+  useMutation,
+  useReactiveVar,
+} from '@apollo/client'
 import {useCallback, useEffect, useState} from 'react'
 import {UpdateTokenResult, User} from 'cv-graphql'
 
-import {client, preparedApolloLink} from '../providers/ApolloClient'
+import {preparedApolloLink} from '../providers/ApolloClient'
+import {reactiveRefreshToken, USER} from '@/Shared'
 
 const UPDATE_TOKENS = gql`
   mutation UpdateToken {
     updateToken {
       refresh_token
       access_token
-    }
-  }
-`
-const USER = gql`
-  query User($userId: ID!) {
-    user(userId: $userId) {
-      id
     }
   }
 `
@@ -29,23 +29,27 @@ interface GetUserArgs {
 interface ReceivedUser {
   user: User
 }
+const userId = localStorage.getItem('userId')
 
 export const useTokens = () => {
+  const client = useApolloClient()
+
+  const refreshToken = useReactiveVar(reactiveRefreshToken)
+
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const [getTokens, {data: tokensData}] = useMutation<Tokens>(UPDATE_TOKENS, {
-    client,
     fetchPolicy: 'no-cache',
   })
 
-  const [getUser] = useLazyQuery<ReceivedUser, GetUserArgs>(USER, {client})
+  const [getUser] = useLazyQuery<ReceivedUser, GetUserArgs>(USER)
 
   const handleGetTokens = useCallback(async () => {
     try {
-      const refreshToken = localStorage.getItem('refreshToken')
       if (!refreshToken) {
         return
       }
+      client.setLink(preparedApolloLink(refreshToken))
       const {data} = await getTokens()
       if (!data) {
         return
@@ -57,13 +61,11 @@ export const useTokens = () => {
       localStorage.removeItem('refreshToken')
       console.error(error)
     }
-  }, [getTokens])
+  }, [client, getTokens, refreshToken])
 
   useEffect(() => {
     void (async () => {
       try {
-        const userId = localStorage.getItem('userId')
-
         if (!userId) {
           return
         }
@@ -75,7 +77,6 @@ export const useTokens = () => {
         }
         client.setLink(preparedApolloLink(accessToken))
         const {data} = await getUser({
-          client,
           variables: {userId: userId as string | number},
         })
         if (!data) {
@@ -89,7 +90,7 @@ export const useTokens = () => {
         setIsLoading(false)
       }
     })()
-  }, [getUser, handleGetTokens])
+  }, [client, getUser, handleGetTokens])
 
   const refetchTokens = useCallback(() => {
     handleGetTokens().catch((error) => console.error(error))
