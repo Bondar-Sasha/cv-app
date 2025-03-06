@@ -77,6 +77,7 @@ export const useTokens = () => {
         }
         client.setLink(preparedApolloLink(accessToken))
         const {data} = await getUser({
+          fetchPolicy: 'network-only',
           variables: {userId: userId as string | number},
         })
         if (!data) {
