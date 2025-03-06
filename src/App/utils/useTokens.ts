@@ -1,5 +1,5 @@
 import {gql, useLazyQuery, useMutation} from '@apollo/client'
-import {useEffect, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {UpdateTokenResult, User} from 'cv-graphql'
 
 import {client, preparedApolloLink} from '../providers/ApolloClient'
@@ -31,45 +31,73 @@ interface ReceivedUser {
 }
 
 export const useTokens = () => {
-  const userId = localStorage.getItem('userId')
-  const refreshToken = localStorage.getItem('refreshToken')
-
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const [getTokens, {data: tokensData}] = useMutation<Tokens>(UPDATE_TOKENS, {
     client,
+    fetchPolicy: 'no-cache',
   })
 
   const [getUser] = useLazyQuery<ReceivedUser, GetUserArgs>(USER, {client})
 
-  useEffect(() => {
-    const fetchTokens = async () => {
-      if (!userId || !refreshToken) {
+  const handleGetTokens = useCallback(async () => {
+    try {
+      const refreshToken = localStorage.getItem('refreshToken')
+      if (!refreshToken) {
         return
       }
+      const {data} = await getTokens()
+      if (!data) {
+        return
+      }
+      localStorage.setItem('refreshToken', data.updateToken.refresh_token)
+
+      return data.updateToken.access_token
+    } catch (error) {
+      localStorage.removeItem('refreshToken')
+      console.error(error)
+    }
+  }, [getTokens])
+
+  useEffect(() => {
+    void (async () => {
       try {
-        const {data} = await getTokens()
-        if (data) {
-          client.setLink(preparedApolloLink(data.updateToken.access_token))
-          await getUser({
-            client,
-            variables: {userId: userId as string | number},
-          })
+        const userId = localStorage.getItem('userId')
+
+        if (!userId) {
+          return
         }
+        setIsLoading(true)
+        const accessToken = await handleGetTokens()
+
+        if (!accessToken) {
+          return
+        }
+        client.setLink(preparedApolloLink(accessToken))
+        const {data} = await getUser({
+          client,
+          variables: {userId: userId as string | number},
+        })
+        if (!data) {
+          return
+        }
+        localStorage.setItem('userId', data.user.id)
       } catch (error) {
         localStorage.removeItem('userId')
-        localStorage.removeItem('refreshToken')
         console.error(error)
       } finally {
         setIsLoading(false)
       }
-    }
+    })()
+  }, [getUser, handleGetTokens])
 
-    void fetchTokens()
-  }, [getTokens, getUser, refreshToken, userId])
+  const refetchTokens = useCallback(() => {
+    handleGetTokens().catch((error) => console.error(error))
+  }, [handleGetTokens])
 
   return {
     accessToken: tokensData?.updateToken.access_token,
     isFetching: isLoading,
+    refetchTokens,
   }
 }
