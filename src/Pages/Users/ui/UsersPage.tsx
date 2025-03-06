@@ -196,6 +196,7 @@ const UsersPage: FC = () => {
     filtersState.currentFilter.id,
     filtersState.currentFilter.state,
   ])
+
   const toggleFilter = (id: Filters['currentFilter']['id']) => {
     setFilters((prev) => ({
       searchState: prev.searchState,
@@ -221,7 +222,7 @@ const UsersPage: FC = () => {
   }
 
   return (
-    <>
+    <main>
       <Box
         position="sticky"
         top="44px"
@@ -323,7 +324,7 @@ const UsersPage: FC = () => {
           <UsersList listData={filteredData} parentRef={tbodyRef} />
         </TableBody>
       </CustomTable>
-    </>
+    </main>
   )
 }
 

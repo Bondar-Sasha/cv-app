@@ -29,6 +29,10 @@
 }
 
 .main_wrapper {
+  display: grid;
+  gap: 0;
+  grid-template-columns: 1fr;
+  grid-template-rows: 44px auto;
   background-color: inherit;
   overflow-y: auto;
   color: inherit;
@@ -51,6 +55,17 @@
   .main_wrapper {
     padding-left: 44px;
     box-sizing: border-box;
+  }
+  .main_wrapper > header {
+    justify-self: center;
+    width: 100%;
+    max-width: 85vw;
+  }
+  .main_wrapper > main {
+    justify-self: center;
+    background-color: inherit;
+    width: 100%;
+    max-width: 85vw;
   }
   .aside {
     top: 0;
@@ -94,6 +109,10 @@
   }
   .header {
     padding-left: 15px;
+  }
+
+  .main_wrapper > main {
+    background-color: inherit;
   }
 
   .layout_container {
