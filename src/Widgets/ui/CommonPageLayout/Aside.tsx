@@ -14,7 +14,9 @@ interface AsideMarkerProps {
   isPicked: boolean
 }
 
-const AsideMarker = styled('div')<AsideMarkerProps>(({theme, isPicked}) => {
+const AsideMarker = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'isPicked',
+})<AsideMarkerProps>(({theme, isPicked}) => {
   const colorsMap = {
     light: 'rgba(0, 0, 0, 0.04)',
     dark: 'rgba(255, 255, 255, 0.08)',
