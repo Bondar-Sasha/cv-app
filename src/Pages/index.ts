@@ -12,4 +12,5 @@ export * from './CvDetailsPage'
 export * from './CvProjectsPage'
 export * from './CvPreviewPage'
 export * from './Users'
+export * from './CVsPage'
 

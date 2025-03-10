@@ -10,6 +10,7 @@ import {
   CvPreviewPage,
   CvProjectsPage,
   CvSkillsPage,
+  CVsPage,
   LanguagesPage,
   ResetPassword,
   SettingsPage,
@@ -66,7 +67,7 @@ const AppRoutes: FC = () => {
           <Route path={userCVs.path()} element={<>user cvs</>} />
           <Route path={projects.path} element={<>projects</>} />
           <Route path={project.path()} element={<>project details</>} />
-          <Route path={CVs.path} element={<>cvs</>} />
+          <Route path={CVs.path} element={<CVsPage />} />
           <Route path={CVDetails.path()} element={<CvDetailsPage />} />
           <Route path={CVSkills.path()} element={<CvSkillsPage />} />
           <Route path={CVProjects.path()} element={<CvProjectsPage />} />
