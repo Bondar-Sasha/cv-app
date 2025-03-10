@@ -2,12 +2,13 @@ import {FC, isValidElement} from 'react'
 import {Outlet, useLocation, Link} from 'react-router-dom'
 import {BreadcrumbsRoute, getBreadcrumbs} from 'use-react-router-breadcrumbs'
 import CustomLink from '@mui/material/Link'
-import {Box, Breadcrumbs} from '@mui/material'
+import {Breadcrumbs} from '@mui/material'
 import {useTranslation} from 'react-i18next'
 
 import layoutStyles from './styles/layout.module.css'
 import {AppRouterMap} from '@/Shared'
 import Aside from './Aside'
+import {ResponsiveBox} from './preparedUi'
 
 const preparedRoutes: BreadcrumbsRoute[] = Object.keys(AppRouterMap)
   .map((item) => {
@@ -33,13 +34,7 @@ const CommonPageLayout: FC = () => {
   )
 
   return (
-    <Box
-      sx={(theme) => ({
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.background.default,
-      })}
-      className={layoutStyles.layout_container}
-    >
+    <ResponsiveBox>
       <Aside />
       <div className={layoutStyles.main_wrapper}>
         <header className={layoutStyles.header}>
@@ -59,7 +54,7 @@ const CommonPageLayout: FC = () => {
         </header>
         <Outlet />
       </div>
-    </Box>
+    </ResponsiveBox>
   )
 }
 
