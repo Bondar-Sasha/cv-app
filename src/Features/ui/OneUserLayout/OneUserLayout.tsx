@@ -7,11 +7,12 @@ import {AppRouterMap} from '@/Shared'
 export interface OneUserLayoutProps {
   path: HeaderLinks
   page: React.ReactElement
+  sx?: object
 }
 
 export type HeaderLinks = 'profile' | 'skills' | 'languages'
 
-const OneUserLayout: FC<OneUserLayoutProps> = ({path, page}) => {
+const OneUserLayout: FC<OneUserLayoutProps> = ({path, page, sx}) => {
   const links = [
     {
       to: AppRouterMap.userProfile.path(),
@@ -35,7 +36,7 @@ const OneUserLayout: FC<OneUserLayoutProps> = ({path, page}) => {
       <Box sx={{marginLeft: '-27px'}}>
         <StyledLinkList arrLinks={links} />
       </Box>
-      <InnerWrapper>{page}</InnerWrapper>
+      <InnerWrapper sx={sx}>{page}</InnerWrapper>
     </>
   )
 }

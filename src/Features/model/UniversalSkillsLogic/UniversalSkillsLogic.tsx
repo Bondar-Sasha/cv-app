@@ -7,8 +7,9 @@ import {toast} from 'react-toastify'
 import {useState} from 'react'
 import useSkillsData from './hooks/useSkillsData'
 import {TransformedArray} from '@/Features'
-import {MasteryOptions} from './utilits/MasteryOptions'
 import useFormData from './hooks/useFormData'
+import {MasteryOptions} from './utilits/MasteryOptions'
+import useSkillsCvData from './hooks/useSkillsCvData'
 
 interface techno {
   category: string
@@ -26,6 +27,7 @@ export interface filterData {
 export type FiltersTechnologies = filterData
 
 interface UniversalSkillsPageProps {
+  forState: 'cv' | 'skills'
   userId: string
   handleDeleteSkill: (arr: Set<string>) => Promise<void>
   handleAddSkill: (
@@ -41,6 +43,7 @@ interface UniversalSkillsPageProps {
 }
 
 const UniversalSkillsLogic = ({
+  forState,
   userId,
   handleDeleteSkill,
   handleAddSkill,
@@ -49,6 +52,7 @@ const UniversalSkillsLogic = ({
   const {t} = useTranslation()
   const [openAdd, setOpen] = useState(false)
 
+  const skillsHook = forState === 'skills' ? useSkillsData : useSkillsCvData
   const {
     error,
     groupedData,
@@ -56,7 +60,7 @@ const UniversalSkillsLogic = ({
     transformedSkills,
     userSkillsData,
     refetch,
-  } = useSkillsData(userId)
+  } = skillsHook(userId)
 
   const transformArray: TransformedArray[] = []
   transformedSkills.map((elem) => {

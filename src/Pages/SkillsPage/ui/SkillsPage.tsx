@@ -75,6 +75,7 @@ const App = () => {
 
   return (
     <UniversalSkillsLogic
+      forState="skills"
       userId={user.id}
       handleDeleteSkill={handleDeleteSkill}
       handleAddSkill={handleAddSkill}

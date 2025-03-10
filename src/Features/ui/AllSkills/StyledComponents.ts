@@ -2,6 +2,7 @@ import { Box, Button, keyframes, styled } from "@mui/material"
 
 export const ResponsiveBox = styled(Box)(({theme}) => ({
   flexBasis: '33%',
+  minWidth: '220px',
   [theme.breakpoints.down('md')]: {
     flexBasis: '50%',
   },

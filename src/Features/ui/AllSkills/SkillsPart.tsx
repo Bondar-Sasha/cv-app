@@ -7,7 +7,7 @@ import {
 } from './StyledComponents'
 import SkillItem from './SkillItem'
 import {Typography} from '@mui/material'
-import {filterData} from '@/Pages/SkillsPage/ui/SkillsPage'
+import {filterData} from '@/Features/model'
 
 interface SkillPartProps {
   data: filterData

@@ -1,4 +1,3 @@
-import {InnerWrapper} from '@/Pages/ui/StyledComponents'
 import {FC} from 'react'
 import {Box} from '@mui/material'
 import {StyledLinkList} from '@/Widgets'
@@ -40,7 +39,7 @@ const CvLayout: FC<CvLayoutProps> = ({path, page}) => {
       <Box sx={{marginLeft: '-27px'}}>
         <StyledLinkList arrLinks={links} />
       </Box>
-      <InnerWrapper>{page}</InnerWrapper>
+      {page}
     </>
   )
 }

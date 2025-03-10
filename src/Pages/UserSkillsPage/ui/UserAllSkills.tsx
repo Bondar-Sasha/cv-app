@@ -7,6 +7,7 @@ import {toast} from 'react-toastify'
 
 const UserAllSkills = () => {
   const ID = useParams().userId || ''
+
   const {error, groupedData, loading} = useSkillsData(ID)
 
   if (error) {
