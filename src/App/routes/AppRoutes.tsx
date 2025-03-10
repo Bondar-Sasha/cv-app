@@ -17,6 +17,7 @@ import {
   UserLanguagesPage,
   UserProfilePage,
   UserSkillsPage,
+  UsersPage,
 } from '@/Pages'
 import {CommonPageLayout} from '@/Widgets'
 
@@ -58,7 +59,7 @@ const AppRoutes: FC = () => {
           }
         >
           <Route index element={<Navigate to="/users" replace />} />
-          <Route path={users.path} element={<>users</>} />
+          <Route path={users.path} element={<UsersPage />} />
           <Route path={userProfile.path()} element={<UserProfilePage />} />
           <Route path={userSkills.path()} element={<UserSkillsPage />} />
           <Route path={userLanguages.path()} element={<UserLanguagesPage />} />
