@@ -92,7 +92,7 @@ const useSkillsCvData = (userId: string) => {
       const clearObj = removeTechnologyByName(transformed, datas)
       setTransformedSkills(clearObj)
     }
-  }, [AllSkillsData, userSkillsData])
+  }, [AllSkillsData, transformSkills, userSkillsData])
 
   return {
     transformedSkills,

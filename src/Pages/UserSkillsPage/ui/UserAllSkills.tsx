@@ -4,15 +4,18 @@ import {LoaderBackdrop} from '@/Shared'
 import {Box} from '@mui/material'
 import {useParams} from 'react-router-dom'
 import {toast} from 'react-toastify'
+import {useEffect} from 'react'
 
 const UserAllSkills = () => {
   const ID = useParams().userId || ''
 
   const {error, groupedData, loading} = useSkillsData(ID)
 
-  if (error) {
-    toast(error.message)
-  }
+  useEffect(() => {
+    if (error) {
+      toast(error.message)
+    }
+  })
 
   if (loading) {
     return <LoaderBackdrop loading />

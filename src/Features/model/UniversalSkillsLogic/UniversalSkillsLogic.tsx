@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add'
 import {InnerWrapper} from '@/Pages'
 import {AllSkills, FormOver} from '@/Features'
 import {toast} from 'react-toastify'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import useSkillsData from './hooks/useSkillsData'
 import {TransformedArray} from '@/Features'
 import useFormData from './hooks/useFormData'
@@ -52,7 +52,7 @@ const UniversalSkillsLogic = ({
   const {t} = useTranslation()
   const [openAdd, setOpen] = useState(false)
 
-  const skillsHook = forState === 'skills' ? useSkillsData : useSkillsCvData
+  const useSkillsHook = forState === 'skills' ? useSkillsData : useSkillsCvData
   const {
     error,
     groupedData,
@@ -60,7 +60,7 @@ const UniversalSkillsLogic = ({
     transformedSkills,
     userSkillsData,
     refetch,
-  } = skillsHook(userId)
+  } = useSkillsHook(userId)
 
   const transformArray: TransformedArray[] = []
   transformedSkills.map((elem) => {
@@ -81,14 +81,22 @@ const UniversalSkillsLogic = ({
     if (!techno[0].id) {
       techno[0].id = ''
     }
-    await handleAddSkill(skill, skillMaster, techno[0].id)
-    handleClose()
-    await refetch()
+    try {
+      await handleAddSkill(skill, skillMaster, techno[0].id)
+      handleClose()
+      await refetch()
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const handleDelete = async (arr: Set<string>) => {
-    await handleDeleteSkill(arr)
-    await refetch()
+    try {
+      await handleDeleteSkill(arr)
+      await refetch()
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const handleUpdate = async (skill: string, skillMaster: string) => {
@@ -98,14 +106,20 @@ const UniversalSkillsLogic = ({
     if (!techno[0].id) {
       techno[0].id = ''
     }
-    await handleUpdateSkill(skill, skillMaster, techno[0].id)
-    handleClose()
-    await refetch()
+    try {
+      await handleUpdateSkill(skill, skillMaster, techno[0].id)
+      handleClose()
+      await refetch()
+    } catch (err) {
+      console.error(err)
+    }
   }
 
-  if (error) {
-    toast(error.message)
-  }
+  useEffect(() => {
+    if (error) {
+      toast(error.message)
+    }
+  })
 
   if (loading) {
     return <LoaderBackdrop loading />
