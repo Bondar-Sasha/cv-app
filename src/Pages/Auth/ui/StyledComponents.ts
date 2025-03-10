@@ -1,4 +1,4 @@
-import { Box, BoxProps, styled } from "@mui/material"
+import {Box, BoxProps, styled} from '@mui/material'
 
 export const Container = styled(Box)(({theme}) => ({
   height: '100vh',
@@ -29,7 +29,7 @@ export const Content = styled(Box)({
   alignItems: 'center',
 })
 
-export const Wrapper = styled(Box) ({
+export const Wrapper = styled(Box)({
   maxWidth: '43%',
   width: '100%',
   '@media (max-width: 500px)': {

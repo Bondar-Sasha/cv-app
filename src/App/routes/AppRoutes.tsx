@@ -6,10 +6,18 @@ import {AppRouterMap, useUser} from '@/Shared'
 import {
   Auth,
   ChangePassword,
+  CvDetailsPage,
+  CvPreviewPage,
+  CvProjectsPage,
+  CvSkillsPage,
+  CVsPage,
   LanguagesPage,
   ResetPassword,
   SettingsPage,
   SkillsPage,
+  UserLanguagesPage,
+  UserProfilePage,
+  UserSkillsPage,
   UsersPage,
 } from '@/Pages'
 import {CommonPageLayout} from '@/Widgets'
@@ -54,17 +62,17 @@ const AppRoutes: FC = () => {
         >
           <Route index element={<Navigate to="/users" replace />} />
           <Route path={users.path} element={<UsersPage />} />
-          <Route path={userProfile.path()} element={<>user profile</>} />
-          <Route path={userSkills.path()} element={<>user skills</>} />
-          <Route path={userLanguages.path()} element={<>user lang</>} />
+          <Route path={userProfile.path()} element={<UserProfilePage />} />
+          <Route path={userSkills.path()} element={<UserSkillsPage />} />
+          <Route path={userLanguages.path()} element={<UserLanguagesPage />} />
           <Route path={userCVs.path()} element={<>user cvs</>} />
           <Route path={projects.path} element={<>projects</>} />
           <Route path={project.path()} element={<>project details</>} />
-          <Route path={CVs.path} element={<>cvs</>} />
-          <Route path={CVDetails.path()} element={<>cv details</>} />
-          <Route path={CVSkills.path()} element={<>cv skills</>} />
-          <Route path={CVProjects.path()} element={<>cv projects</>} />
-          <Route path={CVPreview.path()} element={<>cv preview</>} />
+          <Route path={CVs.path} element={<CVsPage />} />
+          <Route path={CVDetails.path()} element={<CvDetailsPage />} />
+          <Route path={CVSkills.path()} element={<CvSkillsPage />} />
+          <Route path={CVProjects.path()} element={<CvProjectsPage />} />
+          <Route path={CVPreview.path()} element={<CvPreviewPage />} />
           <Route path={departments.path} element={<>departments</>} />
           <Route path={positions.path} element={<>positions</>} />
           <Route path={skills.path} element={<SkillsPage />} />

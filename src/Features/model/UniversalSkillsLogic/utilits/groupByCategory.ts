@@ -1,4 +1,4 @@
-import { FiltersTechnologies } from "../ui/SkillsPage"
+import { FiltersTechnologies } from "../UniversalSkillsLogic"
 import { UpdatedUserSkills } from "./addCategoryAndProficiencyToUserSkills"
 
 export const groupByCategory = (skills: UpdatedUserSkills[]): FiltersTechnologies[] => {

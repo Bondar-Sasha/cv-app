@@ -13,10 +13,12 @@ interface CustomTextFieldProps {
   name: string
   type: string
   autoComplete: string
-  placeholder: string
+  placeholder?: string
   register: UseFormRegister<any>
   errors: FieldErrors
   icon?: React.ReactNode
+  multiline?: boolean
+  rows?: number
 }
 
 const CustomTextField: React.FC<CustomTextFieldProps> = ({
@@ -29,6 +31,8 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
   register,
   errors,
   icon,
+  multiline,
+  rows,
 }) => {
   const theme = useTheme()
   const redColor = theme.palette.error.main
@@ -48,11 +52,13 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
     <TextField
       variant="outlined"
       margin="normal"
+      multiline={multiline}
+      rows={rows}
       fullWidth
       id={id}
       label={t(label)}
       autoComplete={autoComplete}
-      placeholder={t(placeholder)}
+      placeholder={t(placeholder || '')}
       type={showPassword && isPasswordType ? 'text' : type}
       {...register(name)}
       helperText={errors[name]?.message?.toString()}

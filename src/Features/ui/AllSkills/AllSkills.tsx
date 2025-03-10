@@ -5,7 +5,7 @@ import {createContext, FC, useState} from 'react'
 import {EditBox, ResponsiveButtonBox} from './StyledComponents'
 import SkillsPart from './SkillsPart'
 import WrapperButton from './WrapperButton'
-import {filterData} from '@/Pages/SkillsPage/ui/SkillsPage'
+import {filterData} from '@/Features/model'
 import {TransformedArray} from '../FormOver/FormOver'
 
 export interface Skill {

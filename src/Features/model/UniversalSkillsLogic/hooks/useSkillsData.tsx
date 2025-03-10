@@ -7,7 +7,7 @@ import {useGetSkillsCategories} from '../api/useGetSkillsCategories'
 import {useGetSkills} from '../api/useGetSkills'
 import {groupByCategory} from '../utilits/groupByCategory'
 import {Skill} from 'cv-graphql'
-import {FiltersTechnologies} from '../ui/SkillsPage'
+import {FiltersTechnologies} from '../UniversalSkillsLogic'
 import {removeTechnologyByName} from '../utilits/removeTechnologyByName'
 
 interface Technology {
@@ -92,7 +92,7 @@ const useSkillsData = (userId: string) => {
       const clearObj = removeTechnologyByName(transformed, datas)
       setTransformedSkills(clearObj)
     }
-  }, [AllSkillsData, userSkillsData])
+  }, [AllSkillsData, transformSkills, userSkillsData])
 
   return {
     transformedSkills,
