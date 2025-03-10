@@ -11,6 +11,8 @@ const EnvUserLogo: FC<EnvUserLogoProps> = ({latter}) => {
     <Box
       width="40px"
       height="40px"
+      minWidth="40px"
+      minHeight="40px"
       borderRadius="20px"
       bgcolor="rgb(189, 189, 189)"
       display="flex"

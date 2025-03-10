@@ -1,10 +1,7 @@
-import {FC, useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {FC, useEffect, useMemo, useRef, useState, useTransition} from 'react'
 import {
   Box,
-  IconButton,
   InputAdornment,
-  styled,
-  TextField,
   Table,
   TableHead,
   TableBody,
@@ -16,56 +13,19 @@ import {
 } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import {useTranslation} from 'react-i18next'
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import {useNavigate} from 'react-router-dom'
-import {debounce} from 'lodash'
 
 import {useUsers} from '../api'
 import {CircleProgress, AppRouterMap} from '@/Shared'
 import {PreparedUser} from '../api/useUsers'
 import UsersList from './UsersList'
-
-const CustomTextField = styled(TextField)(({theme}) => ({
-  zIndex: 100,
-  width: '320px',
-  '& .MuiOutlinedInput-root': {
-    borderRadius: '20px',
-    backgroundColor: theme.palette.background.default,
-    '& fieldset': {
-      border: '1px solid rgba(153, 153, 153, 0.5)',
-      borderRadius: '20px',
-    },
-    '&.Mui-focused fieldset': {
-      border: '1px solid rgba(78, 78, 78, 0.5)',
-    },
-  },
-  '& .MuiOutlinedInput-input': {
-    color: theme.palette.text.primary,
-    height: '43px',
-    padding: '0 14px',
-  },
-}))
-
-const CustomThCell = styled(TableCell)({
-  cursor: 'pointer',
-  paddingRight: 0,
-  border: 'none',
-})
-
-const CustomTdCell = styled(TableCell)({
-  textOverflow: 'ellipsis',
-  border: 'none',
-  maxWidth: '300px',
-})
-
-const CustomIconButton = styled(IconButton)({
-  zIndex: 0,
-  '& .MuiSvgIcon-root': {
-    fontSize: '14px',
-    zIndex: 0,
-  },
-})
+import {
+  CustomArrow,
+  CustomIconButton,
+  CustomTdCell,
+  CustomTextField,
+} from './preparedUi'
 
 interface Filters {
   searchState: string
@@ -87,21 +47,6 @@ const THeadItems: THeadItem[] = [
   {id: 'department', label: 'Department'},
   {id: 'position', label: 'Position'},
 ]
-
-interface CustomArrowProps {
-  arrowState: boolean | null
-}
-
-const CustomArrow = styled(ArrowUpwardIcon, {
-  shouldForwardProp: (prop) => prop !== 'arrowState',
-})<CustomArrowProps>(({arrowState}) => ({
-  color: 'inherit',
-  fontSize: '12px',
-  marginLeft: '7px',
-  cursor: 'pointer',
-  visibility: arrowState === null ? 'hidden' : 'visible',
-  transform: arrowState ? 'rotate(0deg)' : 'rotate(180deg)',
-}))
 
 const filterFunc = (data?: PreparedUser[]) => {
   return (curFilter: Filters['currentFilter']['id'], filterState: boolean) => {
@@ -142,26 +87,22 @@ const UsersPage: FC = () => {
     },
   })
   const popoverAnchor = useRef<HTMLButtonElement | null>(null)
-
   const [debouncedSearchState, setDebouncedSearch] = useState(
     filtersState.searchState
   )
-
-  const updateDebouncedSearchState = useCallback((searchTerm: string) => {
-    debounce(() => {
-      setDebouncedSearch(searchTerm)
-    }, 300)()
-  }, [])
+  const [, startTransition] = useTransition()
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      updateDebouncedSearchState(filtersState.searchState)
+      startTransition(() => {
+        setDebouncedSearch(filtersState.searchState)
+      })
     }, 300)
 
     return () => {
       clearTimeout(handler)
     }
-  }, [filtersState.searchState, updateDebouncedSearchState])
+  }, [filtersState.searchState, startTransition])
 
   const filteredData = useMemo(() => {
     return filterFunc(data)(
@@ -205,7 +146,7 @@ const UsersPage: FC = () => {
         <Box
           component={TableHead}
           position="sticky"
-          top="44px"
+          top="0px"
           height="58px"
           zIndex="100"
           bgcolor="inherit"
@@ -239,7 +180,7 @@ const UsersPage: FC = () => {
           <TableRow>
             <CustomTdCell width="80px"></CustomTdCell>
             {THeadItems.map((item) => (
-              <CustomThCell
+              <CustomTdCell
                 align="left"
                 key={item.id}
                 onClick={() => toggleFilter(item.id)}
@@ -253,7 +194,7 @@ const UsersPage: FC = () => {
                       : null
                   }
                 />
-              </CustomThCell>
+              </CustomTdCell>
             ))}
             <CustomTdCell width="80px"></CustomTdCell>
           </TableRow>
@@ -292,7 +233,7 @@ const UsersPage: FC = () => {
                     {t('Profile')}
                   </Button>
                   <Button color="inherit">{t('Update user')}</Button>
-                  <Button color="inherit">{t('Delete user')}</Button>
+                  <Button disabled>{t('Delete user')}</Button>
                 </Box>
               </Popover>
             </CustomTdCell>
