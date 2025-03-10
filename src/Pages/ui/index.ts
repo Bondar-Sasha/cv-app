@@ -1,3 +1,3 @@
-import { InnerWrapper } from "./StyledComponents";
+import {InnerWrapper} from './StyledComponents'
 
 export {InnerWrapper}

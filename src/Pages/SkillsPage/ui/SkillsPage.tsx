@@ -1,13 +1,13 @@
 import {UniversalSkillsLogic} from '@/Features'
-import {getUser} from '@/App'
+import {getCurrentUserID} from '@/App'
 import {useDeleteUserSkill} from '../api/useDeleteSkill'
 import {useAddUserSkill} from '../api/useAddUserSkill'
 import {useUpdateUserSkill} from '../api/useUpdateSkills'
 import {toast} from 'react-toastify'
 import {Mastery} from 'cv-graphql'
 
-const App = () => {
-  const user = getUser()
+const SkillsPage = () => {
+  const userID = getCurrentUserID()
 
   const [mutateAddSkill] = useAddUserSkill()
   const [mutateDeleteSkill] = useDeleteUserSkill()
@@ -18,7 +18,7 @@ const App = () => {
       await mutateDeleteSkill({
         variables: {
           skill: {
-            userId: user.id,
+            userId: userID,
             name: [...arr],
           },
         },
@@ -40,7 +40,7 @@ const App = () => {
           skill: {
             name: skill,
             mastery: skillMaster as Mastery,
-            userId: user.id,
+            userId: userID,
             categoryId: categoryId,
           },
         },
@@ -62,7 +62,7 @@ const App = () => {
           skill: {
             name: skill,
             mastery: skillMaster as Mastery,
-            userId: user.id,
+            userId: userID,
             categoryId: categoryId,
           },
         },
@@ -76,7 +76,7 @@ const App = () => {
   return (
     <UniversalSkillsLogic
       forState="skills"
-      userId={user.id}
+      userId={userID}
       handleDeleteSkill={handleDeleteSkill}
       handleAddSkill={handleAddSkill}
       handleUpdateSkill={handleUpdateSkill}
@@ -84,4 +84,4 @@ const App = () => {
   )
 }
 
-export default App
+export default SkillsPage

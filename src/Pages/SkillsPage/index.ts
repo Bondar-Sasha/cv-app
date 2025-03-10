@@ -1,3 +1,3 @@
-import SkillsPage from "./ui/SkillsPage";
+import SkillsPage from './ui/SkillsPage'
 
 export {SkillsPage}

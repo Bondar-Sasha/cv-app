@@ -1,3 +1,3 @@
-import CvDetailsPage from "./ui/CvDetailsPage";
+import CvDetailsPage from './ui/CvDetailsPage'
 
 export {CvDetailsPage}

@@ -4,7 +4,7 @@ import {SkillBar, SkillBarFilled, SkillItemButton} from './StyledComponents'
 import {EditContext} from './AllSkills'
 import {TransformedArray} from '../FormOver/FormOver'
 import {useParams} from 'react-router-dom'
-import {getUser} from '@/App'
+import {getCurrentUserID} from '@/App'
 
 export interface SkillItemProps {
   name: string
@@ -24,7 +24,7 @@ const SkillItem: FC<SkillItemProps> = ({
   const context = useContext(EditContext)
   const [transform, setTransform] = useState(false)
   const [reverseTransform, setReverseTransform] = useState(false)
-  const myID = getUser().id
+  const myID = getCurrentUserID()
   const ID = useParams().userId ?? myID
 
   const helpTranform = (state: boolean): void => {

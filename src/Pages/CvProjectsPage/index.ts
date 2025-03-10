@@ -1,3 +1,3 @@
-import CvProjectsPage from "./ui/CvProjectsPage";
+import CvProjectsPage from './ui/CvProjectsPage'
 
 export {CvProjectsPage}

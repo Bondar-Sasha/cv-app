@@ -1,3 +1,3 @@
-import UserProfilePage from "./ui/UserProfilePage";
+import UserProfilePage from './ui/UserProfilePage'
 
 export {UserProfilePage}
