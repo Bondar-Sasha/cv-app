@@ -1,16 +1,40 @@
 import {InnerWrapper} from '@/Pages/ui/StyledComponents'
-import HeaderUserPage, {HeaderLinks} from './HeaderUserPage'
 import {FC} from 'react'
+import {Box} from '@mui/material'
+import {StyledLinkList} from '@/Widgets'
+import {AppRouterMap} from '@/Shared'
 
-export interface OneUserLayout {
+export interface OneUserLayoutProps {
   path: HeaderLinks
   page: React.ReactElement
 }
 
-const OneUserLayout: FC<OneUserLayout> = ({path, page}) => {
+export type HeaderLinks = 'profile' | 'skills' | 'languages'
+
+const OneUserLayout: FC<OneUserLayoutProps> = ({path, page}) => {
+  const links = [
+    {
+      to: AppRouterMap.userProfile.path(),
+      label: 'Profile',
+      active: path === 'profile',
+    },
+    {
+      to: AppRouterMap.userSkills.path(),
+      label: 'Skills',
+      active: path === 'skills',
+    },
+    {
+      to: AppRouterMap.userLanguages.path(),
+      label: 'Languages',
+      active: path === 'languages',
+    },
+  ]
+
   return (
     <>
-      <HeaderUserPage path={path} />
+      <Box sx={{marginLeft: '-27px'}}>
+        <StyledLinkList arrLinks={links} />
+      </Box>
       <InnerWrapper>{page}</InnerWrapper>
     </>
   )

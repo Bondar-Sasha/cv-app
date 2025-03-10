@@ -6,6 +6,9 @@ import {AppRouterMap} from '@/Shared'
 import {
   Auth,
   ChangePassword,
+  CvDetailsPage,
+  CvPreviewPage,
+  CvProjectsPage,
   CvSkillsPage,
   LanguagesPage,
   ResetPassword,
@@ -63,10 +66,10 @@ const AppRoutes: FC = () => {
           <Route path={projects.path} element={<>projects</>} />
           <Route path={project.path()} element={<>project details</>} />
           <Route path={CVs.path} element={<>cvs</>} />
-          <Route path={CVDetails.path()} element={<>cv details</>} />
+          <Route path={CVDetails.path()} element={<CvDetailsPage />} />
           <Route path={CVSkills.path()} element={<CvSkillsPage />} />
-          <Route path={CVProjects.path()} element={<>cv projects</>} />
-          <Route path={CVPreview.path()} element={<>cv preview</>} />
+          <Route path={CVProjects.path()} element={<CvProjectsPage />} />
+          <Route path={CVPreview.path()} element={<CvPreviewPage />} />
           <Route path={departments.path} element={<>departments</>} />
           <Route path={positions.path} element={<>positions</>} />
           <Route path={skills.path} element={<SkillsPage />} />

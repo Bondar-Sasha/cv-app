@@ -3,6 +3,8 @@ import {FC, useContext, useEffect, useState} from 'react'
 import {SkillBar, SkillBarFilled, SkillItemButton} from './StyledComponents'
 import {EditContext} from './AllSkills'
 import {TransformedArray} from '../FormOver/FormOver'
+import {useParams} from 'react-router-dom'
+import {getUser} from '@/App'
 
 export interface SkillItemProps {
   name: string
@@ -22,6 +24,8 @@ const SkillItem: FC<SkillItemProps> = ({
   const context = useContext(EditContext)
   const [transform, setTransform] = useState(false)
   const [reverseTransform, setReverseTransform] = useState(false)
+  const myID = getUser().id
+  const ID = useParams().userId ?? myID
 
   const helpTranform = (state: boolean): void => {
     setTransform(state)
@@ -59,7 +63,7 @@ const SkillItem: FC<SkillItemProps> = ({
   }
 
   return (
-    <SkillItemButton onClick={handleClick}>
+    <SkillItemButton onClick={handleClick} disabled={myID !== ID}>
       <Box display="flex" alignItems="center">
         <SkillBar
           proficiency={proficiency}
