@@ -1,13 +1,16 @@
-import { gql, useMutation } from "@apollo/client";
-import type { AuthInput, AuthResult } from "cv-graphql";
+import {gql, useMutation} from '@apollo/client'
+import type {AuthInput, AuthResult} from 'cv-graphql'
+import {useEffect} from 'react'
+
+import {reactiveRefreshToken} from '@/Shared'
 
 export type SignupArgs = {
-  auth: AuthInput;
-};
+  auth: AuthInput
+}
 
 export type SignupResult = {
-  signup: AuthResult;
-};
+  signup: AuthResult
+}
 
 export const SIGNUP = gql`
   mutation Signup($auth: AuthInput!) {
@@ -23,8 +26,24 @@ export const SIGNUP = gql`
       refresh_token
     }
   }
-`;
+`
 
 export const useSignup = () => {
-  return useMutation<SignupResult, SignupArgs>(SIGNUP)
+  const signUpHandlers = useMutation<SignupResult, SignupArgs>(SIGNUP)
+
+  const signUpFetchingData = signUpHandlers[1]
+
+  useEffect(() => {
+    if (!signUpFetchingData.data) {
+      return
+    }
+    reactiveRefreshToken(signUpFetchingData.data.signup.refresh_token)
+    localStorage.setItem(
+      'refreshToken',
+      signUpFetchingData.data.signup.refresh_token
+    )
+    localStorage.setItem('userId', signUpFetchingData.data.signup.user.id)
+  }, [signUpFetchingData.data])
+
+  return signUpHandlers
 }

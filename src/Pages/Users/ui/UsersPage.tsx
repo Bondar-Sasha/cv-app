@@ -47,28 +47,6 @@ const CustomTextField = styled(TextField)(({theme}) => ({
   },
 }))
 
-const CustomTable = styled(Table)({
-  background: 'inherit',
-  '@media (max-width: 1260px)': {
-    '& :is(td, th):nth-last-of-type(3)': {
-      display: 'none',
-    },
-    '& :is(td, th):nth-last-of-type(2)': {
-      display: 'none',
-    },
-  },
-  '@media (max-width: 1080px)': {
-    '& :is(td, th):nth-last-of-type(4)': {
-      display: 'none',
-    },
-  },
-  '@media (max-width: 480px)': {
-    '& :is(td, th):nth-last-of-type(5)': {
-      display: 'none',
-    },
-  },
-})
-
 const CustomThCell = styled(TableCell)({
   cursor: 'pointer',
   paddingRight: 0,
@@ -196,6 +174,7 @@ const UsersPage: FC = () => {
     filtersState.currentFilter.id,
     filtersState.currentFilter.state,
   ])
+
   const toggleFilter = (id: Filters['currentFilter']['id']) => {
     setFilters((prev) => ({
       searchState: prev.searchState,
@@ -221,44 +200,42 @@ const UsersPage: FC = () => {
   }
 
   return (
-    <>
-      <Box
-        position="sticky"
-        top="44px"
-        zIndex="100"
-        bgcolor="inherit"
-        display="flex"
-        alignItems="end"
-        height="50px"
-      >
-        <CustomTextField
-          variant="outlined"
-          value={filtersState.searchState}
-          onChange={(e) =>
-            setFilters((prev) => ({...prev, searchState: e.target.value}))
-          }
-          placeholder="Search..."
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon color="inherit" />
-                </InputAdornment>
-              ),
-            },
-          }}
-        />
-      </Box>
-
-      <CustomTable>
+    <main>
+      <Table sx={{bgcolor: 'inherit', color: 'inherit'}}>
         <Box
           component={TableHead}
           position="sticky"
-          top="94px"
+          top="44px"
           height="58px"
           zIndex="100"
           bgcolor="inherit"
         >
+          <TableRow>
+            <TableCell colSpan={7} sx={{border: 'none', padding: 0}}>
+              <Box display="flex" alignItems="end" height="50px" width="100%">
+                <CustomTextField
+                  variant="outlined"
+                  value={filtersState.searchState}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      searchState: e.target.value,
+                    }))
+                  }
+                  placeholder="Search..."
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchIcon color="inherit" />
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                />
+              </Box>
+            </TableCell>
+          </TableRow>
           <TableRow>
             <CustomTdCell width="80px"></CustomTdCell>
             {THeadItems.map((item) => (
@@ -322,8 +299,8 @@ const UsersPage: FC = () => {
           </Box>
           <UsersList listData={filteredData} parentRef={tbodyRef} />
         </TableBody>
-      </CustomTable>
-    </>
+      </Table>
+    </main>
   )
 }
 

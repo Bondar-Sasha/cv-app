@@ -1,21 +1,21 @@
-import {gql, useLazyQuery, useMutation} from '@apollo/client'
-import {useEffect, useState} from 'react'
+import {
+  gql,
+  useApolloClient,
+  useLazyQuery,
+  useMutation,
+  useReactiveVar,
+} from '@apollo/client'
+import {useCallback, useEffect, useState} from 'react'
 import {UpdateTokenResult, User} from 'cv-graphql'
 
-import {client, preparedApolloLink} from '../providers/ApolloClient'
+import {preparedApolloLink} from '../providers/ApolloClient'
+import {reactiveRefreshToken, USER} from '@/Shared'
 
 const UPDATE_TOKENS = gql`
   mutation UpdateToken {
     updateToken {
       refresh_token
       access_token
-    }
-  }
-`
-const USER = gql`
-  query User($userId: ID!) {
-    user(userId: $userId) {
-      id
     }
   }
 `
@@ -29,47 +29,77 @@ interface GetUserArgs {
 interface ReceivedUser {
   user: User
 }
+const userId = localStorage.getItem('userId')
 
 export const useTokens = () => {
-  const userId = localStorage.getItem('userId')
-  const refreshToken = localStorage.getItem('refreshToken')
+  const client = useApolloClient()
+
+  const refreshToken = useReactiveVar(reactiveRefreshToken)
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const [getTokens, {data: tokensData}] = useMutation<Tokens>(UPDATE_TOKENS, {
-    client,
+    fetchPolicy: 'no-cache',
   })
 
-  const [getUser] = useLazyQuery<ReceivedUser, GetUserArgs>(USER, {client})
+  const [getUser] = useLazyQuery<ReceivedUser, GetUserArgs>(USER)
 
-  useEffect(() => {
-    const fetchTokens = async () => {
-      if (!userId || !refreshToken) {
+  const handleGetTokens = useCallback(async () => {
+    try {
+      if (!refreshToken) {
         return
       }
+      client.setLink(preparedApolloLink(refreshToken))
+      const {data} = await getTokens()
+      if (!data) {
+        return
+      }
+      localStorage.setItem('refreshToken', data.updateToken.refresh_token)
+
+      return data.updateToken.access_token
+    } catch (error) {
+      localStorage.removeItem('refreshToken')
+      console.error(error)
+    }
+  }, [client, getTokens, refreshToken])
+
+  useEffect(() => {
+    void (async () => {
       try {
-        const {data} = await getTokens()
-        if (data) {
-          client.setLink(preparedApolloLink(data.updateToken.access_token))
-          await getUser({
-            client,
-            variables: {userId: userId as string | number},
-          })
+        if (!userId) {
+          return
         }
+        setIsLoading(true)
+        const accessToken = await handleGetTokens()
+
+        if (!accessToken) {
+          return
+        }
+        client.setLink(preparedApolloLink(accessToken))
+        const {data} = await getUser({
+          fetchPolicy: 'network-only',
+          variables: {userId: userId as string | number},
+        })
+        if (!data) {
+          return
+        }
+        localStorage.setItem('userId', data.user.id)
       } catch (error) {
         localStorage.removeItem('userId')
-        localStorage.removeItem('refreshToken')
         console.error(error)
       } finally {
         setIsLoading(false)
       }
-    }
+    })()
+  }, [client, getUser, handleGetTokens])
 
-    void fetchTokens()
-  }, [getTokens, getUser, refreshToken, userId])
+  const refetchTokens = useCallback(() => {
+    handleGetTokens().catch((error) => console.error(error))
+  }, [handleGetTokens])
 
   return {
     accessToken: tokensData?.updateToken.access_token,
     isFetching: isLoading,
+    refetchTokens,
   }
 }

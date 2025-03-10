@@ -1,5 +1,8 @@
 import {gql, useLazyQuery} from '@apollo/client'
 import type {AuthInput, AuthResult} from 'cv-graphql'
+import {useEffect} from 'react'
+
+import {reactiveRefreshToken} from '@/Shared'
 
 export type LoginArgs = {
   auth: AuthInput
@@ -27,13 +30,20 @@ export const LOGIN = gql`
 
 export const useLogin = () => {
   const loginHandlers = useLazyQuery<LoginResult, LoginArgs>(LOGIN)
+
   const loginFetchingData = loginHandlers[1]
-  if (!loginFetchingData.loading && loginFetchingData.data) {
+
+  useEffect(() => {
+    if (!loginFetchingData.data) {
+      return
+    }
+    reactiveRefreshToken(loginFetchingData.data.login.refresh_token)
     localStorage.setItem(
       'refreshToken',
       loginFetchingData.data.login.refresh_token
     )
     localStorage.setItem('userId', loginFetchingData.data.login.user.id)
-  }
+  }, [loginFetchingData.data])
+
   return loginHandlers
 }

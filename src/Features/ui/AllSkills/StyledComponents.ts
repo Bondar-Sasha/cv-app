@@ -1,4 +1,4 @@
-import { Box, Button, keyframes, styled } from "@mui/material"
+import {Box, Button, keyframes, styled} from '@mui/material'
 
 export const ResponsiveBox = styled(Box)(({theme}) => ({
   flexBasis: '33%',
@@ -52,7 +52,10 @@ export const SkillItemButton = styled(Button)(({theme}) => ({
   },
 }))
 
-export const SkillBar = styled(Box)<{proficiency: number}>(({proficiency, theme}) => {
+export const SkillBar = styled(Box)<{proficiency: number}>(({
+  proficiency,
+  theme,
+}) => {
   let color
   if (proficiency === 100) {
     color = 'rgb(198, 48, 49)'
@@ -86,7 +89,7 @@ const transformAnimation2 = keyframes`
   100% {
     background-color: rgb(202, 202, 202);
   }
-`;
+`
 
 const transformAnimation = keyframes`
   0% {
@@ -95,7 +98,7 @@ const transformAnimation = keyframes`
   100% {
     width: 0;
   }
-`;
+`
 
 const reverseTransformAnimation = keyframes`
   0% {
@@ -104,20 +107,22 @@ const reverseTransformAnimation = keyframes`
   100% {
     width: var(--end-width);
   }
-`;
+`
 
-export const SkillBarFilled = styled(Box)<{ proficiency: number }>(({ proficiency }) => {
-  let color;
+export const SkillBarFilled = styled(Box)<{proficiency: number}>(({
+  proficiency,
+}) => {
+  let color
   if (proficiency === 100) {
-    color = 'rgb(198, 48, 49)';
+    color = 'rgb(198, 48, 49)'
   } else if (proficiency === 80) {
-    color = 'rgb(255, 184, 0)';
+    color = 'rgb(255, 184, 0)'
   } else if (proficiency === 60) {
-    color = 'rgb(46, 125, 50)';
+    color = 'rgb(46, 125, 50)'
   } else if (proficiency === 40) {
-    color = 'rgb(2, 136, 209)';
+    color = 'rgb(2, 136, 209)'
   } else {
-    color = 'rgb(118, 118, 118)';
+    color = 'rgb(118, 118, 118)'
   }
 
   return {
@@ -132,13 +137,13 @@ export const SkillBarFilled = styled(Box)<{ proficiency: number }>(({ proficienc
     '&.reverseTransform': {
       animation: `${reverseTransformAnimation} 1s forwards`,
     },
-  };
-});
+  }
+})
 
-export const EditBox = styled(Box)(({ theme }) => ({
+export const EditBox = styled(Box)(({theme}) => ({
   marginLeft: '15px',
   backgroundColor: theme.palette.common.white,
   borderRadius: '40px',
   padding: '0 8px',
   color: theme.palette.error.main,
-}));
+}))

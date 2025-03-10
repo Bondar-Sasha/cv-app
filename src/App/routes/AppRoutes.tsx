@@ -2,7 +2,7 @@ import {FC} from 'react'
 import {Routes, Route, BrowserRouter, Navigate} from 'react-router-dom'
 
 import SecureRoute from './SecureRoute'
-import {AppRouterMap} from '@/Shared'
+import {AppRouterMap, useUser} from '@/Shared'
 import {
   Auth,
   ChangePassword,
@@ -39,14 +39,15 @@ const {
 } = AppRouterMap
 
 const AppRoutes: FC = () => {
-  const isUser = false
+  const {user} = useUser()
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path="/"
           element={
-            <SecureRoute redirectTo="/users" isRedirection={!!isUser}>
+            <SecureRoute redirectTo="/auth/login" isRedirection={!user}>
               <CommonPageLayout />
             </SecureRoute>
           }
@@ -74,7 +75,7 @@ const AppRoutes: FC = () => {
         <Route
           path={singUp.path}
           element={
-            <SecureRoute redirectTo="/users" isRedirection={!!isUser}>
+            <SecureRoute redirectTo="/users" isRedirection={!!user}>
               <Auth location="signup" />
             </SecureRoute>
           }
@@ -82,7 +83,7 @@ const AppRoutes: FC = () => {
         <Route
           path={login.path}
           element={
-            <SecureRoute redirectTo="/users" isRedirection={!!isUser}>
+            <SecureRoute redirectTo="/users" isRedirection={!!user}>
               <Auth location="login" />
             </SecureRoute>
           }
@@ -90,7 +91,7 @@ const AppRoutes: FC = () => {
         <Route
           path={forgotPassword.path}
           element={
-            <SecureRoute redirectTo="/users" isRedirection={!!isUser}>
+            <SecureRoute redirectTo="/users" isRedirection={!!user}>
               <ChangePassword />
             </SecureRoute>
           }
@@ -98,7 +99,7 @@ const AppRoutes: FC = () => {
         <Route
           path={resetPassword.path}
           element={
-            <SecureRoute redirectTo="/users" isRedirection={!!isUser}>
+            <SecureRoute redirectTo="/users" isRedirection={!!user}>
               <ResetPassword />
             </SecureRoute>
           }
