@@ -1,5 +1,5 @@
-import { AllThemes, useThemeContext, ThemeContext } from "./ThemeProvider";
-import { getUser } from "./getUser";
+import {AllThemes, useThemeContext, ThemeContext} from './ThemeProvider'
+import {getCurrentUserID} from './getCurrentUserID'
 
 export type {AllThemes}
-export {useThemeContext, ThemeContext, getUser}
+export {useThemeContext, ThemeContext, getCurrentUserID}

@@ -1,4 +1,4 @@
-import { Box, Container, styled } from "@mui/material"
+import {Box, Container, styled} from '@mui/material'
 
 export const Wrapper = styled(Box)(() => ({
   maxWidth: '43%',

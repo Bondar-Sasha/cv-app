@@ -1,3 +1,3 @@
-import UserLanguagesPage from "./ui/UserLanguagesPage";
+import UserLanguagesPage from './ui/UserLanguagesPage'
 
 export {UserLanguagesPage}

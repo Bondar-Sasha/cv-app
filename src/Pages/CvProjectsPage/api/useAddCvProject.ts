@@ -1,13 +1,13 @@
-import { gql,  useMutation } from "@apollo/client";
-import type { AddCvProjectInput, Cv } from "cv-graphql";
+import {gql, useMutation} from '@apollo/client'
+import type {AddCvProjectInput, Cv} from 'cv-graphql'
 
 export type AddCvProjectArgs = {
-    project: AddCvProjectInput
-};
+  project: AddCvProjectInput
+}
 
 export type AddCvProjectResult = {
-    cv: Cv
-};
+  cv: Cv
+}
 
 export const ADD_CV_PROJECT = gql`
   mutation AddCvProject($project: AddCvProjectInput!) {
@@ -17,7 +17,7 @@ export const ADD_CV_PROJECT = gql`
       descriptions
     }
   }
-`;
+`
 
 export const useAddCvProject = () => {
   return useMutation<AddCvProjectResult, AddCvProjectArgs>(ADD_CV_PROJECT)

@@ -1,13 +1,13 @@
-import { gql,  useMutation } from "@apollo/client";
-import type { Cv, UpdateCvInput } from "cv-graphql";
+import {gql, useMutation} from '@apollo/client'
+import type {Cv, UpdateCvInput} from 'cv-graphql'
 
 export type UpdateCvDetailsArgs = {
-    cv: UpdateCvInput
-};
+  cv: UpdateCvInput
+}
 
 export type UpdateCvDetailsResult = {
-    cv: Cv
-};
+  cv: Cv
+}
 
 export const UPDATE_CV_DETAILS = gql`
   mutation UpdateCvDetails($cv: UpdateCvInput!) {
@@ -17,8 +17,10 @@ export const UPDATE_CV_DETAILS = gql`
       descriptions
     }
   }
-`;
+`
 
 export const useUpdateCvDetails = () => {
-  return useMutation<UpdateCvDetailsResult, UpdateCvDetailsArgs>(UPDATE_CV_DETAILS)
+  return useMutation<UpdateCvDetailsResult, UpdateCvDetailsArgs>(
+    UPDATE_CV_DETAILS
+  )
 }

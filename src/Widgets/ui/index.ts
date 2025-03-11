@@ -1,4 +1,3 @@
-import StyledLinkList from "./StyledLinkList/StyledLinkList";
-export { StyledLinkList };
+import StyledLinkList from './StyledLinkList/StyledLinkList'
+export {StyledLinkList}
 export * from './CommonPageLayout'
-

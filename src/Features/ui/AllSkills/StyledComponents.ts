@@ -10,15 +10,14 @@ export const ResponsiveBox = styled(Box)(({theme}) => ({
 
 export const ResponsiveButtonBox = styled(Box)(({theme}) => ({
   position: 'relative',
-  right: '-35px',
   display: 'flex',
-  marginLeft: 'auto',
   paddingTop: '20px',
-  gap: '20px',
+  alignSelf: 'flex-end',
+  gap: '5px',
   [theme.breakpoints.down('sm')]: {
     margin: '0',
-    right: '0',
     width: '100%',
+    flexWrap: 'wrap',
   },
 }))
 
@@ -57,16 +56,22 @@ export const SkillBar = styled(Box)<{proficiency: number}>(({
   theme,
 }) => {
   let color
-  if (proficiency === 100) {
-    color = 'rgb(198, 48, 49)'
-  } else if (proficiency === 80) {
-    color = 'rgb(255, 228, 158)'
-  } else if (proficiency === 60) {
-    color = 'rgb(175, 205, 177)'
-  } else if (proficiency === 40) {
-    color = 'rgb(158, 209, 237)'
-  } else {
-    color = 'rgb(202, 202, 202)'
+  switch (proficiency) {
+    case 100:
+      color = 'rgb(198, 48, 49)'
+      break
+    case 80:
+      color = 'rgb(255, 228, 158)'
+      break
+    case 60:
+      color = 'rgb(175, 205, 177)'
+      break
+    case 40:
+      color = 'rgb(158, 209, 237)'
+      break
+    default:
+      color = 'rgb(202, 202, 202)'
+      break
   }
 
   return {

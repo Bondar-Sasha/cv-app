@@ -1,4 +1,4 @@
-import { FormControl, MenuItem, Select, SelectProps, styled } from "@mui/material"
+import {FormControl, MenuItem, Select, SelectProps, styled} from '@mui/material'
 
 export const CustomFormControl = styled(FormControl)(({theme}) => ({
   '& label.Mui-focused': {
@@ -22,12 +22,17 @@ export const CustomMenuItem = styled(MenuItem)(({theme}) => ({
     backgroundColor: 'rgba(198, 48, 49, 0.08) !important',
   },
   '&.Mui-selected:hover': {
-    backgroundColor: theme.palette.mode === 'light' ? 'rgba(198, 48, 49, 0.12) !important' : 'rgba(198, 48, 49, 0.24) !important',
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? 'rgba(198, 48, 49, 0.12) !important'
+        : 'rgba(198, 48, 49, 0.24) !important',
   },
   '&:hover': {
-    backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.04) !important' : 'rgba(255, 255, 255, 0.08) !important',
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? 'rgba(0, 0, 0, 0.04) !important'
+        : 'rgba(255, 255, 255, 0.08) !important',
   },
-  
 }))
 
 export const CustomSelect = styled(Select)<SelectProps>(({theme}) => ({

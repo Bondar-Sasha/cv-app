@@ -35,12 +35,12 @@ const CvLayout: FC<CvLayoutProps> = ({path, page}) => {
   ]
 
   return (
-    <>
+    <Box>
       <Box sx={{marginLeft: '-27px'}}>
         <StyledLinkList arrLinks={links} />
       </Box>
       {page}
-    </>
+    </Box>
   )
 }
 

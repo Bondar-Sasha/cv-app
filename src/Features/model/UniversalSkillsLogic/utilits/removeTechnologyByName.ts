@@ -1,24 +1,27 @@
-import { TransformedSkill } from "./addCategoryAndProficiencyToUserSkills"
+import {TransformedSkill} from './addCategoryAndProficiencyToUserSkills'
 
 interface Technology {
-  name: string;
+  name: string
 }
 
 interface GroupedData {
-  technologies: Technology[];
+  technologies: Technology[]
 }
 
-export function removeTechnologyByName(transformedSkills: TransformedSkill[], groupedData: GroupedData[]) {
-    const groupedNames = groupedData.flatMap((group) =>
-      group.technologies.map((tech: Technology) => tech.name)
-    )
+export function removeTechnologyByName(
+  transformedSkills: TransformedSkill[],
+  groupedData: GroupedData[]
+) {
+  const groupedNames = groupedData.flatMap((group) =>
+    group.technologies.map((tech: Technology) => tech.name)
+  )
 
-    return transformedSkills.map((categoryObj) => {
-      return {
-        ...categoryObj,
-        technologies: categoryObj.technologies.filter(
-          (tech) => !groupedNames.includes(tech.value)
-        ),
-      }
-    })
-  }
+  return transformedSkills.map((categoryObj) => {
+    return {
+      ...categoryObj,
+      technologies: categoryObj.technologies.filter(
+        (tech) => !groupedNames.includes(tech.value)
+      ),
+    }
+  })
+}

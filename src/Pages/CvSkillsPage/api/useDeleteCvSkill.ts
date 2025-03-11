@@ -1,13 +1,13 @@
-import { gql,  useMutation } from "@apollo/client";
-import type { Cv, DeleteCvSkillInput } from "cv-graphql";
+import {gql, useMutation} from '@apollo/client'
+import type {Cv, DeleteCvSkillInput} from 'cv-graphql'
 
 export type DeleteCvSkillArgs = {
   skill: DeleteCvSkillInput
-};
+}
 
 export type DeleteCvSkillResult = {
-data: Cv
-};
+  data: Cv
+}
 
 export const DELETE_CV_SKILL = gql`
   mutation DeleteCvSkill($skill: DeleteCvSkillInput!) {
@@ -19,7 +19,7 @@ export const DELETE_CV_SKILL = gql`
       }
     }
   }
-`;
+`
 
 export const useDeleteCvSkill = () => {
   return useMutation<DeleteCvSkillResult, DeleteCvSkillArgs>(DELETE_CV_SKILL)

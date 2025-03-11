@@ -1,11 +1,11 @@
 import {OneUserLayout} from '@/Features'
 import UserAllSkills from './UserAllSkills'
-import {getUser} from '@/App'
+import {getCurrentUserID} from '@/App'
 import {useParams} from 'react-router-dom'
 import {SkillsPage} from '@/Pages/SkillsPage'
 
 const UserSkillsPage = () => {
-  const userID = getUser().id
+  const userID = getCurrentUserID()
   const ID = useParams().userId || ''
 
   if (ID === userID) {
@@ -13,7 +13,7 @@ const UserSkillsPage = () => {
       <OneUserLayout
         path="skills"
         page={<SkillsPage />}
-        sx={{margin: '0', width: '100%'}}
+        sx={{margin: '0', maxWidth: '100%'}}
       />
     )
   }

@@ -1,31 +1,30 @@
-import { gql, useQuery } from "@apollo/client";
-import { User } from "cv-graphql";
+import {gql, useQuery} from '@apollo/client'
+import {User} from 'cv-graphql'
 
 export type IdArgs = {
-  userId: string;
-};
+  userId: string
+}
 
 export type SkillsResult = {
-  user: User;
-};
-
+  user: User
+}
 
 export const GETSKILLS = gql`
   query GetSkills($userId: ID!) {
     user(userId: $userId) {
-        profile {
-            skills {
-                name
-                categoryId
-                mastery
-            }
+      profile {
+        skills {
+          name
+          categoryId
+          mastery
         }
+      }
     }
   }
-`;
+`
 
 export const useGetSkills = (userId: string) => {
   return useQuery<SkillsResult, IdArgs>(GETSKILLS, {
-    variables: { userId },
-  });
-};
+    variables: {userId},
+  })
+}

@@ -1,4 +1,4 @@
-import { Mastery, SkillMastery } from "cv-graphql"
+import {Mastery, SkillMastery} from 'cv-graphql'
 
 export interface TransformedSkill {
   category: string
@@ -29,19 +29,19 @@ export interface UpdatedUserSkills {
 }
 
 export const addCategoryAndProficiencyToUserSkills = (
-    userSkills : SkillMastery[],
-    transformedSkills: TransformedSkill[]
-  ): UpdatedUserSkills[]  => {
-    return userSkills.map((skill) => {
-      const matchingCategory = transformedSkills.find((categoryObj) =>
-        categoryObj.technologies.some((tech) => tech.value === skill.name)
-      )?.category
+  userSkills: SkillMastery[],
+  transformedSkills: TransformedSkill[]
+): UpdatedUserSkills[] => {
+  return userSkills.map((skill) => {
+    const matchingCategory = transformedSkills.find((categoryObj) =>
+      categoryObj.technologies.some((tech) => tech.value === skill.name)
+    )?.category
 
-      return {
-        ...skill,
-        categoryId: skill.categoryId || '',
-        category: matchingCategory || 'Unknown',
-        proficiency: proficiencyMap[skill.mastery],
-      }
-    })
-  }
+    return {
+      ...skill,
+      categoryId: skill.categoryId || '',
+      category: matchingCategory || 'Unknown',
+      proficiency: proficiencyMap[skill.mastery],
+    }
+  })
+}

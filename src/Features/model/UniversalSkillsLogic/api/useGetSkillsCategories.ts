@@ -1,10 +1,9 @@
-import { gql,  useQuery } from "@apollo/client";
-import {  Skill } from "cv-graphql";
-
+import {gql, useQuery} from '@apollo/client'
+import {Skill} from 'cv-graphql'
 
 export type SkillsResult = {
   skills: [Skill]
-};
+}
 
 export const GET_SKILLS_CATEGORIES = gql`
   query GetSkillsCategories {
@@ -18,9 +17,8 @@ export const GET_SKILLS_CATEGORIES = gql`
       category_parent_name
     }
   }
-`;
+`
 
 export const useGetSkillsCategories = () => {
-  return useQuery<SkillsResult>(GET_SKILLS_CATEGORIES);
-};
-
+  return useQuery<SkillsResult>(GET_SKILLS_CATEGORIES)
+}

@@ -1,11 +1,11 @@
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import FormControl from '@mui/material/FormControl';
-import Button from '@mui/material/Button';
+import {styled} from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import FormControl from '@mui/material/FormControl'
+import Button from '@mui/material/Button'
 
-export const Overlay = styled(Box)(({ theme }) => ({
+export const Overlay = styled(Box)(({theme}) => ({
   color: '#fff',
   zIndex: theme.zIndex.drawer + 1,
   position: 'absolute',
@@ -17,9 +17,9 @@ export const Overlay = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   backgroundColor: 'rgba(0, 0, 0, 0.5)',
-}));
+}))
 
-export const FormBox = styled(Box)(({ theme }) => ({
+export const FormBox = styled(Box)(({theme}) => ({
   backgroundColor: theme.palette.background.default,
   borderRadius: '5px',
   padding: '20px 25px',
@@ -32,27 +32,27 @@ export const FormBox = styled(Box)(({ theme }) => ({
     maxWidth: '90%',
     minWidth: '0',
   },
-}));
+}))
 
 export const Form = styled(FormControl)({
   width: '100%',
   alignItems: 'flex-start',
   gap: '35px',
-});
+})
 
 export const CloseButton = styled(IconButton)({
   position: 'absolute',
   top: '-8px',
   right: '-13px',
-});
+})
 
 export const Title = styled(Typography)`
-  font-size: ${({ theme }) => theme.typography.h5};
+  font-size: ${({theme}) => theme.typography.h5};
   font-weight: 500;
-  color: ${({ theme }) => theme.palette.text.primary};
-`;
+  color: ${({theme}) => theme.palette.text.primary};
+`
 
-export const ButtonContainer = styled(Box)(({ theme }) => ({
+export const ButtonContainer = styled(Box)(({theme}) => ({
   display: 'flex',
   alignSelf: 'flex-end',
   position: 'relative',
@@ -64,11 +64,10 @@ export const ButtonContainer = styled(Box)(({ theme }) => ({
     justifyContent: 'center',
     flexWrap: 'wrap',
   },
-}));
+}))
 
-export const StyledButton = styled(Button)(({ theme }) => ({
+export const StyledButton = styled(Button)(({theme}) => ({
   minWidth: '220px',
   height: '48px',
   borderColor: theme.palette.text.secondary,
-}));
-
+}))
