@@ -9,7 +9,7 @@ export type LanguagesResult = {
   user: User
 }
 
-export const GET_LANGUAGES = gql`
+export const GET_USER_LANGUAGES = gql`
   query GetLanguages($userId: ID!) {
     user(userId: $userId) {
       profile {
@@ -22,8 +22,8 @@ export const GET_LANGUAGES = gql`
   }
 `
 
-export const useGetLanguages = (userId: string) => {
-  return useQuery<LanguagesResult, IdArgs>(GET_LANGUAGES, {
+export const useGetUserLanguages = (userId: string) => {
+  return useQuery<LanguagesResult, IdArgs>(GET_USER_LANGUAGES, {
     variables: {userId},
   })
 }

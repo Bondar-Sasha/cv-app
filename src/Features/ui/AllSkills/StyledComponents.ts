@@ -1,3 +1,4 @@
+import {getColorProficiency} from '@/Shared'
 import {Box, Button, keyframes, styled} from '@mui/material'
 
 export const ResponsiveBox = styled(Box)(({theme}) => ({
@@ -117,18 +118,7 @@ const reverseTransformAnimation = keyframes`
 export const SkillBarFilled = styled(Box)<{proficiency: number}>(({
   proficiency,
 }) => {
-  let color
-  if (proficiency === 100) {
-    color = 'rgb(198, 48, 49)'
-  } else if (proficiency === 80) {
-    color = 'rgb(255, 184, 0)'
-  } else if (proficiency === 60) {
-    color = 'rgb(46, 125, 50)'
-  } else if (proficiency === 40) {
-    color = 'rgb(2, 136, 209)'
-  } else {
-    color = 'rgb(118, 118, 118)'
-  }
+  const color = getColorProficiency(proficiency)
 
   return {
     '--start-width': `${proficiency}%`,
