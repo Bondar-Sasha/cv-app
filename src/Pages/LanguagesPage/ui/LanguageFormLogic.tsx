@@ -8,15 +8,21 @@ import {FC, useEffect} from 'react'
 import {getCurrentUserID} from '@/App'
 import {useGetAllLanguages} from '../api/useGetAllLanguages'
 import {useUpdateProfileLanguage} from '../api/useUpdateProfileLanguage'
+import {ApolloQueryResult} from '@apollo/client'
+import {LanguagesResult} from '../api/useGetUserLanguages'
 
 interface LanguageFormLogicProps {
   handleClose: () => void
   updatedLanguage: LanguageProficiency | null
+  refetch: () => Promise<ApolloQueryResult<LanguagesResult>>
+  userLanguages: LanguageProficiency[] | undefined
 }
 
 const LanguageFormLogic: FC<LanguageFormLogicProps> = ({
   handleClose,
   updatedLanguage,
+  refetch,
+  userLanguages,
 }) => {
   const userId = getCurrentUserID()
 
@@ -26,7 +32,7 @@ const LanguageFormLogic: FC<LanguageFormLogicProps> = ({
   const {error: languagesError, languages: languagesData} = useGetAllLanguages()
 
   const {formData, handleOpenAddLanguage, handleOpenEditLanguage} =
-    useFormLanguages(languagesData || [])
+    useFormLanguages(languagesData || [], userLanguages)
 
   useEffect(() => {
     if (updatedLanguage) {
@@ -40,21 +46,22 @@ const LanguageFormLogic: FC<LanguageFormLogicProps> = ({
   }, [
     updatedLanguage,
     languagesData,
-    handleOpenAddLanguage,
     handleOpenEditLanguage,
+    handleOpenAddLanguage,
   ])
 
-  const handleAddLanguage = async (name: string, proficiency: Proficiency) => {
+  const handleAddLanguage = async (skill: string, skillMaster: string) => {
     try {
       await mutateAddLanguage({
         variables: {
           language: {
             userId,
-            name,
-            proficiency,
+            name: skill,
+            proficiency: skillMaster as Proficiency,
           },
         },
       })
+      await refetch()
       toast.success('Language was added')
       handleClose()
     } catch (error) {
@@ -62,20 +69,18 @@ const LanguageFormLogic: FC<LanguageFormLogicProps> = ({
     }
   }
 
-  const handleUpdateLanguage = async (
-    name: string,
-    proficiency: Proficiency
-  ) => {
+  const handleUpdateLanguage = async (skill: string, skillMaster: string) => {
     try {
       await mutateUpdateLanguage({
         variables: {
           language: {
             userId,
-            name,
-            proficiency,
+            name: skill,
+            proficiency: skillMaster as Proficiency,
           },
         },
       })
+      await refetch()
       toast.success('Language was updated')
       handleClose()
     } catch (error) {

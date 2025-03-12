@@ -9,3 +9,13 @@ export const languagesProficiency: LanguageOption[] = [
   {value: 'C2', label: 'C2'},
   {value: 'Native', label: 'Native'},
 ]
+
+export const LanguagesPercents = {
+  A1: 20,
+  A2: 20,
+  B1: 40,
+  B2: 60,
+  C1: 80,
+  C2: 80,
+  Native: 100,
+}

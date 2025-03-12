@@ -1,22 +1,19 @@
 import {InnerWrapper} from '@/Pages/ui/StyledComponents'
 import {LoaderBackdrop, StyledButton} from '@/Shared'
 import AddIcon from '@mui/icons-material/Add'
-import {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 import {useTranslation} from 'react-i18next'
 import {toast} from 'react-toastify'
 import {useGetUserLanguages} from '../api/useGetUserLanguages'
 import {getCurrentUserID} from '@/App'
-import {LanguageProficiency} from 'cv-graphql'
-import {Box} from '@mui/material'
-import {
-  EditBox,
-  ResponsiveButtonBox,
-} from '@/Features/ui/AllSkills/StyledComponents'
-import WrapperButton from '@/Features/ui/AllSkills/WrapperButton'
-import DeleteIcon from '@mui/icons-material/Delete'
 import {useDeleteProfileLanguage} from '../api/useDeleteProfileLanguage'
 import LanguageFormLogic from './LanguageFormLogic'
-import {LanguageSpan, ProficiencySpan} from './StyledComponents'
+import {ExtraWrapper} from './StyledComponents'
+
+import LanguagesList from './LanguagesList'
+import LanguageButtons from './LanguageButtons'
+import useEditLanguages from '../hooks/useEditLanguages'
+import useLanguageForm from '../hooks/useLanguageForm'
 
 export interface LanguageOption {
   label: string
@@ -26,24 +23,24 @@ export interface LanguageOption {
 const LanguagesPage = () => {
   const {t} = useTranslation()
   const userId = getCurrentUserID()
-
-  const [isOpenForm, setOpenForm] = useState(false)
-  const [isEdit, setEdit] = useState(false)
-  const [edit, setEditName] = useState<Array<string>>([])
-
-  const [updateLanguage, setUpdateLanguage] =
-    useState<LanguageProficiency | null>(null)
-
   const [mutateDeleteLanguage] = useDeleteProfileLanguage()
 
-  const handleClose = () => {
-    setOpenForm(false)
-  }
+  const {isEdit, edit, handleEdit, handleCancel, clickForEditDelete} =
+    useEditLanguages()
+
+  const {
+    isOpenForm,
+    updateLanguage,
+    handleOpenForm,
+    handleClose,
+    clickForEditUpdate,
+  } = useLanguageForm()
 
   const {
     loading: UserLanguagesLoading,
     error: UserLanguagesError,
     data: UserLanguagesData,
+    refetch,
   } = useGetUserLanguages(userId)
 
   useEffect(() => {
@@ -66,30 +63,12 @@ const LanguagesPage = () => {
           },
         },
       })
+      await refetch()
       toast.success('Languages was removed')
-      setEditName([])
-      setEdit(false)
+      handleCancel()
     } catch (error) {
       toast.error((error as Error).message)
     }
-  }
-
-  const handleCancel = () => {
-    setEditName([])
-    setEdit(false)
-  }
-
-  const clickForEditDelete = (name: string) => {
-    setEditName((prevArray: string[]) =>
-      prevArray.includes(name)
-        ? prevArray.filter((i) => i !== name)
-        : [...prevArray, name]
-    )
-  }
-
-  const clickForEditUpdate = (elem: LanguageProficiency) => {
-    setUpdateLanguage(elem)
-    setOpenForm(true)
   }
 
   return (
@@ -98,78 +77,34 @@ const LanguagesPage = () => {
         <LanguageFormLogic
           handleClose={handleClose}
           updatedLanguage={updateLanguage}
+          refetch={refetch}
+          userLanguages={UserLanguagesData?.user.profile.languages}
         />
       )}
 
       {UserLanguagesData?.user.profile.languages.length === 0 ? (
-        <StyledButton
-          onClick={() => {
-            setOpenForm(true)
-          }}
-        >
+        <StyledButton onClick={handleOpenForm}>
           <AddIcon style={{marginRight: '8px'}} /> {t('Add language')}
         </StyledButton>
       ) : (
-        <Box sx={{display: 'flex', flexDirection: 'column', width: '100%'}}>
-          <Box sx={{display: 'flex', alignItems: 'center', flexWrap: 'wrap'}}>
-            {UserLanguagesData?.user.profile.languages.map((elem) => (
-              <StyledButton
-                onClick={() =>
-                  isEdit
-                    ? clickForEditDelete(elem.name)
-                    : clickForEditUpdate(elem)
-                }
-                key={elem.name}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                  flexBasis: '33%',
-                  minWidth: '220px',
-                  gap: '30px',
-                  textTransform: 'initial',
-                }}
-                children={
-                  <>
-                    <ProficiencySpan>{elem.proficiency}</ProficiencySpan>
-                    <LanguageSpan>{elem.name}</LanguageSpan>
-                  </>
-                }
-              />
-            ))}
-          </Box>
+        <ExtraWrapper>
+          <LanguagesList
+            languages={UserLanguagesData?.user.profile.languages}
+            isEdit={isEdit}
+            edit={edit}
+            onEditUpdate={clickForEditUpdate}
+            onEditDelete={clickForEditDelete}
+          />
 
-          <ResponsiveButtonBox>
-            {isEdit ? (
-              <>
-                <WrapperButton variant="outlined" onClick={handleCancel}>
-                  {t('Cancel')}
-                </WrapperButton>
-                <WrapperButton
-                  disabled={!edit.length}
-                  variant="contained"
-                  onClick={handleDeleteLanguage}
-                >
-                  {t('Delete')}
-                  {edit.length > 0 && <EditBox>{edit.length}</EditBox>}
-                </WrapperButton>
-              </>
-            ) : (
-              <>
-                <WrapperButton onClick={() => setOpenForm(true)}>
-                  <AddIcon style={{marginRight: '14px'}} /> {t('Add language')}
-                </WrapperButton>
-                <WrapperButton
-                  color="rgb(198, 48, 49)"
-                  onClick={() => setEdit(true)}
-                >
-                  <DeleteIcon style={{marginRight: '14px'}} />
-                  {t('Remove languages')}
-                </WrapperButton>
-              </>
-            )}
-          </ResponsiveButtonBox>
-        </Box>
+          <LanguageButtons
+            isEdit={isEdit}
+            editCount={edit.length}
+            onAdd={handleOpenForm}
+            onDelete={() => void handleDeleteLanguage()}
+            onEdit={handleEdit}
+            onCancel={handleCancel}
+          />
+        </ExtraWrapper>
       )}
     </InnerWrapper>
   )

@@ -1,8 +1,27 @@
 import {useState, useCallback} from 'react'
 import {LanguageOption} from '../ui/LanguagesPage'
+import {LanguageProficiency} from 'cv-graphql'
+import useFilteredLanguages from './useFilteredLanguages'
 
-const useFormLanguages = (arrLanguages: LanguageOption[]) => {
-  const [formData, setFormData] = useState({
+export interface FormDatas {
+  title: string
+  firstSelectValue: string
+  firstSelectTitle: string
+  secondSelectValue: string
+  secondSelectTitle: string
+  firstSelectOptions: LanguageOption[]
+}
+
+const useFormLanguages = (
+  arrLanguages: LanguageOption[],
+  userLanguages: LanguageProficiency[] | undefined
+) => {
+  const {filteredLanguages} = useFilteredLanguages(
+    userLanguages,
+    arrLanguages || []
+  )
+
+  const [formData, setFormData] = useState<FormDatas>({
     title: '',
     firstSelectValue: '',
     firstSelectTitle: 'Language',
@@ -17,9 +36,9 @@ const useFormLanguages = (arrLanguages: LanguageOption[]) => {
       title: 'Add language',
       firstSelectValue: '',
       secondSelectValue: 'A1',
-      firstSelectOptions: arrLanguages,
+      firstSelectOptions: filteredLanguages,
     }))
-  }, [arrLanguages])
+  }, [filteredLanguages])
 
   const handleOpenEditLanguage = useCallback(
     (objData: LanguageOption, proficiency: string) => {
