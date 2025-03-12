@@ -14,6 +14,7 @@ interface LanguagesListProps {
   edit: string[]
   onEditUpdate: (elem: LanguageProficiency) => void
   onEditDelete: (name: string) => void
+  disabled: boolean
 }
 
 const LanguagesList: FC<LanguagesListProps> = ({
@@ -22,12 +23,14 @@ const LanguagesList: FC<LanguagesListProps> = ({
   edit,
   onEditUpdate,
   onEditDelete,
+  disabled,
 }) => (
   <WrapperLanguages>
     {languages?.map((elem) => (
       <StyledButton
         onClick={() => (isEdit ? onEditDelete(elem.name) : onEditUpdate(elem))}
         key={elem.name}
+        disabled={disabled}
         sx={{
           display: 'flex',
           alignItems: 'center',
@@ -45,7 +48,10 @@ const LanguagesList: FC<LanguagesListProps> = ({
             >
               {elem.proficiency}
             </ProficiencySpan>
-            <LanguageSpan willDelete={edit.includes(elem.name)}>
+            <LanguageSpan
+              willDelete={edit.includes(elem.name)}
+              disabled={disabled}
+            >
               {elem.name}
             </LanguageSpan>
           </>

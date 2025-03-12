@@ -1,5 +1,5 @@
 import {useState, useCallback} from 'react'
-import {LanguageOption} from '../ui/LanguagesPage'
+import {LanguageOption} from '../ui/LanguagesPageLogic'
 import {LanguageProficiency} from 'cv-graphql'
 import useFilteredLanguages from './useFilteredLanguages'
 

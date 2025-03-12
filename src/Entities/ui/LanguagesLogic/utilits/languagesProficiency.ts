@@ -1,4 +1,4 @@
-import {LanguageOption} from '../ui/LanguagesPage'
+import {LanguageOption} from '../ui/LanguagesPageLogic'
 
 export const languagesProficiency: LanguageOption[] = [
   {value: 'A1', label: 'A1'},

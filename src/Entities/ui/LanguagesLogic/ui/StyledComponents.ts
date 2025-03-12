@@ -13,11 +13,19 @@ export const ProficiencySpan = styled('span')<{
 
 export const LanguageSpan = styled('span')<{
   willDelete: boolean
-}>(({willDelete, theme}) => {
+  disabled: boolean
+}>(({willDelete, theme, disabled}) => {
+  let color
+  if (willDelete) {
+    color = theme.palette.text.primary
+  } else if (disabled) {
+    color = 'rgba(0, 0, 0, 0.26)'
+  } else {
+    color = theme.palette.text.secondary
+  }
+
   return {
-    color: willDelete
-      ? theme.palette.text.primary
-      : theme.palette.text.secondary,
+    color: color,
   }
 })
 

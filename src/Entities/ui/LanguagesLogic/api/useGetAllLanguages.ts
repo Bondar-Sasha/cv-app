@@ -1,7 +1,7 @@
 import {gql, useQuery} from '@apollo/client'
 import {Language} from 'cv-graphql'
 import {useEffect, useState} from 'react'
-import {LanguageOption} from '../ui/LanguagesPage'
+import {LanguageOption} from '../ui/LanguagesPageLogic'
 
 export type AllLanguagesResult = {
   languages: [Language]

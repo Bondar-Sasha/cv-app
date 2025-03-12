@@ -1,6 +1,6 @@
 import {useMemo} from 'react'
 import {LanguageProficiency} from 'cv-graphql'
-import {LanguageOption} from '../ui/LanguagesPage'
+import {LanguageOption} from '../ui/LanguagesPageLogic'
 
 const useFilteredLanguages = (
   userLanguages: LanguageProficiency[] | undefined,
