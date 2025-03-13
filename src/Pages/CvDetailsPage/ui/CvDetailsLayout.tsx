@@ -1,68 +1,109 @@
-import {createAuthShema} from '@/Pages/Auth/api/authShema'
-import {InnerWrapper} from '@/Pages/ui'
-import {CustomTextField, StyledButton} from '@/Shared'
-import {zodResolver} from '@hookform/resolvers/zod'
-import {Box, BoxProps, FormControl, styled} from '@mui/material'
+import {useEffect, useState} from 'react'
 import {useForm} from 'react-hook-form'
-
-export const BoxCustom = styled(Box)<BoxProps>(() => ({
-  width: '100%',
-}))
+import {useParams} from 'react-router-dom'
+import {toast} from 'react-toastify'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {InnerWrapper} from '@/Pages/ui'
+import {
+  CvForm,
+  CvFormType,
+  CvShema,
+  LoaderBackdrop,
+  StyledButton,
+} from '@/Shared'
+import {useGetCvDetails} from '../api/useGetCvDetails'
+import {useUpdateCvDetails} from '../api/useUpdateCvDetails'
 
 const CvDetailsLayout = () => {
+  const {cvId = ''} = useParams()
+  const {data, loading, error} = useGetCvDetails(cvId)
+  const [isDisabled, setIsDisabled] = useState(true)
+  const [initialValues, setInitialValues] = useState<CvFormType>({
+    name: '',
+    education: '',
+    description: '',
+  })
+
   const {
     register,
-    // HandleSubmit,
+    handleSubmit,
     formState: {errors},
-  } = useForm({
-    resolver: zodResolver(createAuthShema),
+    watch,
+    reset,
+  } = useForm<CvFormType>({
+    defaultValues: initialValues,
+    resolver: zodResolver(CvShema),
   })
+
+  useEffect(() => {
+    if (data) {
+      const newValues = {
+        name: data.cv.name,
+        education: data.cv.education || '',
+        description: data.cv.description,
+      }
+      reset(newValues)
+      setInitialValues(newValues)
+    }
+  }, [data, reset])
+
+  const watchedFields = watch()
+
+  useEffect(() => {
+    const isChanged = (Object.keys(watchedFields) as (keyof CvFormType)[]).some(
+      (field) => watchedFields[field] !== initialValues[field]
+    )
+    setIsDisabled(!isChanged)
+  }, [watchedFields, initialValues])
+
+  useEffect(() => {
+    if (error) {
+      toast(error.message)
+    }
+  }, [error])
+
+  const [mutateUpdate, {data: UpdateData}] = useUpdateCvDetails()
+
+  const handleUpdateCvDetails = (formData: CvFormType) => {
+    mutateUpdate({
+      variables: {cv: {cvId, ...formData}},
+      onError: (error) => {
+        toast(error.message)
+      },
+      onCompleted: () => {
+        toast('CV was updated')
+      },
+    }).catch((error) => {
+      console.error('Update cv failed', error)
+    })
+  }
+
+  useEffect(() => {
+    if (UpdateData) {
+      setIsDisabled(true)
+    }
+  }, [UpdateData, isDisabled])
+
+  if (loading) {
+    return <LoaderBackdrop loading />
+  }
 
   return (
     <InnerWrapper>
-      <BoxCustom component={'form'}>
-        <FormControl
-          sx={{
-            width: '100%',
-          }}
-        >
-          <CustomTextField
-            type="text"
-            id="name"
-            label="Name"
-            name="name"
-            autoComplete="name"
-            register={register}
-            errors={errors}
-          />
-          <CustomTextField
-            type="text"
-            id="education"
-            label="Education"
-            name="education"
-            autoComplete="education"
-            register={register}
-            errors={errors}
-          />
-          <CustomTextField
-            type="text"
-            id="description"
-            label="Description"
-            name="description"
-            autoComplete="description"
-            multiline
-            rows={7}
-            register={register}
-            errors={errors}
-          />
+      <CvForm
+        submitMutate={handleSubmit(handleUpdateCvDetails)}
+        register={register}
+        errors={errors}
+        buttons={
           <StyledButton
+            type="submit"
             variant="contained"
-            children={'Update'}
-            disabled
+            children="Update"
+            disabled={isDisabled}
             sx={{marginTop: '25px', width: '50%', alignSelf: 'flex-end'}}
           />
-        </FormControl>
-      </BoxCustom>
+        }
+      />
     </InnerWrapper>
   )
 }

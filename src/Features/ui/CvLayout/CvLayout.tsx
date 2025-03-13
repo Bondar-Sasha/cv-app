@@ -1,5 +1,5 @@
 import {FC} from 'react'
-import {Box} from '@mui/material'
+import {Box, styled} from '@mui/material'
 import {StyledLinkList} from '@/Widgets'
 import {AppRouterMap} from '@/Shared'
 import {useParams} from 'react-router-dom'
@@ -8,6 +8,18 @@ export interface CvLayoutProps {
   path: HeaderLinks
   page: React.ReactElement
 }
+
+export const Container = styled(Box)(({theme}) => ({
+  marginLeft: '-27px',
+  position: 'sticky',
+  top: '0',
+  left: '0',
+  zIndex: theme.zIndex.drawer + 1,
+  background:
+    theme.palette.mode === 'light'
+      ? 'linear-gradient(0deg, rgba(245,245,247,0) 0%, rgba(245,245,247,1) 60%)'
+      : 'linear-gradient(0deg, rgba(53, 53, 53, 0) 0%, rgba(53, 53, 53, 1) 60%)',
+}))
 
 export type HeaderLinks = 'details' | 'skills' | 'projects' | 'preview'
 
@@ -38,10 +50,10 @@ const CvLayout: FC<CvLayoutProps> = ({path, page}) => {
   ]
 
   return (
-    <Box>
-      <Box sx={{marginLeft: '-27px'}}>
+    <Box sx={{position: 'relative', overflow: 'scroll'}}>
+      <Container>
         <StyledLinkList arrLinks={links} />
-      </Box>
+      </Container>
       {page}
     </Box>
   )
