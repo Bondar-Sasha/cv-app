@@ -1,24 +1,29 @@
-import {InnerWrapper} from '@/Pages/ui'
-import {CustomTextField, LoaderBackdrop, StyledButton} from '@/Shared'
-import {zodResolver} from '@hookform/resolvers/zod'
-import {Box, BoxProps, FormControl, styled} from '@mui/material'
+import {useEffect, useState} from 'react'
 import {useForm} from 'react-hook-form'
 import {useParams} from 'react-router-dom'
-import {useGetCvDetails} from '../api/useGetCvDetails'
-import {useEffect, useState} from 'react'
 import {toast} from 'react-toastify'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {Box, BoxProps, FormControl, styled} from '@mui/material'
+import {InnerWrapper} from '@/Pages/ui'
+import {CustomTextField, LoaderBackdrop, StyledButton} from '@/Shared'
+import {useGetCvDetails} from '../api/useGetCvDetails'
 import {createCvDetailsForm, CvDetailsShema} from '../api/CvDetailsShema'
 import {useUpdateCvDetails} from '../api/useUpdateCvDetails'
 import {FormFieldsData} from '../utilits/FormFieldsData'
 
-export const BoxCustom = styled(Box)<BoxProps>(() => ({
+const BoxCustom = styled(Box)<BoxProps>(() => ({
   width: '100%',
 }))
 
 const CvDetailsLayout = () => {
-  const cvId = useParams().cvId || ''
+  const {cvId = ''} = useParams()
   const {data, loading, error} = useGetCvDetails(cvId)
   const [isDisabled, setIsDisabled] = useState(true)
+  const [initialValues, setInitialValues] = useState<createCvDetailsForm>({
+    name: '',
+    education: '',
+    description: '',
+  })
 
   const {
     register,
@@ -27,42 +32,28 @@ const CvDetailsLayout = () => {
     watch,
     reset,
   } = useForm<createCvDetailsForm>({
-    defaultValues: {
-      name: '',
-      education: '',
-      description: '',
-    },
+    defaultValues: initialValues,
     resolver: zodResolver(CvDetailsShema),
   })
 
-  const watchedFields = watch()
-
   useEffect(() => {
     if (data) {
-      reset({
+      const newValues = {
         name: data.cv.name,
         education: data.cv.education || '',
         description: data.cv.description,
-      })
-      setInitialValues({
-        name: data.cv.name,
-        education: data.cv.education || '',
-        description: data.cv.description,
-      })
+      }
+      reset(newValues)
+      setInitialValues(newValues)
     }
   }, [data, reset])
 
-  const [initialValues, setInitialValues] = useState<createCvDetailsForm>({
-    name: '',
-    education: '',
-    description: '',
-  })
+  const watchedFields = watch()
 
   useEffect(() => {
     const isChanged = (
       Object.keys(watchedFields) as (keyof createCvDetailsForm)[]
     ).some((field) => watchedFields[field] !== initialValues[field])
-
     setIsDisabled(!isChanged)
   }, [watchedFields, initialValues])
 
@@ -74,19 +65,13 @@ const CvDetailsLayout = () => {
 
   const [mutateUpdate, {data: UpdateData}] = useUpdateCvDetails()
 
-  const handleUpdateCvDetails = ({
-    name,
-    education,
-    description,
-  }: createCvDetailsForm) => {
+  const handleUpdateCvDetails = (formData: createCvDetailsForm) => {
     mutateUpdate({
-      variables: {
-        cv: {cvId, name, education, description},
-      },
-      onError(error) {
+      variables: {cv: {cvId, ...formData}},
+      onError: (error) => {
         toast(error.message)
       },
-      onCompleted() {
+      onCompleted: () => {
         toast('CV was updated')
       },
     }).catch((error) => {
@@ -107,35 +92,24 @@ const CvDetailsLayout = () => {
   return (
     <InnerWrapper>
       <BoxCustom
-        component={'form'}
+        component="form"
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={handleSubmit((data) => {
-          handleUpdateCvDetails(data)
-        })}
+        onSubmit={handleSubmit(handleUpdateCvDetails)}
       >
-        <FormControl
-          sx={{
-            width: '100%',
-          }}
-        >
+        <FormControl sx={{width: '100%'}}>
           {FormFieldsData.map((field) => (
             <CustomTextField
-              key={field.id}
               type="text"
+              key={field.id}
               register={register}
               errors={errors}
-              id={field.id}
-              label={field.label}
-              name={field.name}
-              autoComplete={field.autoComplete}
-              multiline={field.multiline}
-              minRows={field.rows}
+              {...field}
             />
           ))}
           <StyledButton
             type="submit"
             variant="contained"
-            children={'Update'}
+            children="Update"
             disabled={isDisabled}
             sx={{marginTop: '25px', width: '50%', alignSelf: 'flex-end'}}
           />
