@@ -6,6 +6,8 @@ import CircleProgress from './CircleProgress/CircleProgress'
 import LoaderBackdrop from './LoaderBackdrop/LoaderBackdrop'
 import CustomSelectComponent from './CustomSelectComponent/CustomSelectComponent'
 import EnvUserLogo from './EnvUserLogo/EnvUserLogo'
+import CvForm from './CvForm/CvForm'
+import {CvFormType, CvShema} from './CvForm/CvFormShema'
 
 export {
   StyledLink,
@@ -16,4 +18,9 @@ export {
   LoaderBackdrop,
   CustomSelectComponent,
   EnvUserLogo,
+  CvForm,
+  CvShema,
 }
+export type {CvFormType}
+
+export * from './StyledComponents'

@@ -3,23 +3,22 @@ import {useForm} from 'react-hook-form'
 import {useParams} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {zodResolver} from '@hookform/resolvers/zod'
-import {Box, BoxProps, FormControl, styled} from '@mui/material'
 import {InnerWrapper} from '@/Pages/ui'
-import {CustomTextField, LoaderBackdrop, StyledButton} from '@/Shared'
+import {
+  CvForm,
+  CvFormType,
+  CvShema,
+  LoaderBackdrop,
+  StyledButton,
+} from '@/Shared'
 import {useGetCvDetails} from '../api/useGetCvDetails'
-import {createCvDetailsForm, CvDetailsShema} from '../api/CvDetailsShema'
 import {useUpdateCvDetails} from '../api/useUpdateCvDetails'
-import {FormFieldsData} from '../utilits/FormFieldsData'
-
-const BoxCustom = styled(Box)<BoxProps>(() => ({
-  width: '100%',
-}))
 
 const CvDetailsLayout = () => {
   const {cvId = ''} = useParams()
   const {data, loading, error} = useGetCvDetails(cvId)
   const [isDisabled, setIsDisabled] = useState(true)
-  const [initialValues, setInitialValues] = useState<createCvDetailsForm>({
+  const [initialValues, setInitialValues] = useState<CvFormType>({
     name: '',
     education: '',
     description: '',
@@ -31,9 +30,9 @@ const CvDetailsLayout = () => {
     formState: {errors},
     watch,
     reset,
-  } = useForm<createCvDetailsForm>({
+  } = useForm<CvFormType>({
     defaultValues: initialValues,
-    resolver: zodResolver(CvDetailsShema),
+    resolver: zodResolver(CvShema),
   })
 
   useEffect(() => {
@@ -51,9 +50,9 @@ const CvDetailsLayout = () => {
   const watchedFields = watch()
 
   useEffect(() => {
-    const isChanged = (
-      Object.keys(watchedFields) as (keyof createCvDetailsForm)[]
-    ).some((field) => watchedFields[field] !== initialValues[field])
+    const isChanged = (Object.keys(watchedFields) as (keyof CvFormType)[]).some(
+      (field) => watchedFields[field] !== initialValues[field]
+    )
     setIsDisabled(!isChanged)
   }, [watchedFields, initialValues])
 
@@ -65,7 +64,7 @@ const CvDetailsLayout = () => {
 
   const [mutateUpdate, {data: UpdateData}] = useUpdateCvDetails()
 
-  const handleUpdateCvDetails = (formData: createCvDetailsForm) => {
+  const handleUpdateCvDetails = (formData: CvFormType) => {
     mutateUpdate({
       variables: {cv: {cvId, ...formData}},
       onError: (error) => {
@@ -91,21 +90,11 @@ const CvDetailsLayout = () => {
 
   return (
     <InnerWrapper>
-      <BoxCustom
-        component="form"
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        onSubmit={handleSubmit(handleUpdateCvDetails)}
-      >
-        <FormControl sx={{width: '100%'}}>
-          {FormFieldsData.map((field) => (
-            <CustomTextField
-              type="text"
-              key={field.id}
-              register={register}
-              errors={errors}
-              {...field}
-            />
-          ))}
+      <CvForm
+        submitMutate={handleSubmit(handleUpdateCvDetails)}
+        register={register}
+        errors={errors}
+        buttons={
           <StyledButton
             type="submit"
             variant="contained"
@@ -113,8 +102,8 @@ const CvDetailsLayout = () => {
             disabled={isDisabled}
             sx={{marginTop: '25px', width: '50%', alignSelf: 'flex-end'}}
           />
-        </FormControl>
-      </BoxCustom>
+        }
+      />
     </InnerWrapper>
   )
 }

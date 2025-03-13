@@ -1,15 +1,14 @@
-import {CustomSelectComponent} from '@/Shared'
+import {
+  CloseButton,
+  CustomSelectComponent,
+  Form,
+  FormBox,
+  Title,
+} from '@/Shared'
 import {createPortal} from 'react-dom'
 import {useTranslation} from 'react-i18next'
 import CloseIcon from '@mui/icons-material/Close'
-import {
-  ButtonContainer,
-  CloseButton,
-  Form,
-  FormBox,
-  Overlay,
-  Title,
-} from './StyledComponents'
+import {ButtonContainer, Overlay} from './StyledComponents'
 import StyledButtonWrapper from './StyledButtonWrapper'
 import {FC, useState} from 'react'
 import {SelectChangeEvent} from '@mui/material'
