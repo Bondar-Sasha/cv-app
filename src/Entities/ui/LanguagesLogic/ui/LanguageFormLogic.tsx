@@ -15,7 +15,7 @@ interface LanguageFormLogicProps {
   handleClose: () => void
   updatedLanguage: LanguageProficiency | null
   refetch: () => Promise<ApolloQueryResult<LanguagesResult>>
-  userLanguages: LanguageProficiency[] | undefined
+  userLanguages?: LanguageProficiency[]
 }
 
 const LanguageFormLogic: FC<LanguageFormLogicProps> = ({

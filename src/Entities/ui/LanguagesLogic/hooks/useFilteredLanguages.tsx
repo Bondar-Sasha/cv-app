@@ -7,9 +7,7 @@ const useFilteredLanguages = (
   arrLanguages: LanguageOption[]
 ) => {
   const valuesForUserLanguages = useMemo(() => {
-    return userLanguages
-      ?.filter((obj) => obj['name'] !== undefined)
-      .map((obj) => obj['name'])
+    return userLanguages?.filter((obj) => obj['name']).map((obj) => obj['name'])
   }, [userLanguages])
 
   const filteredLanguages = useMemo(() => {

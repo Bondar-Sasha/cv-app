@@ -1,20 +1,28 @@
 import {getColorProficiency} from '@/Shared'
 import {Box, styled} from '@mui/material'
 
-export const ProficiencySpan = styled('span')<{
+interface ProficiencySpanProps {
   proficiency: number
   willDelete: boolean
-}>(({proficiency, willDelete, theme}) => {
+}
+
+export const ProficiencySpan = styled('span', {
+  shouldForwardProp: (prop) => prop !== 'proficiency' && prop !== 'willDelete',
+})<ProficiencySpanProps>(({proficiency, willDelete, theme}) => {
   const color = getColorProficiency(proficiency)
   return {
     color: willDelete ? theme.palette.text.primary : color,
   }
 })
 
-export const LanguageSpan = styled('span')<{
+interface LanguageSpanProps {
   willDelete: boolean
   disabled: boolean
-}>(({willDelete, theme, disabled}) => {
+}
+
+export const LanguageSpan = styled('span', {
+  shouldForwardProp: (prop) => prop !== 'willDelete' && prop !== 'disabled',
+})<LanguageSpanProps>(({willDelete, theme, disabled}) => {
   let color
   if (willDelete) {
     color = theme.palette.text.primary
