@@ -1,18 +1,10 @@
-import {InnerWrapper} from '@/Pages/ui/StyledComponents'
-import {StyledButton} from '@/Shared'
-import AddIcon from '@mui/icons-material/Add'
-import {useTranslation} from 'react-i18next'
+import {getCurrentUserID} from '@/App'
+import {LanguagesPageLogic} from '@/Entities'
 
 const LanguagesPage = () => {
-  const {t} = useTranslation()
+  const userId = getCurrentUserID()
 
-  return (
-    <InnerWrapper>
-      <StyledButton>
-        <AddIcon style={{marginRight: '8px'}} /> {t('Add language')}
-      </StyledButton>
-    </InnerWrapper>
-  )
+  return <LanguagesPageLogic userId={userId} />
 }
 
 export default LanguagesPage

@@ -3,6 +3,7 @@ import {FC} from 'react'
 import {Box} from '@mui/material'
 import {StyledLinkList} from '@/Widgets'
 import {AppRouterMap} from '@/Shared'
+import {useParams} from 'react-router-dom'
 
 export interface OneUserLayoutProps {
   path: HeaderLinks
@@ -13,19 +14,21 @@ export interface OneUserLayoutProps {
 export type HeaderLinks = 'profile' | 'skills' | 'languages'
 
 const OneUserLayout: FC<OneUserLayoutProps> = ({path, page, sx}) => {
+  const id = useParams().userId
+
   const links = [
     {
-      to: AppRouterMap.userProfile.path(),
+      to: AppRouterMap.userProfile.path(id),
       label: 'Profile',
       active: path === 'profile',
     },
     {
-      to: AppRouterMap.userSkills.path(),
+      to: AppRouterMap.userSkills.path(id),
       label: 'Skills',
       active: path === 'skills',
     },
     {
-      to: AppRouterMap.userLanguages.path(),
+      to: AppRouterMap.userLanguages.path(id),
       label: 'Languages',
       active: path === 'languages',
     },

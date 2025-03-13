@@ -20,7 +20,7 @@ export const UPDATE_USER_LANGUAGES = gql`
   }
 `
 
-export const useUpdateUserLanguage = () => {
+export const useUpdateProfileLanguage = () => {
   return useMutation<UpdateLanguageResult, UpdateLanguagesArgs>(
     UPDATE_USER_LANGUAGES
   )
