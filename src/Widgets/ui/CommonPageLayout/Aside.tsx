@@ -1,34 +1,18 @@
-import {ComponentProps, FC, memo, useState} from 'react'
-import {styled, useTheme} from '@mui/material/styles'
+import {ComponentProps, FC, memo, useRef, useState} from 'react'
+import {useTheme} from '@mui/material/styles'
 import {useLocation, useNavigate} from 'react-router-dom'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import IconButton from '@mui/material/IconButton'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import SettingsIcon from '@mui/icons-material/Settings'
+import LogoutIcon from '@mui/icons-material/Logout'
 
 import layoutStyles from './styles/layout.module.css'
-import {AppRouterMap} from '@/Shared'
+import {AppRouterMap, EnvUserLogo, useUser} from '@/Shared'
 import AsideSvg from './assets/AsideSvg'
-import {Box} from '@mui/material'
+import {Box, Popover} from '@mui/material'
 import {useTranslation} from 'react-i18next'
-
-interface AsideMarkerProps {
-  isPicked: boolean
-}
-
-const AsideMarker = styled('div', {
-  shouldForwardProp: (prop) => prop !== 'isPicked',
-})<AsideMarkerProps>(({theme, isPicked}) => {
-  const colorsMap = {
-    light: 'rgba(0, 0, 0, 0.04)',
-    dark: 'rgba(255, 255, 255, 0.08)',
-  }
-
-  return {
-    ':hover': {
-      background: colorsMap[theme.palette.mode],
-    },
-    backgroundColor: isPicked ? colorsMap[theme.palette.mode] : '',
-  }
-})
+import {AsideMarker, CustomPopoverButton} from './preparedUi'
 
 interface AsideMarkersMap {
   id: number
@@ -64,11 +48,16 @@ const Aside: FC = memo(() => {
   const navigate = useNavigate()
   const theme = useTheme()
   const {t} = useTranslation()
+  const {user} = useUser()
 
   const [asideState, setAsideState] = useState<boolean>(true)
+  const [userMenuState, setUserMenu] = useState<boolean>(false)
+  const userMenuAnchor = useRef<HTMLDivElement>(null)
   const changeAsideState = () => {
     setAsideState((prev) => !prev)
   }
+
+  const handleLogout = async () => {}
 
   return (
     <aside
@@ -92,7 +81,84 @@ const Aside: FC = memo(() => {
           )
         })}
       </div>
+
+      <Popover
+        open={userMenuState}
+        onClose={() => setUserMenu((prev) => !prev)}
+        anchorEl={userMenuAnchor.current}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 120,
+          horizontal: 30,
+        }}
+      >
+        <Box
+          width="200px"
+          display="flex"
+          flexDirection="column"
+          color={theme.palette.text.primary}
+          bgcolor={theme.palette.background.default}
+        >
+          <CustomPopoverButton
+            onClick={() =>
+              void navigate(AppRouterMap.userProfile.path(user?.id))
+            }
+          >
+            <AccountCircleIcon sx={{marginRight: '10px'}} />
+            {t('Profile')}
+          </CustomPopoverButton>
+          <CustomPopoverButton
+            onClick={() => void navigate(AppRouterMap.settings.path)}
+          >
+            <SettingsIcon sx={{marginRight: '10px'}} />
+            {t('Settings')}
+          </CustomPopoverButton>
+          <CustomPopoverButton onClick={void handleLogout}>
+            <LogoutIcon sx={{marginRight: '10px'}} />
+            {t('Logout')}
+          </CustomPopoverButton>
+        </Box>
+      </Popover>
       <div>
+        <Box
+          ref={userMenuAnchor}
+          overflow="hidden"
+          display="flex"
+          alignItems="center"
+          paddingLeft="10px"
+          sx={{
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            setUserMenu((prev) => !prev)
+          }}
+        >
+          {user?.profile.avatar ? (
+            <Box
+              component="img"
+              src={user.profile.avatar}
+              alt="User Avatar"
+              minWidth="40px"
+              minHeight="40px"
+              borderRadius="20px"
+            />
+          ) : (
+            <EnvUserLogo latter={user?.email[0] || ''} />
+          )}
+
+          <Box
+            component="span"
+            textOverflow="ellipsis"
+            marginLeft="10px"
+            overflow="hidden"
+          >
+            {user?.email}
+          </Box>
+        </Box>
+
         <Box
           height="70px"
           display="flex"
