@@ -12,9 +12,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close'
 
 import {CustomSelectComponent, LoaderBackdrop, useUser} from '@/Shared'
-import {useDepartments} from '../api/useDepartments'
-import {usePositions} from '../api/usePositions'
-import {useUpdateUserProfile} from '../api/useUpdateUserProfile'
+import {useDepartments, usePositions, useUpdateUserProfile} from '@/Features'
 
 interface UpdateProfilePopupProps {
   open: boolean
@@ -176,7 +174,7 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
               onChange={selectHandler('department')}
               label="Department"
               options={departments.map(({name, id}) => ({
-                value: id, // Use ID
+                value: id,
                 label: name,
               }))}
             />
@@ -186,7 +184,7 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
               onChange={selectHandler('position')}
               label="Position"
               options={positions.map(({name, id}) => ({
-                value: id, // Use ID
+                value: id,
                 label: name,
               }))}
             />

@@ -184,7 +184,7 @@ const UsersPage: FC = () => {
           <TableRow>
             <CustomThCell width="80px"></CustomThCell>
             {THeadItems.map((item) => (
-              <CustomTdCell
+              <CustomThCell
                 align="left"
                 key={item.id}
                 onClick={() => toggleFilter(item.id)}
@@ -198,9 +198,9 @@ const UsersPage: FC = () => {
                       : null
                   }
                 />
-              </CustomTdCell>
+              </CustomThCell>
             ))}
-            <CustomTdCell width="80px"></CustomTdCell>
+            <CustomThCell width="80px"></CustomThCell>
           </TableRow>
         </Box>
         <TableBody ref={tbodyRef}>
@@ -224,7 +224,7 @@ const UsersPage: FC = () => {
                 <Button
                   color="inherit"
                   onClick={() =>
-                    void navigate(AppRouterMap.userProfile.path('32'))
+                    void navigate(AppRouterMap.userProfile.path(user?.id))
                   }
                 >
                   {t('Profile')}
@@ -242,18 +242,12 @@ const UsersPage: FC = () => {
               </Box>
             </Popover>
             <CustomTdCell>
-              {user?.profile.avatar ? (
-                <Box
-                  component="img"
-                  src={user.profile.avatar}
-                  alt="User Avatar"
-                  minWidth="40px"
-                  minHeight="40px"
-                  borderRadius="20px"
-                />
-              ) : (
-                <EnvUserLogo latter={user?.email[0] || ''} />
-              )}
+              <EnvUserLogo
+                latter={
+                  user?.profile.first_name?.charAt(0) || user?.email[0] || ''
+                }
+                src={user?.profile?.avatar}
+              />
             </CustomTdCell>
             <CustomTdCell>{user?.profile?.first_name}</CustomTdCell>
             <CustomTdCell>{user?.profile?.last_name}</CustomTdCell>
