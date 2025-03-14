@@ -17,7 +17,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import {useNavigate} from 'react-router-dom'
 
 import {useUsers} from '../api'
-import {CircleProgress, AppRouterMap} from '@/Shared'
+import {CircleProgress, AppRouterMap, useUser, EnvUserLogo} from '@/Shared'
 import {PreparedUser} from '../api/useUsers'
 import UsersList from './UsersList'
 import {
@@ -25,7 +25,9 @@ import {
   CustomIconButton,
   CustomTdCell,
   CustomTextField,
+  CustomThCell,
 } from './preparedUi'
+import UpdateProfilePopup from './UpdateProfilePopup'
 
 interface Filters {
   searchState: string
@@ -74,11 +76,13 @@ const filterFunc = (data?: PreparedUser[]) => {
 
 const UsersPage: FC = () => {
   const theme = useTheme()
+  const {user} = useUser()
   const {data, loading} = useUsers()
   const {t} = useTranslation()
   const navigate = useNavigate()
   const tbodyRef = useRef<HTMLTableSectionElement | null>(null)
   const [popoverState, setPopover] = useState<boolean>(false)
+  const [popupState, setPopup] = useState<boolean>(false)
   const [filtersState, setFilters] = useState<Filters>({
     searchState: '',
     currentFilter: {
@@ -142,6 +146,12 @@ const UsersPage: FC = () => {
 
   return (
     <main>
+      <UpdateProfilePopup
+        open={popupState}
+        onClose={() => {
+          setPopup(false)
+        }}
+      />
       <Table sx={{bgcolor: 'inherit', color: 'inherit'}}>
         <Box
           component={TableHead}
@@ -178,9 +188,9 @@ const UsersPage: FC = () => {
             </TableCell>
           </TableRow>
           <TableRow>
-            <CustomTdCell width="80px"></CustomTdCell>
+            <CustomThCell width="80px"></CustomThCell>
             {THeadItems.map((item) => (
-              <CustomTdCell
+              <CustomThCell
                 align="left"
                 key={item.id}
                 onClick={() => toggleFilter(item.id)}
@@ -194,48 +204,75 @@ const UsersPage: FC = () => {
                       : null
                   }
                 />
-              </CustomTdCell>
+              </CustomThCell>
             ))}
             <CustomTdCell width="80px"></CustomTdCell>
           </TableRow>
         </Box>
         <TableBody ref={tbodyRef}>
           <Box component={TableRow} height="73px">
-            <CustomTdCell colSpan={6}>
+            <Popover
+              anchorEl={popoverAnchor.current}
+              open={popoverState}
+              onClose={() => setPopover(false)}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+            >
+              <Box
+                width="210px"
+                display="flex"
+                flexDirection="column"
+                color={theme.palette.text.primary}
+                bgcolor={theme.palette.background.default}
+              >
+                <Button
+                  color="inherit"
+                  onClick={() =>
+                    void navigate(AppRouterMap.userProfile.path('32'))
+                  }
+                >
+                  {t('Profile')}
+                </Button>
+                <Button
+                  color="inherit"
+                  onClick={() => {
+                    setPopover(false)
+                    setPopup(true)
+                  }}
+                >
+                  {t('Update user')}
+                </Button>
+                <Button disabled>{t('Delete user')}</Button>
+              </Box>
+            </Popover>
+            <CustomTdCell>
+              {user?.profile.avatar ? (
+                <Box
+                  component="img"
+                  src={user.profile.avatar}
+                  alt="User Avatar"
+                  minWidth="40px"
+                  minHeight="40px"
+                  borderRadius="20px"
+                />
+              ) : (
+                <EnvUserLogo latter={user?.email[0] || ''} />
+              )}
+            </CustomTdCell>
+            <CustomTdCell>{user?.profile?.first_name}</CustomTdCell>
+            <CustomTdCell>{user?.profile?.last_name}</CustomTdCell>
+            <CustomTdCell>{user?.email}</CustomTdCell>
+            <CustomTdCell>{user?.department?.name}</CustomTdCell>
+            <CustomTdCell>{user?.position?.name}</CustomTdCell>
+            <CustomTdCell>
               <CustomIconButton
                 ref={popoverAnchor}
                 onClick={() => setPopover((prev) => !prev)}
               >
                 <MoreVertIcon />
               </CustomIconButton>
-              <Popover
-                anchorEl={popoverAnchor.current}
-                open={popoverState}
-                onClose={() => setPopover(false)}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center',
-                }}
-              >
-                <Box
-                  width="210px"
-                  display="flex"
-                  flexDirection="column"
-                  color={theme.palette.text.primary}
-                  bgcolor={theme.palette.background.default}
-                >
-                  <Button
-                    color="inherit"
-                    onClick={() =>
-                      void navigate(AppRouterMap.userProfile.path('32'))
-                    }
-                  >
-                    {t('Profile')}
-                  </Button>
-                  <Button color="inherit">{t('Update user')}</Button>
-                  <Button disabled>{t('Delete user')}</Button>
-                </Box>
-              </Popover>
             </CustomTdCell>
           </Box>
           <UsersList listData={filteredData} parentRef={tbodyRef} />
