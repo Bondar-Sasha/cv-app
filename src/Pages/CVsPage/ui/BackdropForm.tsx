@@ -101,6 +101,7 @@ const BackdropForm: FC<BackdropFormProps> = ({isOpen, setOpen}) => {
               <CVsFormButton
                 handleClose={handleClose}
                 isDisabled={isDisabled}
+                titleBtn="Create"
               />
             }
           />
