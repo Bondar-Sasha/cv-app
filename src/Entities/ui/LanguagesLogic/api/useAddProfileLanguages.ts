@@ -9,8 +9,8 @@ export type AddLanguageResult = {
   data: Profile
 }
 
-export const ADD_USER_LANGUAGES = gql`
-  mutation AddUserLanguages($language: AddProfileLanguageInput!) {
+export const ADD_PROFILE_LANGUAGES = gql`
+  mutation AddProfileLanguages($language: AddProfileLanguageInput!) {
     addProfileLanguage(language: $language) {
       languages {
         name
@@ -20,6 +20,6 @@ export const ADD_USER_LANGUAGES = gql`
   }
 `
 
-export const useAddUserLanguage = () => {
-  return useMutation<AddLanguageResult, AddLanguagesArgs>(ADD_USER_LANGUAGES)
+export const useAddProfileLanguage = () => {
+  return useMutation<AddLanguageResult, AddLanguagesArgs>(ADD_PROFILE_LANGUAGES)
 }

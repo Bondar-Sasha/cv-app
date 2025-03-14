@@ -14,7 +14,7 @@ export const UPDATE_CV_DETAILS = gql`
     updateCv(cv: $cv) {
       name
       education
-      descriptions
+      description
     }
   }
 `

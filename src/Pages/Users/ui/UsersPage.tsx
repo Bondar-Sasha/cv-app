@@ -1,7 +1,6 @@
 import {FC, useEffect, useMemo, useRef, useState, useTransition} from 'react'
 import {
   Box,
-  InputAdornment,
   Table,
   TableHead,
   TableBody,
@@ -11,20 +10,24 @@ import {
   Button,
   useTheme,
 } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search'
 import {useTranslation} from 'react-i18next'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import {useNavigate} from 'react-router-dom'
 
 import {useUsers} from '../api'
-import {CircleProgress, AppRouterMap, useUser, EnvUserLogo} from '@/Shared'
+import {
+  CircleProgress,
+  AppRouterMap,
+  useUser,
+  EnvUserLogo,
+  SearchInput,
+} from '@/Shared'
 import {PreparedUser} from '../api/useUsers'
 import UsersList from './UsersList'
 import {
   CustomArrow,
   CustomIconButton,
   CustomTdCell,
-  CustomTextField,
   CustomThCell,
 } from './preparedUi'
 import UpdateProfilePopup from './UpdateProfilePopup'
@@ -164,7 +167,7 @@ const UsersPage: FC = () => {
           <TableRow>
             <TableCell colSpan={7} sx={{border: 'none', padding: 0}}>
               <Box display="flex" alignItems="end" height="50px" width="100%">
-                <CustomTextField
+                <SearchInput
                   variant="outlined"
                   value={filtersState.searchState}
                   onChange={(e) =>
@@ -174,15 +177,6 @@ const UsersPage: FC = () => {
                     }))
                   }
                   placeholder="Search..."
-                  slotProps={{
-                    input: {
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <SearchIcon color="inherit" />
-                        </InputAdornment>
-                      ),
-                    },
-                  }}
                 />
               </Box>
             </TableCell>
@@ -190,7 +184,7 @@ const UsersPage: FC = () => {
           <TableRow>
             <CustomThCell width="80px"></CustomThCell>
             {THeadItems.map((item) => (
-              <CustomThCell
+              <CustomTdCell
                 align="left"
                 key={item.id}
                 onClick={() => toggleFilter(item.id)}
@@ -204,7 +198,7 @@ const UsersPage: FC = () => {
                       : null
                   }
                 />
-              </CustomThCell>
+              </CustomTdCell>
             ))}
             <CustomTdCell width="80px"></CustomTdCell>
           </TableRow>

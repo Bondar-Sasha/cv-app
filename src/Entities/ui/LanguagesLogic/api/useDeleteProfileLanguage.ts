@@ -9,8 +9,8 @@ export type DeleteLanguageResult = {
   data: Profile
 }
 
-export const DELETE_USER_LANGUAGES = gql`
-  mutation DeleteUserLanguages($language: DeleteProfileLanguageInput!) {
+export const DELETE_PROFILE_LANGUAGES = gql`
+  mutation DeleteProfileLanguages($language: DeleteProfileLanguageInput!) {
     deleteProfileLanguage(language: $language) {
       languages {
         name
@@ -20,8 +20,8 @@ export const DELETE_USER_LANGUAGES = gql`
   }
 `
 
-export const useDeleteUserLanguage = () => {
+export const useDeleteProfileLanguage = () => {
   return useMutation<DeleteLanguageResult, DeleteLanguagesArgs>(
-    DELETE_USER_LANGUAGES
+    DELETE_PROFILE_LANGUAGES
   )
 }
