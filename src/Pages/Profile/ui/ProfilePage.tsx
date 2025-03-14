@@ -183,23 +183,18 @@ const ProfilePage: FC = () => {
       <Box
         display="flex"
         alignItems="center"
-        justifyContent="space-between"
+        justifyContent="center"
         flexWrap="wrap"
-        maxWidth="450px"
         width="100%"
+        maxWidth="fit-content"
         marginBottom="32px"
-        sx={{
-          '@media (max-width: 600px)': {
-            flexDirection: 'column',
-            justifyContent: 'center',
-          },
-        }}
       >
         <Box
           position="relative"
           alignContent="center"
           width="120px"
           height="120px"
+          marginRight="60px"
           onDragOver={(e) => {
             e.preventDefault()
             e.stopPropagation()
