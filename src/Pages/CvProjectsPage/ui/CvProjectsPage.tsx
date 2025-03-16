@@ -1,6 +1,7 @@
 import {CvLayout} from '@/Features'
+import {FC} from 'react'
 
-const CvProjectsPage = () => {
+const CvProjectsPage: FC = () => {
   return <CvLayout path="projects" page={<div>cv projects</div>} />
 }
 

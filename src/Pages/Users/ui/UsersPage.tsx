@@ -16,11 +16,11 @@ import {useNavigate} from 'react-router-dom'
 
 import {useUsers} from '../api'
 import {
-  CircleProgress,
   AppRouterMap,
   useUser,
   EnvUserLogo,
   SearchInput,
+  LoaderBackdrop,
 } from '@/Shared'
 import {PreparedUser} from '../api/useUsers'
 import UsersList from './UsersList'
@@ -134,17 +134,7 @@ const UsersPage: FC = () => {
   }
 
   if (loading) {
-    return (
-      <Box
-        width="100%"
-        height="50%"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <CircleProgress />
-      </Box>
-    )
+    return <LoaderBackdrop loading />
   }
 
   return (
@@ -165,7 +155,14 @@ const UsersPage: FC = () => {
           bgcolor="inherit"
         >
           <TableRow>
-            <TableCell colSpan={7} sx={{border: 'none', padding: 0}}>
+            <TableCell
+              colSpan={7}
+              sx={{
+                border: 'none',
+                padding: 0,
+                '@media (width <= 768px)': {paddingLeft: '44px'},
+              }}
+            >
               <Box display="flex" alignItems="end" height="50px" width="100%">
                 <SearchInput
                   variant="outlined"

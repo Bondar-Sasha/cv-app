@@ -9,12 +9,13 @@ interface CustomSelectComponentProps {
   options: {value: string; label: string}[]
   label: string
   disabled?: boolean
+  defaultValue?: string
 }
 
 const CustomSelectComponent: FC<CustomSelectComponentProps> = forwardRef<
   HTMLDivElement,
   CustomSelectComponentProps
->(({value, onChange, options, label, disabled}, ref) => {
+>(({value, onChange, options, label, disabled, defaultValue}, ref) => {
   const {t} = useTranslation()
   const theme = useTheme()
   return (
@@ -24,7 +25,7 @@ const CustomSelectComponent: FC<CustomSelectComponentProps> = forwardRef<
         ref={ref}
         labelId="custom-select-label"
         id="custom-select"
-        value={value}
+        value={defaultValue && !value ? defaultValue : value}
         label={t(label)}
         onChange={onChange}
         MenuProps={{

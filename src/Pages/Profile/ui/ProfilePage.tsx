@@ -40,19 +40,16 @@ interface FormFields {
 
 const ProfilePage: FC = () => {
   const params = useParams<Params>()
-  const {update, isFetching} = useUpdateUserProfile()
+  const theme = useTheme()
   const navigate = useNavigate()
 
-  const {user, loading} = useUser()
-  const {
-    user: paramUser,
-    loading: paramsUserFetching,
-    error,
-  } = useUser(params.userId)
+  const {update, isFetching} = useUpdateUserProfile()
+  const {user: currentUser, loading: currentUserFetching} = useUser()
 
-  const theme = useTheme()
+  const {user, loading, error} = useUser(params.userId)
+
   const [logoUrl, setLogoUrl] = useState<string | null | undefined>(
-    user?.profile?.avatar
+    user?.profile.avatar
   )
   const {uploadAvatar, uploadFetching, uploadData} = useUploadAvatar()
   const {deleteAvatar, deleteFetching} = useDeleteAvatar()
@@ -111,38 +108,23 @@ const ProfilePage: FC = () => {
     void deleteAvatarHelper()
   }
 
-  const {register, watch, setValue, handleSubmit, reset} = useForm<FormFields>({
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      department: '',
-      position: '',
-    },
-  })
+  const {register, watch, setValue, handleSubmit} = useForm<FormFields>()
 
-  const isIdEqual = user?.id === paramUser?.id
   useEffect(() => {
     if (error) {
       void navigate('/')
       toast.error("This user doesn't exist")
       return
     }
-    const desiredUser = isIdEqual ? user : paramUser
-    if (desiredUser) {
-      reset({
-        firstName: desiredUser.profile.first_name || '',
-        lastName: desiredUser.profile.last_name || '',
-        department: desiredUser.department?.id || '',
-        position: desiredUser.position?.id || '',
-      })
-    }
-  }, [error, isIdEqual, navigate, paramUser, reset, user])
+  }, [error, navigate])
 
-  const wholeLoading =
-    departmentsFetching || positionsFetching || loading || paramsUserFetching
-
-  if (wholeLoading) {
-    return <LoaderBackdrop loading={wholeLoading} />
+  if (
+    departmentsFetching ||
+    positionsFetching ||
+    loading ||
+    currentUserFetching
+  ) {
+    return <LoaderBackdrop loading />
   }
 
   if (!departments || !positions) {
@@ -169,6 +151,7 @@ const ProfilePage: FC = () => {
     }).catch((error) => console.error(error))
   }
 
+  const isEqual = user?.id === currentUser?.id
   const preparedDate = new Date(Number(user?.profile.created_at)).toDateString()
   return (
     <Box
@@ -192,7 +175,6 @@ const ProfilePage: FC = () => {
           alignContent="center"
           width="120px"
           height="120px"
-          marginRight="60px"
           onDragOver={(e) => {
             e.preventDefault()
             e.stopPropagation()
@@ -232,8 +214,13 @@ const ProfilePage: FC = () => {
             )}
           </Box>
         </Box>
-        {isIdEqual && (
-          <Box display="flex" alignItems="center" flexDirection="column">
+        {isEqual && (
+          <Box
+            display="flex"
+            alignItems="center"
+            flexDirection="column"
+            marginLeft="60px"
+          >
             <Box component="h3" textAlign="center" margin={0}>
               <IconButton onClick={handleIconClick} sx={{marginRight: '8px'}}>
                 <UploadLogo color={theme.palette.text.primary} />
@@ -279,21 +266,24 @@ const ProfilePage: FC = () => {
           gap="16px"
         >
           <TextField
-            disabled={!isIdEqual}
             {...register('firstName')}
+            disabled={!isEqual}
+            defaultValue={user?.profile.first_name}
             label="First Name"
             placeholder="First Name"
             variant="outlined"
           />
           <TextField
-            disabled={!isIdEqual}
             {...register('lastName')}
+            disabled={!isEqual}
+            defaultValue={user?.profile.last_name}
             label="Last Name"
             placeholder="Last Name"
             variant="outlined"
           />
           <CustomSelectComponent
-            disabled={!isIdEqual}
+            disabled={!isEqual}
+            defaultValue={user?.department?.id || ''}
             value={watch('department')}
             onChange={selectHandler('department')}
             label="Department"
@@ -303,7 +293,8 @@ const ProfilePage: FC = () => {
             }))}
           />
           <CustomSelectComponent
-            disabled={!isIdEqual}
+            disabled={!isEqual}
+            defaultValue={user?.position?.id || ''}
             value={watch('position')}
             onChange={selectHandler('position')}
             label="Position"
@@ -313,7 +304,7 @@ const ProfilePage: FC = () => {
             }))}
           />
         </Box>
-        {isIdEqual && (
+        {isEqual && (
           <Box display="flex" justifyContent="end">
             <Button
               type="submit"
