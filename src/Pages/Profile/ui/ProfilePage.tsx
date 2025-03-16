@@ -71,12 +71,10 @@ const ProfilePage: FC = () => {
       try {
         await uploadAvatar({
           variables: {
-            avatar: {
-              base64,
-              userId: user?.id || '',
-              size: file.size,
-              type: file.type,
-            },
+            base64,
+            userId: user?.id || '',
+            size: file.size,
+            type: file.type,
           },
         })
         setLogoUrl(uploadData)
@@ -106,7 +104,7 @@ const ProfilePage: FC = () => {
   const handleDeleteAvatar = () => {
     const deleteAvatarHelper = async () => {
       await deleteAvatar({
-        variables: {avatar: {userId: user?.id || ''}},
+        variables: {userId: user?.id || ''},
       }).catch((error) => console.error(error))
       setLogoUrl(null)
     }

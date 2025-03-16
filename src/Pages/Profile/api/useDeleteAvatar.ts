@@ -1,19 +1,16 @@
 import {gql, useMutation} from '@apollo/client'
+import {DeleteAvatarInput} from 'cv-graphql'
 
 const DELETE_AVATAR = gql`
   mutation DeleteAvatar($avatar: DeleteAvatarInput!) {
     deleteAvatar(avatar: $avatar)
   }
 `
-interface DeleteAvatarReq {
-  avatar: {userId: string}
-}
-type DeleteAvatarRes = void
 
 export const useDeleteAvatar = () => {
   const [deleteAvatar, deleteAvatarFetching] = useMutation<
-    DeleteAvatarRes,
-    DeleteAvatarReq
+    void,
+    DeleteAvatarInput
   >(DELETE_AVATAR)
   return {
     deleteAvatar,
