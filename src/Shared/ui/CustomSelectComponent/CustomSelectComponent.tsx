@@ -1,7 +1,7 @@
 import {InputLabel, SelectChangeEvent, useTheme} from '@mui/material'
 import {CustomFormControl, CustomMenuItem, CustomSelect} from './StyledElement'
 import {useTranslation} from 'react-i18next'
-import {FC} from 'react'
+import {FC, forwardRef} from 'react'
 
 interface CustomSelectComponentProps {
   value: string
@@ -11,19 +11,17 @@ interface CustomSelectComponentProps {
   disabled?: boolean
 }
 
-const CustomSelectComponent: FC<CustomSelectComponentProps> = ({
-  value,
-  onChange,
-  options,
-  label,
-  disabled,
-}) => {
+const CustomSelectComponent: FC<CustomSelectComponentProps> = forwardRef<
+  HTMLDivElement,
+  CustomSelectComponentProps
+>(({value, onChange, options, label, disabled}, ref) => {
   const {t} = useTranslation()
   const theme = useTheme()
   return (
     <CustomFormControl fullWidth disabled={disabled}>
       <InputLabel id="custom-select-label">{t(label)}</InputLabel>
       <CustomSelect
+        ref={ref}
         labelId="custom-select-label"
         id="custom-select"
         value={value}
@@ -61,6 +59,6 @@ const CustomSelectComponent: FC<CustomSelectComponentProps> = ({
       </CustomSelect>
     </CustomFormControl>
   )
-}
+})
 
 export default CustomSelectComponent

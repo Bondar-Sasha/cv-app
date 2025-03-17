@@ -38,9 +38,7 @@ export const useTokens = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  const [getTokens, {data: tokensData}] = useMutation<Tokens>(UPDATE_TOKENS, {
-    fetchPolicy: 'no-cache',
-  })
+  const [getTokens, {data: tokensData}] = useMutation<Tokens>(UPDATE_TOKENS)
 
   const [getUser] = useLazyQuery<ReceivedUser, GetUserArgs>(USER)
 
@@ -77,7 +75,6 @@ export const useTokens = () => {
         }
         client.setLink(preparedApolloLink(accessToken))
         const {data} = await getUser({
-          fetchPolicy: 'network-only',
           variables: {userId: userId as string | number},
         })
         if (!data) {

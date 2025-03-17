@@ -3,26 +3,41 @@ import {FC} from 'react'
 
 interface EnvUserLogoProps {
   latter: string
+  width?: number
+  height?: number
+  bgColor?: string
+  src?: string | null
 }
 
-const EnvUserLogo: FC<EnvUserLogoProps> = ({latter}) => {
+const EnvUserLogo: FC<EnvUserLogoProps> = ({
+  latter,
+  width,
+  height,
+  bgColor,
+  src,
+}) => {
   const theme = useTheme()
   return (
     <Box
-      width="40px"
-      height="40px"
-      minWidth="40px"
-      minHeight="40px"
-      borderRadius="20px"
-      bgcolor="rgb(189, 189, 189)"
+      width={width || 40}
+      height={height || 40}
+      minWidth={width || 40}
+      minHeight={height || 40}
+      borderRadius={width ? width / 2 : 20}
+      bgcolor={bgColor || 'rgb(189, 189, 189)'}
+      fontSize={width ? width / 3 : 20}
       display="flex"
       alignItems="center"
       justifyContent="center"
       boxSizing="border-box"
-      paddingTop="3px"
       color={theme.palette.background.default}
+      sx={{
+        backgroundImage: src ? `url(${src})` : undefined,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
     >
-      {latter.toUpperCase()}
+      {!src && latter.toUpperCase()}
     </Box>
   )
 }
