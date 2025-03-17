@@ -72,3 +72,10 @@ export const AppRouterMap: IAppRouterMap = {
   resetPassword: {label: 'reset-password', path: '/reset-password'},
   settings: {label: 'Settings', path: '/settings'},
 }
+
+export interface Params {
+  userId: string
+  projectId: string
+  cvId: string
+  [key: string]: string
+}

@@ -37,6 +37,7 @@ export const CustomMenuItem = styled(MenuItem)(({theme}) => ({
 
 export const CustomSelect = styled(Select)<SelectProps>(({theme}) => ({
   '& .MuiSelect-select': {
+    boxSizing: 'border-box',
     fontSize: '1.2rem',
     lineHight: '1.8rem',
     paddingTop: '19px',

@@ -8,6 +8,7 @@ import CustomSelectComponent from './CustomSelectComponent/CustomSelectComponent
 import EnvUserLogo from './EnvUserLogo/EnvUserLogo'
 import CvForm from './CvForm/CvForm'
 import {CvFormType, CvShema} from './CvForm/CvFormShema'
+import SearchInput from './SearchInput/SearchInput'
 
 export {
   StyledLink,
@@ -20,6 +21,7 @@ export {
   EnvUserLogo,
   CvForm,
   CvShema,
+  SearchInput,
 }
 export type {CvFormType}
 

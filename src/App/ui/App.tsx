@@ -1,7 +1,7 @@
 import {FC, useEffect} from 'react'
 import 'react-toastify/dist/ReactToastify.css'
 import {ToastContainer} from 'react-toastify'
-import {Box, ThemeProvider} from '@mui/material'
+import {ThemeProvider} from '@mui/material'
 import {useApolloClient} from '@apollo/client'
 import {I18nextProvider} from 'react-i18next'
 import 'normalize.css'
@@ -12,7 +12,7 @@ import {preparedApolloLink} from '../providers/ApolloClient'
 import useThemeMode, {ThemeContext} from '../providers/ThemeProvider'
 import i18n from '@/Shared/i18n/i18n'
 import {useTokens} from '../utils'
-import {CircleProgress} from '@/Shared'
+import {LoaderBackdrop} from '@/Shared'
 
 const TOKEN_REFRESH_INTERVAL = 590000
 
@@ -43,17 +43,11 @@ const App: FC = () => {
     }
   }, [refetchTokens])
 
-  return isFetching ? (
-    <Box
-      width="100%"
-      height="50%"
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <CircleProgress />
-    </Box>
-  ) : (
+  if (isFetching) {
+    return <LoaderBackdrop loading={isFetching} />
+  }
+
+  return (
     <I18nextProvider i18n={i18n}>
       <ThemeContext.Provider value={{themeMode, handleChangeTheme}}>
         <ThemeProvider theme={theme}>

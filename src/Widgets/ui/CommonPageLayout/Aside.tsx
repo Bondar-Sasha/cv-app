@@ -49,7 +49,6 @@ const Aside: FC = memo(() => {
   const theme = useTheme()
   const {t} = useTranslation()
   const {user} = useUser()
-
   const [asideState, setAsideState] = useState<boolean>(true)
   const [userMenuState, setUserMenu] = useState<boolean>(false)
   const userMenuAnchor = useRef<HTMLDivElement>(null)
@@ -136,18 +135,11 @@ const Aside: FC = memo(() => {
             setUserMenu((prev) => !prev)
           }}
         >
-          {user?.profile.avatar ? (
-            <Box
-              component="img"
-              src={user.profile.avatar}
-              alt="User Avatar"
-              minWidth="40px"
-              minHeight="40px"
-              borderRadius="20px"
-            />
-          ) : (
-            <EnvUserLogo latter={user?.email[0] || ''} />
-          )}
+          <EnvUserLogo
+            latter={user?.profile.first_name?.charAt(0) || user?.email[0] || ''}
+            src={user?.profile?.avatar}
+            bgColor="rgb(198, 48, 49)"
+          />
 
           <Box
             component="span"
@@ -155,7 +147,7 @@ const Aside: FC = memo(() => {
             marginLeft="10px"
             overflow="hidden"
           >
-            {user?.email}
+            {user?.profile.first_name || user?.email}
           </Box>
         </Box>
 
