@@ -30,7 +30,7 @@ const CvForm: FC<CvFormProps> = ({submitMutate, register, errors, buttons}) => {
             {...field}
           />
         ))}
-        <Box sx={{display: 'flex'}}>{buttons}</Box>
+        <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>{buttons}</Box>
       </FormControl>
     </BoxCustom>
   )

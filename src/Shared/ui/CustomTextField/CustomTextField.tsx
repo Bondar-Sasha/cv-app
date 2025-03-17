@@ -18,7 +18,7 @@ interface CustomTextFieldProps {
   errors: FieldErrors
   icon?: React.ReactNode
   multiline?: boolean
-  rows?: number
+  minRows?: number
 }
 
 const CustomTextField: React.FC<CustomTextFieldProps> = ({
@@ -32,7 +32,7 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
   errors,
   icon,
   multiline,
-  rows,
+  minRows,
 }) => {
   const theme = useTheme()
   const redColor = theme.palette.error.main
@@ -53,7 +53,7 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
       variant="outlined"
       margin="normal"
       multiline={multiline}
-      rows={rows}
+      minRows={minRows}
       fullWidth
       id={id}
       label={t(label)}
