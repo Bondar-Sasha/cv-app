@@ -1,22 +1,48 @@
 import {WrapperButton} from '@/Features'
 import {SearchInput} from '@/Shared'
-import {TableCell, TableHead, TableRow, Typography} from '@mui/material'
+import {
+  IconButton,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material'
 import {useTranslation} from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
 import {FC} from 'react'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import {SortTypes} from './CVsPage'
 
 interface CustomTableHeadProps {
   setOpenForm: (value: boolean) => void
+  searchState: string
+  setSearchState: (value: string) => void
+  sortState: {
+    field: string
+    direction: SortTypes
+  }
+  onSort: (field: string) => void
 }
 
-const CustomTableHead: FC<CustomTableHeadProps> = ({setOpenForm}) => {
+const CustomTableHead: FC<CustomTableHeadProps> = ({
+  setOpenForm,
+  searchState,
+  setSearchState,
+  sortState,
+  onSort,
+}) => {
   const {t} = useTranslation()
 
   return (
     <TableHead>
       <TableRow>
         <TableCell sx={{borderBottom: 'none'}}>
-          <SearchInput placeholder="Search" />
+          <SearchInput
+            placeholder="Search"
+            value={searchState}
+            onChange={(e) => setSearchState(e.target.value)}
+            reset={() => setSearchState('')}
+          />
         </TableCell>
         <TableCell sx={{borderBottom: 'none'}} />
         <TableCell sx={{borderBottom: 'none'}}>
@@ -30,13 +56,33 @@ const CustomTableHead: FC<CustomTableHeadProps> = ({setOpenForm}) => {
       </TableRow>
 
       <TableRow>
-        {['Name', 'Education', 'Employee'].map((item) => (
-          <TableCell key={item}>
-            <Typography variant="subtitle1" fontWeight="500">
-              {t(item)}
-            </Typography>
-          </TableCell>
-        ))}
+        <TableCell sx={{display: 'flex', alignItems: 'center'}}>
+          <Typography variant="subtitle1" fontWeight="500">
+            {t('Name')}
+          </Typography>
+          <IconButton onClick={() => onSort('name')}>
+            <ArrowUpwardIcon
+              sx={{
+                transform:
+                  sortState.field === 'name' && sortState.direction === 'desc'
+                    ? 'rotate(180deg)'
+                    : 'none',
+                transition: 'transform 0.2s ease',
+              }}
+            />
+          </IconButton>
+        </TableCell>
+
+        <TableCell>
+          <Typography variant="subtitle1" fontWeight="500">
+            {t('Education')}
+          </Typography>
+        </TableCell>
+        <TableCell>
+          <Typography variant="subtitle1" fontWeight="500">
+            {t('Employee')}
+          </Typography>
+        </TableCell>
       </TableRow>
     </TableHead>
   )

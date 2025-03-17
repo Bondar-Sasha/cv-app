@@ -1,27 +1,33 @@
-import {LoaderBackdrop} from '@/Shared'
+import {LoaderBackdrop, NoFoundCell} from '@/Shared'
 import {Paper, Table, TableBody, TableContainer} from '@mui/material'
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import BackdropForm from './BackdropForm'
-import {getCurrentUserID} from '@/App'
-import {useGetAllCvs} from '../api/useGetAllCvs'
-import {toast} from 'react-toastify'
 import CustomTableHead from './CustomTableHead'
 import CVRow from './CVRow'
 import {TableBox} from './StyledComponents'
+import {useDebounce} from '../hooks/useDebaunced'
+import {useFetchCVs} from '../hooks/useFetchCvs'
+import {useSorting} from '../hooks/useSorting'
+
+export type SortTypes = 'asc' | 'desc'
 
 const CVsPage = () => {
-  const userID = getCurrentUserID()
   const [isOpenForm, setOpenForm] = useState(false)
-  const [employee, setEmployee] = useState('')
-  const {data, loading, error, refetch} = useGetAllCvs(userID)
+  const [searchState, setSearchState] = useState('')
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error.message)
-    } else if (data) {
-      setEmployee(data.user.email)
-    }
-  }, [data, error])
+  const debouncedSearchState = useDebounce(searchState)
+  const {data, loading, refetch, employee} = useFetchCVs()
+
+  const filteredCVs =
+    data?.user?.cvs?.filter((cv) =>
+      cv.name.toLowerCase().includes(debouncedSearchState.toLowerCase())
+    ) || []
+
+  const {
+    sortedData: sortedCVs,
+    sortState,
+    handleSort,
+  } = useSorting(filteredCVs, 'name')
 
   if (loading) {
     return <LoaderBackdrop loading={loading} />
@@ -36,27 +42,39 @@ const CVsPage = () => {
           boxShadow: 'none',
         }}
       >
-        <Table sx={{tableLayout: 'fixed', width: '100%'}}>
-          <CustomTableHead setOpenForm={setOpenForm} />
+        <Table sx={{tableLayout: 'fixed', width: '100%'}} stickyHeader>
+          <CustomTableHead
+            setOpenForm={setOpenForm}
+            searchState={searchState}
+            setSearchState={setSearchState}
+            sortState={sortState}
+            onSort={handleSort}
+          />
 
           <TableBody>
-            {data?.user?.cvs?.map((cv) => (
-              <CVRow
-                key={cv.id}
-                cv={cv}
-                employee={employee}
-                refetch={refetch}
-              />
-            ))}
+            {sortedCVs.length > 0 ? (
+              sortedCVs.map((cv) => (
+                <CVRow
+                  key={cv.id}
+                  cv={cv}
+                  employee={employee}
+                  refetch={refetch}
+                />
+              ))
+            ) : (
+              <NoFoundCell reset={() => setSearchState('')} />
+            )}
           </TableBody>
         </Table>
       </TableContainer>
 
-      <BackdropForm
-        isOpen={isOpenForm}
-        setOpen={setOpenForm}
-        refetch={() => void refetch()}
-      />
+      {isOpenForm && (
+        <BackdropForm
+          isOpen={isOpenForm}
+          setOpen={setOpenForm}
+          refetch={() => void refetch()}
+        />
+      )}
     </TableBox>
   )
 }
