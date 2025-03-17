@@ -6,8 +6,8 @@ import CustomTableHead from './CustomTableHead'
 import CVRow from './CVRow'
 import {TableBox} from './StyledComponents'
 import {useDebounce} from '../hooks/useDebaunced'
-import {useFetchCVs} from '../hooks/useFetchCvs'
 import {useSorting} from '../hooks/useSorting'
+import {useFetchCVs} from '../api/useGetAllCvs'
 
 export type SortTypes = 'asc' | 'desc'
 

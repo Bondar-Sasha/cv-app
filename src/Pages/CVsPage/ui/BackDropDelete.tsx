@@ -1,6 +1,6 @@
 import {CloseButton, Form, FormBox, Title} from '@/Shared'
 import {Backdrop, Box} from '@mui/material'
-import {FC, useEffect} from 'react'
+import {FC, useCallback, useEffect} from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import {useTranslation} from 'react-i18next'
 import CVsFormButton from './CVsFormButton'
@@ -24,9 +24,9 @@ const BackDropDelete: FC<BackdropDeleteProps> = ({
   refetch,
 }) => {
   const {t} = useTranslation()
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpen(false)
-  }
+  }, [setOpen])
 
   const [mutateDelete, {data, error}] = useDeleteCv(cvID)
 
@@ -39,7 +39,7 @@ const BackDropDelete: FC<BackdropDeleteProps> = ({
     if (error) {
       toast(error.message)
     }
-  }, [data, error])
+  }, [data, error, handleClose, refetch])
 
   return (
     <Backdrop
