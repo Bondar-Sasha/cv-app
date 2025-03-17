@@ -6,7 +6,7 @@ interface CVsFormButtonProps {
   handleClose: () => void
   isDisabled: boolean
   titleBtn: string
-  mutate: () => void
+  mutate?: () => void
 }
 
 const CVsFormButton: FC<CVsFormButtonProps> = ({

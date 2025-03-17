@@ -21,9 +21,10 @@ import {zodResolver} from '@hookform/resolvers/zod'
 interface BackdropFormProps {
   setOpen: (open: boolean) => void
   isOpen: boolean
+  refetch: () => void
 }
 
-const BackdropForm: FC<BackdropFormProps> = ({isOpen, setOpen}) => {
+const BackdropForm: FC<BackdropFormProps> = ({isOpen, setOpen, refetch}) => {
   const {t} = useTranslation()
   const userId = getCurrentUserID()
   const [isDisabled, setIsDisabled] = useState(true)
@@ -50,6 +51,7 @@ const BackdropForm: FC<BackdropFormProps> = ({isOpen, setOpen}) => {
       onCompleted: () => {
         toast('CV was created')
         handleClose()
+        refetch()
       },
     }).catch((error) => {
       console.error('Create cv failed', error)

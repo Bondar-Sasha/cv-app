@@ -13,6 +13,7 @@ interface BackdropDeleteProps {
   isOpen: boolean
   cvID: string
   cvName: string
+  refetch: () => void
 }
 
 const BackDropDelete: FC<BackdropDeleteProps> = ({
@@ -20,6 +21,7 @@ const BackDropDelete: FC<BackdropDeleteProps> = ({
   isOpen,
   cvID,
   cvName,
+  refetch,
 }) => {
   const {t} = useTranslation()
   const handleClose = () => {
@@ -32,6 +34,7 @@ const BackDropDelete: FC<BackdropDeleteProps> = ({
     if (data) {
       toast('CV was deleted')
       handleClose()
+      refetch()
     }
     if (error) {
       toast(error.message)

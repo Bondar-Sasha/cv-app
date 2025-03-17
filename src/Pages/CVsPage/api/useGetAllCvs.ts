@@ -12,6 +12,7 @@ export type CvsResult = {
 export const GET_CVS = gql`
   query GetCvs($userId: ID!) {
     user(userId: $userId) {
+      email
       cvs {
         id
         name

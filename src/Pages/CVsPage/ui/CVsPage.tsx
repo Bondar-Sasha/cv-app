@@ -1,41 +1,63 @@
-import {StyledButton} from '@/Shared'
-import {Box} from '@mui/material'
-import {useState} from 'react'
+import {LoaderBackdrop} from '@/Shared'
+import {Paper, Table, TableBody, TableContainer} from '@mui/material'
+import {useEffect, useState} from 'react'
 import BackdropForm from './BackdropForm'
-import BackDropDelete from './BackDropDelete'
+import {getCurrentUserID} from '@/App'
+import {useGetAllCvs} from '../api/useGetAllCvs'
+import {toast} from 'react-toastify'
+import CustomTableHead from './CustomTableHead'
+import CVRow from './CVRow'
+import {TableBox} from './StyledComponents'
 
 const CVsPage = () => {
+  const userID = getCurrentUserID()
   const [isOpenForm, setOpenForm] = useState(false)
-  const [isOpenDelete, setOpenDelete] = useState(false)
+  const [employee, setEmployee] = useState('')
+  const {data, loading, error, refetch} = useGetAllCvs(userID)
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message)
+    } else if (data) {
+      setEmployee(data.user.email)
+    }
+  }, [data, error])
+
+  if (loading) {
+    return <LoaderBackdrop loading={loading} />
+  }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        height: 'max-content',
-      }}
-    >
-      <StyledButton
-        onClick={() => setOpenForm(true)}
-        variant="text"
-        children={'Create CV'}
-      />
+    <TableBox>
+      <TableContainer
+        component={Paper}
+        sx={{
+          backgroundColor: 'transparent',
+          boxShadow: 'none',
+        }}
+      >
+        <Table sx={{tableLayout: 'fixed', width: '100%'}}>
+          <CustomTableHead setOpenForm={setOpenForm} />
 
-      <StyledButton
-        onClick={() => setOpenDelete(true)}
-        variant="text"
-        children={'Delete CV'}
-      />
+          <TableBody>
+            {data?.user?.cvs?.map((cv) => (
+              <CVRow
+                key={cv.id}
+                cv={cv}
+                employee={employee}
+                refetch={refetch}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-      <BackdropForm isOpen={isOpenForm} setOpen={setOpenForm} />
-      <BackDropDelete
-        setOpen={setOpenDelete}
-        isOpen={isOpenDelete}
-        cvID="Id"
-        cvName="Name"
+      <BackdropForm
+        isOpen={isOpenForm}
+        setOpen={setOpenForm}
+        refetch={() => void refetch()}
       />
-    </Box>
+    </TableBox>
   )
 }
 

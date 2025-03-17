@@ -12,8 +12,11 @@ export const CustomTextField = styled(TextField)(({theme}) => ({
       border: '1px solid rgba(153, 153, 153, 0.5)',
       borderRadius: '20px',
     },
+    '&:hover fieldset': {
+      border: `1px solid ${theme.palette.error.main}`,
+    },
     '&.Mui-focused fieldset': {
-      border: '1px solid rgba(78, 78, 78, 0.5)',
+      border: `1px solid ${theme.palette.error.main}`,
     },
   },
   '& .MuiOutlinedInput-input': {
