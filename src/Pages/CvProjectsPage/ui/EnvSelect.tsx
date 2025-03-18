@@ -6,6 +6,7 @@ import Select from '@mui/material/Select'
 import Chip from '@mui/material/Chip'
 import {FC} from 'react'
 import {MenuItem, SxProps, Theme} from '@mui/material'
+import {useTranslation} from 'react-i18next'
 
 interface EnvSelectProps {
   sx: SxProps<Theme>
@@ -22,25 +23,26 @@ const EnvSelect: FC<EnvSelectProps> = ({
   placeholder,
   sx,
 }) => {
+  const {t} = useTranslation()
   const preparedValue =
-    defaultValue && !value.length === 0 ? defaultValue : value
+    defaultValue && value.length === 0 ? defaultValue : value
 
   return (
     <FormControl sx={sx}>
-      <InputLabel>{label}</InputLabel>
+      <InputLabel>{t(label)}</InputLabel>
       <Select
         multiple
         disabled
         value={preparedValue}
-        input={<OutlinedInput label={label} />}
+        input={<OutlinedInput label={t(label)} />}
         renderValue={(selected) => {
           if (selected.length === 0) {
-            return <span style={{color: '#999'}}>{placeholder}</span>
+            return <span style={{color: '#999'}}>{t(placeholder)}</span>
           }
           return (
             <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5}}>
               {selected.map((value) => (
-                <Chip key={value} label={value} />
+                <Chip key={value} label={t(value)} />
               ))}
             </Box>
           )
@@ -48,7 +50,7 @@ const EnvSelect: FC<EnvSelectProps> = ({
       >
         {preparedValue.map((name) => (
           <MenuItem key={name} value={name}>
-            {name}
+            {t(name)}
           </MenuItem>
         ))}
       </Select>

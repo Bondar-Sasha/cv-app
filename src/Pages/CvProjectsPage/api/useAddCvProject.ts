@@ -14,7 +14,7 @@ export const ADD_CV_PROJECT = gql`
     addCvProject(project: $project) {
       name
       education
-      descriptions
+      description
     }
   }
 `

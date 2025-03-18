@@ -1,4 +1,4 @@
-import {FC} from 'react'
+import {Dispatch, FC, SetStateAction} from 'react'
 import {
   Popover,
   Backdrop,
@@ -13,25 +13,34 @@ import CloseIcon from '@mui/icons-material/Close'
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider'
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
 import {DatePicker} from '@mui/x-date-pickers/DatePicker'
+import dayjs from 'dayjs'
+import {SubmitHandler, useForm} from 'react-hook-form'
+import {z} from 'zod'
 
 import {CustomSelectComponent} from '@/Shared'
 import EnvSelect from './EnvSelect'
-import dayjs from 'dayjs'
+import {zodResolver} from '@hookform/resolvers/zod'
+import {useAddCvProject, useUpdateCvProject} from '../api'
 
-interface ProjectHandlerPopupProps {
-  cvId: string
+interface PreparedProject {
   projectId: string
-  start_date?: string
-  end_date?: string
-  responsibilities?: string[]
-  isCreating: boolean
-  open: boolean
   description: string
   environment: string[]
   domain: string
-  selectProjectId: string
-  selectOptions: string
-  onSelectProjectChange: (event: SelectChangeEvent<unknown>) => void
+}
+
+interface ProjectHandlerPopupProps {
+  start_date?: string
+  end_date?: string | null
+  responsibilities?: string[]
+  pickedProject?: PreparedProject
+
+  cvId: string
+  isCreating: boolean
+  open: boolean
+  projectsForSelect: {value: string; label: string}[]
+  onSelect: Dispatch<SetStateAction<string>>
+  selectedProject: string
   onClose: () => void
 }
 
@@ -39,17 +48,74 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
   open,
   onClose,
   isCreating,
-
-  domain,
-  description,
-  environment,
+  cvId,
+  pickedProject,
+  projectsForSelect,
   start_date,
   end_date,
   responsibilities,
-  selectProjectId,
-  onSelectProjectChange,
+  selectedProject,
+  onSelect,
 }) => {
   const {t} = useTranslation()
+  const [addCVProject, {loading: addingLoading}] = useAddCvProject()
+  const [updateCVProject, {loading: updatingLoading}] = useUpdateCvProject()
+
+  const FormSchema = z.object({
+    projectId: z.string().nonempty(t('Pick a project')),
+    start_date: z.string().nonempty(t('Start date is required')),
+    end_date: z.string().nonempty(t('End date is required')),
+    responsibilities: z.string().optional(),
+  })
+
+  type FormFields = z.infer<typeof FormSchema>
+
+  const {register, watch, setValue, handleSubmit} = useForm<FormFields>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      projectId: pickedProject?.projectId || '',
+      start_date: start_date || '',
+      end_date: end_date || '',
+      responsibilities: responsibilities?.join(' ') || '',
+    },
+  })
+
+  const onSubmit: SubmitHandler<FormFields> = async ({
+    projectId,
+    start_date,
+    end_date,
+    responsibilities,
+  }) => {
+    if (isCreating) {
+      await addCVProject({
+        variables: {
+          project: {
+            roles: [],
+            cvId,
+            projectId,
+            start_date,
+            end_date,
+            responsibilities: [responsibilities || ''],
+          },
+        },
+      }).catch((error) => console.error(error))
+    } else {
+      await updateCVProject({
+        variables: {
+          project: {
+            cvId,
+            roles: [],
+            projectId,
+            start_date,
+            end_date,
+            responsibilities: [responsibilities || ''],
+          },
+        },
+      }).catch((error) => console.error(error))
+    }
+    onClose()
+  }
+
   return (
     <Backdrop
       sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}
@@ -59,8 +125,8 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
       <Popover
         open={open}
         onClose={onClose}
+        onClick={(e) => e.stopPropagation()}
         anchorEl={document.body}
-        onClick={(event) => event.stopPropagation()}
         anchorOrigin={{
           vertical: 'center',
           horizontal: 'center',
@@ -78,6 +144,8 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
       >
         <Box
           component="form"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onSubmit={handleSubmit(onSubmit)}
           display="flex"
           flexDirection="column"
           maxWidth="900px"
@@ -103,35 +171,52 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
             gridTemplateColumns="repeat(auto-fit, minmax(auto, 1fr))"
             sx={{
               '@media (min-width: 900px)': {
-                gridTemplateColumns: 'repeat(2, minmax(auto, 410px))',
+                gridTemplateColumns: 'repeat(2, minmax(auto, 600px))',
               },
             }}
             gap="30px"
           >
             <CustomSelectComponent
               disabled={!isCreating}
-              defaultValue={selectProjectId}
-              value={selectProjectId}
-              onChange={onSelectProjectChange}
+              value={selectedProject}
+              onChange={(event: SelectChangeEvent<unknown>) => {
+                onSelect(event.target.value as string)
+                setValue('projectId', event.target.value as string)
+              }}
               label={t('Project')}
-              options={[]}
+              options={projectsForSelect}
             />
 
             <TextField
               disabled
-              value={t(domain)}
+              value={t(pickedProject?.domain || '')}
               label={t('Domain')}
               placeholder={t('Education')}
               variant="outlined"
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker label="Start Date" defaultValue={dayjs(start_date)} />
-              <DatePicker label="End Date" defaultValue={dayjs(end_date)} />
+              <DatePicker
+                format="DD/MM/YYYY"
+                value={dayjs(watch('start_date'))}
+                onChange={(value) => {
+                  setValue('start_date', value?.toISOString() || '')
+                }}
+                label="Start Date"
+              />
+              <DatePicker
+                format="DD/MM/YYYY"
+                value={dayjs(watch('end_date'))}
+                onChange={(value) => {
+                  setValue('end_date', value?.toISOString() || '')
+                }}
+                label="End Date"
+              />
             </LocalizationProvider>
           </Box>
           <TextField
             disabled
-            value={description}
+            multiline
+            value={t(pickedProject?.description || '')}
             sx={{
               margin: '16px 0',
               minHeight: '140px',
@@ -144,22 +229,24 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
             variant="outlined"
           />
           <EnvSelect
-            value={[]}
-            defaultValue={environment}
+            value={pickedProject?.environment || []}
             label={t('Environment')}
             placeholder={t('Environment')}
             sx={{margin: '16px 0'}}
           />
           <TextField
+            {...register('responsibilities')}
+            multiline
             sx={{margin: '16px 0'}}
             label={t('Responsibility')}
             placeholder={t('Responsibility')}
-            defaultValue={t(responsibilities?.join(' ') || '')}
             variant="outlined"
           />
 
           <Box display="flex" justifyContent="end" marginTop="16px">
             <Button
+              disabled={addingLoading || updatingLoading}
+              onClick={onClose}
               sx={(theme) => ({
                 borderRadius: '24px',
                 width: '220px',
@@ -173,6 +260,7 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
               {t('Cancel')}
             </Button>
             <Button
+              disabled={addingLoading || updatingLoading}
               type="submit"
               sx={{
                 borderRadius: '24px',
