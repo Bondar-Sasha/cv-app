@@ -1,6 +1,7 @@
-import {InputAdornment, styled, TextField} from '@mui/material'
+import {IconButton, InputAdornment, styled, TextField} from '@mui/material'
 import {ComponentProps, FC} from 'react'
 import SearchIcon from '@mui/icons-material/Search'
+import ClearIcon from '@mui/icons-material/Clear'
 
 export const CustomTextField = styled(TextField)(({theme}) => ({
   zIndex: 100,
@@ -12,8 +13,11 @@ export const CustomTextField = styled(TextField)(({theme}) => ({
       border: '1px solid rgba(153, 153, 153, 0.5)',
       borderRadius: '20px',
     },
+    '&:hover fieldset': {
+      border: `1px solid ${theme.palette.error.main}`,
+    },
     '&.Mui-focused fieldset': {
-      border: '1px solid rgba(78, 78, 78, 0.5)',
+      border: `1px solid ${theme.palette.error.main}`,
     },
   },
   '& .MuiOutlinedInput-input': {
@@ -23,10 +27,15 @@ export const CustomTextField = styled(TextField)(({theme}) => ({
   },
 }))
 
-const SearchInput: FC<ComponentProps<typeof TextField>> = (props) => {
+interface SearchInputProps extends ComponentProps<typeof TextField> {
+  reset: () => void
+}
+
+const SearchInput: FC<SearchInputProps> = ({value, reset, ...props}) => {
   return (
     <CustomTextField
       {...props}
+      value={value}
       slotProps={{
         input: {
           startAdornment: (
@@ -34,9 +43,17 @@ const SearchInput: FC<ComponentProps<typeof TextField>> = (props) => {
               <SearchIcon color="inherit" />
             </InputAdornment>
           ),
+          endAdornment: value ? (
+            <InputAdornment position="end">
+              <IconButton onClick={() => reset()}>
+                <ClearIcon />
+              </IconButton>
+            </InputAdornment>
+          ) : null,
         },
       }}
     />
   )
 }
+
 export default SearchInput

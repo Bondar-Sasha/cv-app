@@ -9,6 +9,7 @@ import EnvUserLogo from './EnvUserLogo/EnvUserLogo'
 import CvForm from './CvForm/CvForm'
 import {CvFormType, CvShema} from './CvForm/CvFormShema'
 import SearchInput from './SearchInput/SearchInput'
+import NoFoundCell from './NoFoundCell/NoFoundCell'
 
 export {
   StyledLink,
@@ -22,6 +23,7 @@ export {
   CvForm,
   CvShema,
   SearchInput,
+  NoFoundCell,
 }
 export type {CvFormType}
 

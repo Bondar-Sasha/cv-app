@@ -100,7 +100,7 @@ const CvDetailsLayout = () => {
             variant="contained"
             children="Update"
             disabled={isDisabled}
-            sx={{marginTop: '25px', width: '50%', alignSelf: 'flex-end'}}
+            sx={{marginTop: '25px', width: '50%'}}
           />
         }
       />
