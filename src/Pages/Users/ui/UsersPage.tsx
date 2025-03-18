@@ -116,6 +116,13 @@ const UsersPage: FC = () => {
     }))
   }
 
+  const resetSearch = () => {
+    setFilters((prev) => ({
+      ...prev,
+      searchState: '',
+    }))
+  }
+
   if (loading) {
     return <LoaderBackdrop loading />
   }
@@ -157,6 +164,7 @@ const UsersPage: FC = () => {
                     }))
                   }
                   placeholder="Search..."
+                  reset={resetSearch}
                 />
               </Box>
             </TableCell>

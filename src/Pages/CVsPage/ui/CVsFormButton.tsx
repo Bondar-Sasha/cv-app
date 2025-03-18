@@ -1,21 +1,20 @@
 import {StyledButton} from '@/Shared'
-import {Box, BoxProps, styled} from '@mui/material'
 import {FC} from 'react'
-
-const BoxCustom = styled(Box)<BoxProps>(() => ({
-  display: 'flex',
-  gap: '10px',
-  width: '100%',
-  justifyContent: 'flex-end',
-  marginTop: '30px',
-}))
+import {BoxCustom} from './StyledComponents'
 
 interface CVsFormButtonProps {
   handleClose: () => void
   isDisabled: boolean
+  titleBtn: string
+  mutate?: () => void
 }
 
-const CVsFormButton: FC<CVsFormButtonProps> = ({handleClose, isDisabled}) => {
+const CVsFormButton: FC<CVsFormButtonProps> = ({
+  handleClose,
+  isDisabled,
+  titleBtn,
+  mutate,
+}) => {
   return (
     <BoxCustom>
       <StyledButton
@@ -27,9 +26,10 @@ const CVsFormButton: FC<CVsFormButtonProps> = ({handleClose, isDisabled}) => {
       <StyledButton
         type="submit"
         variant="contained"
-        children="Create"
+        children={titleBtn}
         disabled={isDisabled}
         sx={{maxWidth: '40%', height: '50px'}}
+        onClick={mutate}
       />
     </BoxCustom>
   )
