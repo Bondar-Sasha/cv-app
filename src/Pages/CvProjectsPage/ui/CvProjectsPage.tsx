@@ -224,6 +224,12 @@ const CvProjectsPage: FC = () => {
               <TableRow sx={{height: '56px'}}>
                 <TableCell colSpan={3}>
                   <SearchInput
+                    reset={() => {
+                      setFilters((prev) => ({
+                        ...prev,
+                        searchState: '',
+                      }))
+                    }}
                     value={filtersState.searchState}
                     onChange={(e) =>
                       setFilters((prev) => ({
