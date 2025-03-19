@@ -144,7 +144,6 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
       >
         <Box
           component="form"
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onSubmit={handleSubmit(onSubmit)}
           display="flex"
           flexDirection="column"

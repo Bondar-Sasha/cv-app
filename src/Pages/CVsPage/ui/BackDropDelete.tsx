@@ -71,7 +71,6 @@ const BackDropDelete: FC<BackdropDeleteProps> = ({
             handleClose={handleClose}
             isDisabled={false}
             titleBtn="Confirm"
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             mutate={mutateDelete}
           />
         </Form>

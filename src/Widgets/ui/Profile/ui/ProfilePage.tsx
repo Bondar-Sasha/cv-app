@@ -30,6 +30,7 @@ import UploadLogo from './UploadLogo'
 import {useUploadAvatar} from '../api/useUploadAvatar'
 import {useDeleteAvatar} from '../api/useDeleteAvatar'
 import {toast} from 'react-toastify'
+import {useTranslation} from 'react-i18next'
 
 interface FormFields {
   firstName: string
@@ -42,6 +43,7 @@ const ProfilePage: FC = () => {
   const params = useParams<Params>()
   const theme = useTheme()
   const navigate = useNavigate()
+  const {t} = useTranslation()
 
   const {update, isFetching} = useUpdateUserProfile()
   const {user: currentUser, loading: currentUserFetching} = useUser()
@@ -128,7 +130,7 @@ const ProfilePage: FC = () => {
   }
 
   if (!departments || !positions) {
-    return <div>Something went wrong</div>
+    return <div>{t('Something went wrong')}</div>
   }
 
   const selectHandler =
@@ -225,10 +227,10 @@ const ProfilePage: FC = () => {
               <IconButton onClick={handleIconClick} sx={{marginRight: '8px'}}>
                 <UploadLogo color={theme.palette.text.primary} />
               </IconButton>
-              <>Upload avatar image</>
+              <>{t('Upload avatar image')}</>
             </Box>
             <Box component="span" color="rgb(189, 189, 189)">
-              png, jpg or gif no more than 0.5MB
+              {t('png, jpg or gif no more than 0.5MB')}
             </Box>
           </Box>
         )}
@@ -243,12 +245,11 @@ const ProfilePage: FC = () => {
         <Box component="span" color="rgb(189, 189, 189)" marginBottom="3px">
           {user?.email}
         </Box>
-        <Box component="span">{`A member since ${preparedDate}`}</Box>
+        <Box component="span">{t(`A member since ${preparedDate}`)}</Box>
       </Box>
 
       <Box
         component="form"
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(onSubmit)}
         width="100%"
         sx={{marginTop: '32px'}}
@@ -320,7 +321,7 @@ const ProfilePage: FC = () => {
               }}
               variant="contained"
             >
-              Update
+              {t('Update')}
             </Button>
           </Box>
         )}

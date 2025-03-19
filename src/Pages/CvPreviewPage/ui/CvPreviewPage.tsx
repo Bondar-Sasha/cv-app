@@ -1,7 +1,7 @@
 import {CvLayout} from '@/Features'
 
 const CvPreviewPage = () => {
-  return <CvLayout path="preview" page={<div>cv preview</div>} />
+  return <CvLayout path="preview" page={<div></div>} />
 }
 
 export default CvPreviewPage

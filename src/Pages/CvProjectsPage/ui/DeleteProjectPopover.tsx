@@ -67,9 +67,9 @@ const DeleteProjectPopover: FC<DeleteProjectPopoverProps> = ({
         </Box>
         <Box>
           <span>
-            Are you sure you want to remove project
+            {t('Are you sure you want to remove project ')}
             <Box component="span" fontWeight="700">
-              {' ' + projectName}
+              {projectName}
             </Box>
           </span>
         </Box>
@@ -90,7 +90,6 @@ const DeleteProjectPopover: FC<DeleteProjectPopoverProps> = ({
             {t('Cancel')}
           </Button>
           <Button
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={handleDelete}
             disabled={loading}
             type="submit"
