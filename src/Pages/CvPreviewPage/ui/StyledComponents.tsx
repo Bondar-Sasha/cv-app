@@ -10,23 +10,36 @@ import {
 } from '@mui/material'
 import {FC} from 'react'
 
+export const WrapperPreview = styled(Box)({
+  padding: ' 32px 24px',
+  maxWidth: '80%',
+  margin: '0 auto',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  boxSizing: 'border-box',
+})
+
 export const SectionBox = styled(Box)({
   marginBottom: '32px',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
+  width: '100%',
 })
 
-export const LeftBox = styled(Box)(({theme}) => ({
+export const LeftBox = styled(Box)({
   paddingRight: '24px',
   flexBasis: '30%',
-  borderRight: `1px solid ${theme.palette.error.main}`,
-}))
-
-export const RightBox = styled(Box)({
-  paddingLeft: '24px',
-  flexBasis: '70%',
 })
+
+export const RightBox = styled(Box)(({theme}) => ({
+  paddingLeft: '24px',
+  paddingBottom: '16px',
+  flexBasis: '70%',
+  borderLeft: `1px solid ${theme.palette.error.main}`,
+}))
 
 interface CustomTypographyProps extends TypographyProps {
   text: string

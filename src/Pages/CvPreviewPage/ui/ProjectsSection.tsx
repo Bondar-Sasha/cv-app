@@ -1,4 +1,3 @@
-import {TypographyTitle} from '@/Shared'
 import {
   LeftBox,
   RightBox,
@@ -6,26 +5,32 @@ import {
   SubsectionTitle,
 } from './StyledComponents'
 import {Typography} from '@mui/material'
+import {CvProject} from 'cv-graphql'
+import {FC} from 'react'
 
-const ProjectsSection = () => {
+interface ProjectsSectionProps {
+  dataProject: CvProject
+  refs: (el: HTMLDivElement | null) => void
+}
+function converDate(start_date: string, end_date: string) {
+  const start = `${start_date.split('-')[1]}.${start_date.split('-')[0]}`
+  if (!end_date) {
+    return start
+  }
+  return `${start} - ${end_date.split('-')[1]}.${end_date.split('-')[0]}`
+}
+
+const ProjectsSection: FC<ProjectsSectionProps> = ({dataProject, refs}) => {
   return (
     <>
-      <SectionBox>
-        <TypographyTitle title="Projects" sx={{marginBottom: '0'}} />
-      </SectionBox>
-      <SectionBox>
+      <SectionBox ref={refs}>
         <LeftBox>
           <SubsectionTitle
-            text="Virtual Tours"
+            text={dataProject.project.name}
             sx={{color: 'rgb(198, 48, 49)', textTransform: 'uppercase'}}
           />
           <Typography variant="body1">
-            The project gives the opportunity to walk by virtual places such as
-            furniture stores, museums, galleries, premises for sale and see
-            objects captured from reality or added through AR. Users can chat
-            with agents. Agents have the opportunity to be followed by clients
-            and propose products in chat. Another part of the application allows
-            guides to hold excursions for a large number of concurrent users.
+            {dataProject.project.description}
           </Typography>
         </LeftBox>
 
@@ -34,16 +39,26 @@ const ProjectsSection = () => {
           <Typography variant="body1">all roles</Typography>
 
           <SubsectionTitle text="Period" />
-          <Typography variant="body1">02.2019 – 11.2023</Typography>
+          <Typography variant="body1">
+            {converDate(
+              dataProject.project.start_date ?? '',
+              dataProject.project.end_date ?? ''
+            )}
+          </Typography>
 
           <SubsectionTitle text="Responsibilities" />
-          <Typography variant="body1">my responsibilities</Typography>
+          {dataProject.responsibilities.map((resp) => (
+            <Typography key={resp} variant="body1">
+              {resp}
+            </Typography>
+          ))}
 
           <SubsectionTitle text="Environment" />
-          <Typography variant="body1">
-            JavaScript, TypeScript, React, PostgreSQL, Node.js, MobX, Three.js,
-            WebSockets, Git, Material UI.
-          </Typography>
+          {dataProject.project.environment.map((env, index) => (
+            <Typography key={env} variant="body1" component={'span'}>
+              {`${env}${index === dataProject.project.environment.length - 1 ? '.' : ','} `}
+            </Typography>
+          ))}
         </RightBox>
       </SectionBox>
     </>

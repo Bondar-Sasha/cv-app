@@ -6,20 +6,31 @@ import {
   StyledButtonRed,
   SubsectionTitle,
 } from './StyledComponents'
-import {Typography} from '@mui/material'
+import {Box, Typography} from '@mui/material'
+import {FC} from 'react'
 
-const MainInfo = () => {
+import {Cv} from 'cv-graphql'
+
+interface MainInfoProps {
+  cvData: Cv
+  btnId: string
+  handleExport: () => void
+}
+
+const MainInfo: FC<MainInfoProps> = ({cvData, btnId, handleExport}) => {
   return (
-    <>
+    <Box sx={{width: '100%'}}>
       <SectionBox>
         <TypographyTitle title="Nata Stadnik" sx={{marginBottom: '0'}} />
-        <StyledButtonRed variant="outlined">Export pdf</StyledButtonRed>
+        <StyledButtonRed id={btnId} variant="outlined" onClick={handleExport}>
+          Export pdf
+        </StyledButtonRed>
       </SectionBox>
 
       <SectionBox>
         <LeftBox>
           <SubsectionTitle text="Education" />
-          <Typography variant="body1">My education details</Typography>
+          <Typography variant="body1">{cvData.education}</Typography>
 
           <SubsectionTitle text="Language proficiency" />
           <Typography variant="body1">Polish — B2</Typography>
@@ -33,8 +44,8 @@ const MainInfo = () => {
         </LeftBox>
 
         <RightBox>
-          <SubsectionTitle text="Details name" />
-          <Typography variant="body1">My description detils</Typography>
+          <SubsectionTitle text={cvData.name} />
+          <Typography variant="body1">{cvData.description}</Typography>
 
           <SubsectionTitle text="Programming languages" />
           <Typography variant="body1">
@@ -45,7 +56,7 @@ const MainInfo = () => {
           <Typography variant="body1">React, Redux, MobX, Angular.</Typography>
         </RightBox>
       </SectionBox>
-    </>
+    </Box>
   )
 }
 

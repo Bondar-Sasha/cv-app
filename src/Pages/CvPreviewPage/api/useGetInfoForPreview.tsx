@@ -16,18 +16,6 @@ export const GET_CV_INFO = gql`
       name
       education
       description
-      user {
-        id
-        email
-        department {
-          name
-        }
-        department_name
-        position {
-          name
-        }
-        position_name
-      }
       projects {
         project {
           id
@@ -39,13 +27,8 @@ export const GET_CV_INFO = gql`
           end_date
           environment
         }
+        responsibilities
       }
-    }
-    skills {
-      name
-    }
-    languages {
-      name
     }
   }
 `
