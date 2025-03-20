@@ -2,7 +2,7 @@ import {FC, isValidElement} from 'react'
 import {Outlet, useLocation, Link} from 'react-router-dom'
 import {BreadcrumbsRoute, getBreadcrumbs} from 'use-react-router-breadcrumbs'
 import CustomLink from '@mui/material/Link'
-import {Breadcrumbs} from '@mui/material'
+import {Box, Breadcrumbs} from '@mui/material'
 import {useTranslation} from 'react-i18next'
 
 import layoutStyles from './styles/layout.module.css'
@@ -36,24 +36,26 @@ const CommonPageLayout: FC = () => {
   return (
     <ResponsiveBox>
       <Aside />
-      <div className={layoutStyles.main_wrapper}>
-        <header className={layoutStyles.header}>
-          <Breadcrumbs separator=">" aria-label="breadcrumb">
-            {breadcrumbs.map(({breadcrumb, match}) => (
-              <CustomLink
-                component={Link}
-                to={match.pathname}
-                key={match.pathname}
-                underline="hover"
-                color="inherit"
-              >
-                {isValidElement(breadcrumb) && t(breadcrumb.props.children)}
-              </CustomLink>
-            ))}
-          </Breadcrumbs>
-        </header>
-        <Outlet />
-      </div>
+      <Box sx={{width: '100%', overflow: 'scroll'}}>
+        <div className={layoutStyles.main_wrapper}>
+          <header className={layoutStyles.header}>
+            <Breadcrumbs separator=">" aria-label="breadcrumb">
+              {breadcrumbs.map(({breadcrumb, match}) => (
+                <CustomLink
+                  component={Link}
+                  to={match.pathname}
+                  key={match.pathname}
+                  underline="hover"
+                  color="inherit"
+                >
+                  {isValidElement(breadcrumb) && t(breadcrumb.props.children)}
+                </CustomLink>
+              ))}
+            </Breadcrumbs>
+          </header>
+          <Outlet />
+        </div>
+      </Box>
     </ResponsiveBox>
   )
 }

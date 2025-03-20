@@ -8,20 +8,28 @@ import {
 } from './StyledComponents'
 import {Box, Typography} from '@mui/material'
 import {FC} from 'react'
-
-import {Cv} from 'cv-graphql'
+import {Cv, Profile} from 'cv-graphql'
 
 interface MainInfoProps {
   cvData: Cv
   btnId: string
   handleExport: () => void
+  userInfo: Profile
 }
 
-const MainInfo: FC<MainInfoProps> = ({cvData, btnId, handleExport}) => {
+const MainInfo: FC<MainInfoProps> = ({
+  cvData,
+  btnId,
+  handleExport,
+  userInfo,
+}) => {
   return (
     <Box sx={{width: '100%'}}>
-      <SectionBox>
-        <TypographyTitle title="Nata Stadnik" sx={{marginBottom: '0'}} />
+      <SectionBox sx={{justifyContent: 'space-between', alignItems: 'center'}}>
+        <TypographyTitle
+          title={userInfo.full_name ?? ''}
+          sx={{marginBottom: '0'}}
+        />
         <StyledButtonRed id={btnId} variant="outlined" onClick={handleExport}>
           Export pdf
         </StyledButtonRed>
@@ -33,27 +41,30 @@ const MainInfo: FC<MainInfoProps> = ({cvData, btnId, handleExport}) => {
           <Typography variant="body1">{cvData.education}</Typography>
 
           <SubsectionTitle text="Language proficiency" />
-          <Typography variant="body1">Polish — B2</Typography>
-          <Typography variant="body1">Italian — A1</Typography>
-          <Typography variant="body1">German — A1</Typography>
+          {userInfo.languages.map((lang) => (
+            <Typography key={lang.name} variant="body1">
+              {lang.name} - {lang.proficiency}
+            </Typography>
+          ))}
 
           <SubsectionTitle text="Domains" />
-          <Typography variant="body1">
-            AR (Augmented Reality), Education
-          </Typography>
+          {cvData.projects?.map((elem) => (
+            <Typography key={crypto.randomUUID()} variant="body1">
+              {elem.project.domain}
+            </Typography>
+          ))}
         </LeftBox>
 
         <RightBox>
           <SubsectionTitle text={cvData.name} />
           <Typography variant="body1">{cvData.description}</Typography>
 
-          <SubsectionTitle text="Programming languages" />
-          <Typography variant="body1">
-            TypeScript, Python, JavaScript.
-          </Typography>
-
-          <SubsectionTitle text="Frontend" />
-          <Typography variant="body1">React, Redux, MobX, Angular.</Typography>
+          <SubsectionTitle text="Technologies" />
+          {cvData.skills.map((elem, index) => (
+            <Typography key={elem.name} variant="body1" component={'span'}>
+              {`${elem.name}${index === cvData.skills.length - 1 ? '.' : ','} `}
+            </Typography>
+          ))}
         </RightBox>
       </SectionBox>
     </Box>

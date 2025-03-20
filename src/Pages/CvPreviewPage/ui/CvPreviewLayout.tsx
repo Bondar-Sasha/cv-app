@@ -10,11 +10,19 @@ import ProfessionalSkillsSection from './ProfessionalSkillsSection'
 import {SectionBox, WrapperPreview} from './StyledComponents'
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
+import {useGetSkills} from '@/Features'
+import {getCurrentUserID} from '@/App'
 
 const CvPreviewLayout = () => {
   const cvId = useParams().cvId || ''
+  const userId = getCurrentUserID()
   const btnId = useId()
   const {data, loading, error} = useGetCvInfoForDetails(cvId)
+  const {
+    data: userData,
+    loading: userLoading,
+    error: userError,
+  } = useGetSkills(userId)
 
   const mainInfoRef = useRef<HTMLDivElement>(null)
   const skillsSectionRef = useRef<HTMLDivElement>(null)
@@ -58,30 +66,28 @@ const CvPreviewLayout = () => {
   }
 
   useEffect(() => {
-    if (error) {
-      toast.error(error.message)
+    if (error || userError) {
+      toast.error(error?.message || userError?.message)
     }
-    if (data) {
-      // Console.log(data)
-    }
-  }, [error, data])
+  }, [error, userError])
 
-  if (loading) {
+  if (loading || userLoading) {
     return <LoaderBackdrop loading={loading} />
   }
 
   return (
     <WrapperPreview>
-      {data && (
+      {data && userData && (
         <>
           <Box ref={mainInfoRef} sx={{width: '100%'}}>
             <MainInfo
+              userInfo={userData?.user?.profile}
               cvData={data.cv}
               btnId={btnId}
               handleExport={() => void handleExport()}
             />
           </Box>
-          <Box>
+          <Box sx={{width: '100%'}}>
             <SectionBox>
               <TypographyTitle title="Projects" sx={{marginBottom: '0'}} />
             </SectionBox>
@@ -94,11 +100,12 @@ const CvPreviewLayout = () => {
                 }}
                 key={elem.project.id}
                 dataProject={elem}
+                userInfo={userData?.user}
               />
             ))}
           </Box>
-          <Box ref={skillsSectionRef}>
-            <ProfessionalSkillsSection />
+          <Box ref={skillsSectionRef} sx={{width: '100%'}}>
+            <ProfessionalSkillsSection data={data.cv.skills} />
           </Box>
         </>
       )}

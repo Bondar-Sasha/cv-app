@@ -24,22 +24,22 @@ export const WrapperPreview = styled(Box)({
 export const SectionBox = styled(Box)({
   marginBottom: '32px',
   display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
+  justifyContent: 'flex-start',
   width: '100%',
 })
 
-export const LeftBox = styled(Box)({
+export const LeftBox = styled(Box)(({theme}) => ({
   paddingRight: '24px',
-  flexBasis: '30%',
-})
+  maxWidth: '260px',
+  width: '100%',
+  minHeight: '100%',
+  borderRight: `1px solid ${theme.palette.error.main}`,
+}))
 
-export const RightBox = styled(Box)(({theme}) => ({
+export const RightBox = styled(Box)({
   paddingLeft: '24px',
   paddingBottom: '16px',
-  flexBasis: '70%',
-  borderLeft: `1px solid ${theme.palette.error.main}`,
-}))
+})
 
 interface CustomTypographyProps extends TypographyProps {
   text: string
@@ -114,27 +114,6 @@ export const TableCellInfo: FC<StyledTableCellProps> = ({
       sx={{
         borderBottom: 'none',
         textAlign: 'center',
-        padding: '8px 16px',
-        ...sx,
-      }}
-      {...props}
-    >
-      {children}
-    </TableCell>
-  )
-}
-
-export const TableCellLast: FC<StyledTableCellProps> = ({
-  sx,
-  children,
-  ...props
-}) => {
-  return (
-    <TableCell
-      sx={{
-        fontWeight: '500',
-        borderBottom: '1px solid rgb(189, 189, 189)',
-        padding: '8px 16px 24px',
         ...sx,
       }}
       {...props}
@@ -154,7 +133,6 @@ export const TableCellTechno: FC<StyledTableCellProps> = ({
       sx={{
         borderBottom: 'none',
         fontWeight: '500',
-        padding: '8px 16px',
         ...sx,
       }}
       {...props}

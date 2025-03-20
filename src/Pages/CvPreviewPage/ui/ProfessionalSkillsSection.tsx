@@ -1,14 +1,28 @@
 import {TypographyTitle} from '@/Shared'
 import {
   SectionBox,
+  StyledTableCell,
   TableCellInfo,
-  TableCellLast,
   TableCellTechno,
 } from './StyledComponents'
-import {Paper, Table, TableBody, TableContainer, TableRow} from '@mui/material'
-import TableHeadPreview from './TableHeadPreview'
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material'
+import {SkillMastery} from 'cv-graphql'
+import {FC} from 'react'
 
-const ProfessionalSkillsSection = () => {
+interface ProfessionalSkillsSectionProps {
+  data: SkillMastery[]
+}
+
+const ProfessionalSkillsSection: FC<ProfessionalSkillsSectionProps> = ({
+  data,
+}) => {
   return (
     <>
       <SectionBox>
@@ -23,37 +37,25 @@ const ProfessionalSkillsSection = () => {
         }}
       >
         <Table sx={{tableLayout: 'fixed', width: '100%'}}>
-          <TableHeadPreview />
+          <TableHead>
+            <TableRow>
+              <StyledTableCell sx={{width: 'auto', textAlign: 'left'}}>
+                Skills
+              </StyledTableCell>
+              <StyledTableCell>Mastery</StyledTableCell>
+            </TableRow>
+          </TableHead>
 
           <TableBody>
-            <TableRow>
-              <TableCellTechno
-                rowSpan={3}
-                sx={{
-                  color: 'rgb(198, 48, 49)',
-
-                  verticalAlign: 'top',
-                  borderBottom: '1px solid rgb(189, 189, 189)',
-                }}
+            {data.map((elem) => (
+              <TableRow
+                key={elem.name}
+                sx={{borderBottom: '1px solid rgb(189, 189, 189)'}}
               >
-                Programming languages
-              </TableCellTechno>
-              <TableCellTechno>JavaScript</TableCellTechno>
-              <TableCellInfo>4</TableCellInfo>
-              <TableCellInfo> 2023</TableCellInfo>
-            </TableRow>
-
-            <TableRow>
-              <TableCellTechno>TypeScript</TableCellTechno>
-              <TableCellInfo>4</TableCellInfo>
-              <TableCellInfo> 2023</TableCellInfo>
-            </TableRow>
-
-            <TableRow>
-              <TableCellLast>Python</TableCellLast>
-              <TableCellLast></TableCellLast>
-              <TableCellLast></TableCellLast>
-            </TableRow>
+                <TableCellTechno>{elem.name}</TableCellTechno>
+                <TableCellInfo>{elem.mastery}</TableCellInfo>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>

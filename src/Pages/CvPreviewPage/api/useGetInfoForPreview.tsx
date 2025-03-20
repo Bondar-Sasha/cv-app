@@ -16,6 +16,11 @@ export const GET_CV_INFO = gql`
       name
       education
       description
+      skills {
+        name
+        mastery
+        categoryId
+      }
       projects {
         project {
           id
