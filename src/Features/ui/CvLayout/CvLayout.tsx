@@ -2,10 +2,9 @@ import {FC} from 'react'
 import {Box, styled} from '@mui/material'
 import {StyledLinkList} from '@/Widgets'
 import {AppRouterMap} from '@/Shared'
-import {useParams} from 'react-router-dom'
+import {useLocation, useParams} from 'react-router-dom'
 
 export interface CvLayoutProps {
-  path: HeaderLinks
   page: React.ReactElement
 }
 
@@ -21,10 +20,9 @@ export const Container = styled(Box)(({theme}) => ({
       : 'linear-gradient(0deg, rgba(53, 53, 53, 0) 0%, rgba(53, 53, 53, 1) 60%)',
 }))
 
-export type HeaderLinks = 'details' | 'skills' | 'projects' | 'preview'
-
-const CvLayout: FC<CvLayoutProps> = ({path, page}) => {
+const CvLayout: FC<CvLayoutProps> = ({page}) => {
   const id = useParams().cvId
+  const path = useLocation().pathname.split('/').at(-1)
 
   const links = [
     {

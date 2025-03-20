@@ -1,3 +1,3 @@
-import CvDetailsPage from './ui/CvDetailsPage'
+import CvDetailsLayout from './ui/CvDetailsLayout'
 
-export {CvDetailsPage}
+export {CvDetailsLayout}

@@ -1,4 +1,4 @@
-import {CvLayout, useCV} from '@/Features'
+import {useCV} from '@/Features'
 import React, {FC, useEffect, useMemo, useState} from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import {
@@ -202,223 +202,217 @@ const CvProjectsPage: FC = () => {
   }
 
   return (
-    <CvLayout
-      path="projects"
-      page={
-        <Box component="main" sx={{overflowX: 'auto'}}>
-          <Table
-            sx={{
-              bgcolor: 'inherit',
-              color: 'inherit',
-              '& :is(td,th)': {paddingLeft: 0, border: 'none'},
-            }}
-          >
-            <Box
-              component={TableHead}
-              position="sticky"
-              top="0px"
-              height="58px"
-              zIndex="100"
-              bgcolor="inherit"
+    <Box component="main" sx={{overflowX: 'auto'}}>
+      <Table
+        sx={{
+          bgcolor: 'inherit',
+          color: 'inherit',
+          '& :is(td,th)': {paddingLeft: 0, border: 'none'},
+        }}
+      >
+        <Box
+          component={TableHead}
+          position="sticky"
+          top="0px"
+          height="58px"
+          zIndex="100"
+          bgcolor="inherit"
+        >
+          <TableRow sx={{height: '56px'}}>
+            <TableCell colSpan={3}>
+              <SearchInput
+                reset={() => {
+                  setFilters((prev) => ({
+                    ...prev,
+                    searchState: '',
+                  }))
+                }}
+                value={filtersState.searchState}
+                onChange={(e) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    searchState: e.target.value,
+                  }))
+                }
+                variant="outlined"
+                placeholder="Search..."
+              />
+            </TableCell>
+            <TableCell
+              align="right"
+              colSpan={3}
+              sx={{
+                display: 'flex',
+                justifyContent: 'end',
+              }}
             >
-              <TableRow sx={{height: '56px'}}>
-                <TableCell colSpan={3}>
-                  <SearchInput
-                    reset={() => {
-                      setFilters((prev) => ({
-                        ...prev,
-                        searchState: '',
-                      }))
-                    }}
-                    value={filtersState.searchState}
-                    onChange={(e) =>
-                      setFilters((prev) => ({
-                        ...prev,
-                        searchState: e.target.value,
-                      }))
-                    }
-                    variant="outlined"
-                    placeholder="Search..."
-                  />
-                </TableCell>
-                <TableCell
-                  align="right"
-                  colSpan={3}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'end',
-                  }}
+              <Button
+                disabled={availableProjectsForSelect?.length === 0}
+                variant="text"
+                onClick={() => {
+                  setPopup({open: true, isCreating: true, projectName: ''})
+                }}
+                sx={{
+                  color: 'rgb(198, 48, 49)',
+                  width: '220px',
+                  height: '40px',
+                  borderRadius: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  '&:hover': {
+                    backgroundColor: 'rgb(236, 209, 210)',
+                  },
+                }}
+              >
+                <AddIcon sx={{color: 'inherit', marginRight: '7px'}} />
+                {t('Add Project')}
+              </Button>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            {THeadItems.map((item) => (
+              <TableCell
+                align="left"
+                key={item.id}
+                sx={{cursor: 'pointer'}}
+                onClick={() => toggleFilter(item.id)}
+              >
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  fontSize="15px"
+                  whiteSpace="nowrap"
                 >
-                  <Button
-                    disabled={availableProjectsForSelect?.length === 0}
-                    variant="text"
-                    onClick={() => {
-                      setPopup({open: true, isCreating: true, projectName: ''})
-                    }}
-                    sx={{
-                      color: 'rgb(198, 48, 49)',
-                      width: '220px',
-                      height: '40px',
-                      borderRadius: '20px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      '&:hover': {
-                        backgroundColor: 'rgb(236, 209, 210)',
-                      },
-                    }}
-                  >
-                    <AddIcon sx={{color: 'inherit', marginRight: '7px'}} />
-                    {t('Add Project')}
-                  </Button>
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                {THeadItems.map((item) => (
-                  <TableCell
-                    align="left"
-                    key={item.id}
-                    sx={{cursor: 'pointer'}}
-                    onClick={() => toggleFilter(item.id)}
-                  >
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      fontSize="15px"
-                      whiteSpace="nowrap"
-                    >
-                      <span>{t(item.label)}</span>
-                      <CustomArrow
-                        arrowState={
-                          filtersState.currentFilter.id === item.id
-                            ? filtersState.currentFilter.state
-                            : null
-                        }
-                      />
-                    </Box>
-                  </TableCell>
-                ))}
-                <TableCell
-                  sx={{padding: 0, border: 'none'}}
-                  width="72px"
-                ></TableCell>
-              </TableRow>
-            </Box>
-            <TableBody>
-              {filteredData?.map((project) => {
-                const preparedResponsibilities =
-                  project.responsibilities.join(' ')
-                return (
-                  <React.Fragment key={project.id}>
-                    <TableRow key={project.id}>
-                      <TableCell>{project.name}</TableCell>
-                      <TableCell>{project.domain}</TableCell>
-                      <TableCell>{project.start_date}</TableCell>
-                      <TableCell>{project?.end_date}</TableCell>
-                      <TableCell align="right">
-                        <MoreIconWithPopover
-                          onMoreClick={() => {}}
-                          onUpdate={() => {
-                            setPopup({
-                              open: true,
-                              isCreating: false,
-                              projectName: project.name,
-                              end_date: project.end_date,
-                              start_date: project.start_date,
-                              responsibilities: project.responsibilities,
-                            })
-                          }}
-                          onDelete={() => {
-                            const projectId = availableProjects.projects.find(
-                              (projectForSearching) =>
-                                project.name === projectForSearching.name
-                            )?.id
-
-                            if (!projectId) {
-                              return
-                            }
-
-                            setDeletePopup({
-                              projectId,
-                              open: true,
-                              projectName: project.name,
-                            })
-                          }}
-                        />
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell
-                        sx={{
-                          padding: 0,
-                          paddingRight: '16px',
-                          textAlign: 'justify',
-                        }}
-                        colSpan={5}
-                      >
-                        {project.description}
-                      </TableCell>
-                    </TableRow>
-                    {preparedResponsibilities && (
-                      <TableRow>
-                        <TableCell colSpan={5}>
-                          <Box
-                            sx={{
-                              borderRadius: '10px',
-                              height: '20px',
-                              bgcolor: 'rgb(228, 228, 228)',
-                              width: 'fit-content',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              padding: ' 0 7px',
-                              maxWidth: '300px',
-                            }}
-                          >
-                            {preparedResponsibilities}
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </React.Fragment>
-                )
-              })}
-            </TableBody>
-          </Table>
-          <DeleteProjectPopover
-            {...deletePopupState}
-            onClose={handleCloseDeletePopup}
-            cvId={cv.cv.id}
-          />
-          {popupState.open && (
-            <ProjectHandlerPopup
-              {...popupState}
-              selectedProject={selectedProjectState}
-              onSelect={setSelectedProject}
-              projectsForSelect={
-                (popupState.isCreating
-                  ? availableProjectsForSelect
-                  : availableProjects.projects
-                )?.map((project) => ({
-                  value: project.id,
-                  label: project.name,
-                })) || []
-              }
-              pickedProject={
-                particularProject
-                  ? {
-                      projectId: particularProject.id,
-                      description: particularProject.description,
-                      environment: particularProject.environment,
-                      domain: particularProject.domain,
+                  <span>{t(item.label)}</span>
+                  <CustomArrow
+                    arrowState={
+                      filtersState.currentFilter.id === item.id
+                        ? filtersState.currentFilter.state
+                        : null
                     }
-                  : undefined
-              }
-              onClose={closePopup}
-              cvId={cv.cv.id}
-            />
-          )}
+                  />
+                </Box>
+              </TableCell>
+            ))}
+            <TableCell
+              sx={{padding: 0, border: 'none'}}
+              width="72px"
+            ></TableCell>
+          </TableRow>
         </Box>
-      }
-    />
+        <TableBody>
+          {filteredData?.map((project) => {
+            const preparedResponsibilities = project.responsibilities.join(' ')
+            return (
+              <React.Fragment key={project.id}>
+                <TableRow key={project.id}>
+                  <TableCell>{project.name}</TableCell>
+                  <TableCell>{project.domain}</TableCell>
+                  <TableCell>{project.start_date}</TableCell>
+                  <TableCell>{project?.end_date}</TableCell>
+                  <TableCell align="right">
+                    <MoreIconWithPopover
+                      onMoreClick={() => {}}
+                      onUpdate={() => {
+                        setPopup({
+                          open: true,
+                          isCreating: false,
+                          projectName: project.name,
+                          end_date: project.end_date,
+                          start_date: project.start_date,
+                          responsibilities: project.responsibilities,
+                        })
+                      }}
+                      onDelete={() => {
+                        const projectId = availableProjects.projects.find(
+                          (projectForSearching) =>
+                            project.name === projectForSearching.name
+                        )?.id
+
+                        if (!projectId) {
+                          return
+                        }
+
+                        setDeletePopup({
+                          projectId,
+                          open: true,
+                          projectName: project.name,
+                        })
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell
+                    sx={{
+                      padding: 0,
+                      paddingRight: '16px',
+                      textAlign: 'justify',
+                    }}
+                    colSpan={5}
+                  >
+                    {project.description}
+                  </TableCell>
+                </TableRow>
+                {preparedResponsibilities && (
+                  <TableRow>
+                    <TableCell colSpan={5}>
+                      <Box
+                        sx={{
+                          borderRadius: '10px',
+                          height: '20px',
+                          bgcolor: 'rgb(228, 228, 228)',
+                          width: 'fit-content',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          padding: ' 0 7px',
+                          maxWidth: '300px',
+                        }}
+                      >
+                        {preparedResponsibilities}
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </React.Fragment>
+            )
+          })}
+        </TableBody>
+      </Table>
+      <DeleteProjectPopover
+        {...deletePopupState}
+        onClose={handleCloseDeletePopup}
+        cvId={cv.cv.id}
+      />
+      {popupState.open && (
+        <ProjectHandlerPopup
+          {...popupState}
+          selectedProject={selectedProjectState}
+          onSelect={setSelectedProject}
+          projectsForSelect={
+            (popupState.isCreating
+              ? availableProjectsForSelect
+              : availableProjects.projects
+            )?.map((project) => ({
+              value: project.id,
+              label: project.name,
+            })) || []
+          }
+          pickedProject={
+            particularProject
+              ? {
+                  projectId: particularProject.id,
+                  description: particularProject.description,
+                  environment: particularProject.environment,
+                  domain: particularProject.domain,
+                }
+              : undefined
+          }
+          onClose={closePopup}
+          cvId={cv.cv.id}
+        />
+      )}
+    </Box>
   )
 }
 
