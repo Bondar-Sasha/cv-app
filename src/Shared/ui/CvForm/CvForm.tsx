@@ -18,7 +18,6 @@ interface CvFormProps {
 
 const CvForm: FC<CvFormProps> = ({submitMutate, register, errors, buttons}) => {
   return (
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <BoxCustom component="form" onSubmit={submitMutate}>
       <FormControl sx={{width: '100%'}}>
         {FormFieldsData.map((field) => (

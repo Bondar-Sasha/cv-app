@@ -13,6 +13,7 @@ import CloseIcon from '@mui/icons-material/Close'
 
 import {CustomSelectComponent, LoaderBackdrop, useUser} from '@/Shared'
 import {useDepartments, usePositions, useUpdateUserProfile} from '@/Features'
+import {useTranslation} from 'react-i18next'
 
 interface UpdateProfilePopupProps {
   open: boolean
@@ -30,6 +31,7 @@ interface FormFields {
 }
 
 const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
+  const {t} = useTranslation()
   const {update, isFetching} = useUpdateUserProfile()
   const {departments, departmentsFetching} = useDepartments()
   const {positions, positionsFetching} = usePositions()
@@ -59,7 +61,7 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
   }
 
   if (!departments || !positions) {
-    return <div>Something went wrong</div>
+    return <div>{t('Something went wrong')}</div>
   }
 
   const selectHandler =
@@ -114,7 +116,6 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
           flexDirection="column"
           maxWidth="900px"
           width="100%"
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           onSubmit={handleSubmit(onSubmit)}
         >
           <Box
@@ -124,7 +125,7 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
             marginBottom="16px"
           >
             <Box component="span" fontWeight="500" fontSize="20px">
-              Update user
+              {t('Update user')}
             </Box>
 
             <IconButton onClick={onClose}>
@@ -214,7 +215,7 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
               })}
               variant="outlined"
             >
-              Cancel
+              {t('Cancel')}
             </Button>
             <Button
               type="submit"
@@ -228,7 +229,7 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
               }}
               variant="contained"
             >
-              Update
+              {t('Update')}
             </Button>
           </Box>
         </Box>

@@ -5,7 +5,6 @@ const SVGMap = (color: string) => ({
   users: (
     <SvgIcon fontSize="medium">
       <svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none">
-        <desc>Created with Pixso.</desc>
         <defs />
         <path
           id="Vector"
@@ -18,7 +17,6 @@ const SVGMap = (color: string) => ({
   up: (
     <SvgIcon fontSize="medium">
       <svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none">
-        <desc>Created with Pixso.</desc>
         <defs />
         <path
           id="Vector"
@@ -37,7 +35,6 @@ const SVGMap = (color: string) => ({
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <desc>Created with Pixso.</desc>
         <defs />
         <path
           id="Vector"
@@ -50,7 +47,6 @@ const SVGMap = (color: string) => ({
   lang: (
     <SvgIcon fontSize="medium">
       <svg width="24.000000" height="24.000000" viewBox="0 0 24 24" fill="none">
-        <desc>Created with Pixso.</desc>
         <defs />
         <path
           id="Vector"

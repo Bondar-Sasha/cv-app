@@ -7,7 +7,7 @@ interface SortType {
   direction: SortTypes
 }
 
-export const useSorting = <T extends Record<string, any>>(
+export const useSorting = <T extends Record<string, unknown>>(
   data: T[],
   defaultField: string
 ) => {

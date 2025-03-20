@@ -47,7 +47,6 @@ const ForgotPasswordForm = () => {
 
   return (
     <CustomForm
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit((data) => {
         handleForgot(data.email)
       })}

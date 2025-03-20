@@ -1,12 +1,15 @@
 import {StyledButton} from '@/Shared'
 import {TableCell, TableRow, Typography} from '@mui/material'
 import {FC} from 'react'
+import {useTranslation} from 'react-i18next'
 
 interface NoFoundCellProps {
   reset: () => void
 }
 
 const NoFoundCell: FC<NoFoundCellProps> = ({reset}) => {
+  const {t} = useTranslation()
+
   return (
     <TableRow
       sx={{
@@ -24,10 +27,10 @@ const NoFoundCell: FC<NoFoundCellProps> = ({reset}) => {
         }}
       >
         <Typography variant="h5" sx={{marginBottom: '15px'}}>
-          No results found
+          {t('No results found')}
         </Typography>
         <Typography variant="body2" sx={{marginBottom: '15px'}}>
-          Try another search, check the spelling or use a broarder term
+          {t('Try another search, check the spelling or use a boarder term')}
         </Typography>
         <StyledButton
           children={'Reset search'}

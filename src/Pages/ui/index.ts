@@ -1,3 +1,3 @@
-import {InnerWrapper} from './StyledComponents'
+import {InnerWrapper, CustomArrow} from './StyledComponents'
 
-export {InnerWrapper}
+export {InnerWrapper, CustomArrow}
