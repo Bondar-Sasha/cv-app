@@ -8,6 +8,7 @@ import {TableBox} from './StyledComponents'
 import {useDebounce} from '../hooks/useDebaunced'
 import {useSorting} from '../hooks/useSorting'
 import {useFetchCVs} from '../api/useGetAllCvs'
+import {Cv} from 'cv-graphql'
 
 export type SortTypes = 'asc' | 'desc'
 
@@ -18,8 +19,8 @@ const CVsPage = () => {
   const debouncedSearchState = useDebounce(searchState)
   const {data, loading, refetch, employee} = useFetchCVs()
 
-  const filteredCVs =
-    data?.user?.cvs?.filter((cv) =>
+  const filteredCVs: Cv[] =
+    data?.user?.cvs?.filter((cv: Cv) =>
       cv.name.toLowerCase().includes(debouncedSearchState.toLowerCase())
     ) || []
 
@@ -55,7 +56,7 @@ const CVsPage = () => {
             {sortedCVs.length > 0 ? (
               sortedCVs.map((cv) => (
                 <CVRow
-                  key={cv.id}
+                  key={cv.id as string | number}
                   cv={cv}
                   employee={employee}
                   refetch={refetch}

@@ -1,6 +1,6 @@
 import {useParams} from 'react-router-dom'
 import {useGetCvInfoForDetails} from '../api/useGetInfoForPreview'
-import {LoaderBackdrop, TypographyTitle} from '@/Shared'
+import {LoaderBackdrop, Params, TypographyTitle} from '@/Shared'
 import {RefObject, useEffect, useId, useRef} from 'react'
 import {toast} from 'react-toastify'
 import {Box} from '@mui/material'
@@ -14,10 +14,10 @@ import {useGetSkills} from '@/Features'
 import {getCurrentUserID} from '@/App'
 
 const CvPreviewLayout = () => {
-  const cvId = useParams().cvId || ''
+  const cvId = useParams<Params>().cvId
   const userId = getCurrentUserID()
   const btnId = useId()
-  const {data, loading, error} = useGetCvInfoForDetails(cvId)
+  const {data, loading, error} = useGetCvInfoForDetails(cvId || '')
   const {
     data: userData,
     loading: userLoading,
@@ -75,40 +75,42 @@ const CvPreviewLayout = () => {
     return <LoaderBackdrop loading={loading} />
   }
 
+  if (!data || !userData) {
+    return null
+  }
+
   return (
     <WrapperPreview>
-      {data && userData && (
-        <>
-          <Box ref={mainInfoRef} sx={{width: '100%'}}>
-            <MainInfo
-              userInfo={userData?.user?.profile}
-              cvData={data.cv}
-              btnId={btnId}
-              handleExport={() => void handleExport()}
+      <>
+        <Box ref={mainInfoRef} sx={{width: '100%'}}>
+          <MainInfo
+            userInfo={userData?.user?.profile}
+            cvData={data.cv}
+            btnId={btnId}
+            handleExport={() => void handleExport()}
+          />
+        </Box>
+        <Box sx={{width: '100%'}}>
+          <SectionBox>
+            <TypographyTitle title="Projects" sx={{marginBottom: '0'}} />
+          </SectionBox>
+          {data.cv?.projects?.map((elem, index) => (
+            <ProjectsSection
+              refs={(el) => {
+                if (el) {
+                  itemRefs.current[index] = el
+                }
+              }}
+              key={elem.project.id}
+              dataProject={elem}
+              userInfo={userData?.user}
             />
-          </Box>
-          <Box sx={{width: '100%'}}>
-            <SectionBox>
-              <TypographyTitle title="Projects" sx={{marginBottom: '0'}} />
-            </SectionBox>
-            {data.cv?.projects?.map((elem, index) => (
-              <ProjectsSection
-                refs={(el) => {
-                  if (el) {
-                    itemRefs.current[index] = el
-                  }
-                }}
-                key={elem.project.id}
-                dataProject={elem}
-                userInfo={userData?.user}
-              />
-            ))}
-          </Box>
-          <Box ref={skillsSectionRef} sx={{width: '100%'}}>
-            <ProfessionalSkillsSection data={data.cv.skills} />
-          </Box>
-        </>
-      )}
+          ))}
+        </Box>
+        <Box ref={skillsSectionRef} sx={{width: '100%'}}>
+          <ProfessionalSkillsSection data={data.cv.skills} />
+        </Box>
+      </>
     </WrapperPreview>
   )
 }
