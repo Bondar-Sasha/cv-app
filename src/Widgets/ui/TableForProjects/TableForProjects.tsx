@@ -20,7 +20,7 @@ interface TableForProjectsProps {
   addButton?: ReactNode
 }
 
-interface Filters {
+export interface Filters {
   searchState: string
   currentFilter: {
     id: 'name' | 'domain' | 'end_date' | 'start_date'

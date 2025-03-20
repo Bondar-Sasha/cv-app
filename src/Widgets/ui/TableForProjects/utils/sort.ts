@@ -1,12 +1,5 @@
 import {CvProject, Project} from 'cv-graphql'
-
-interface Filters {
-  searchState: string
-  currentFilter: {
-    id: 'name' | 'domain' | 'end_date' | 'start_date'
-    state: boolean
-  }
-}
+import {Filters} from '../TableForProjects'
 
 export const filterFunc = (data: (CvProject | Project)[]) => {
   return (str: string) => {
