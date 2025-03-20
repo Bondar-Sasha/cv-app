@@ -7,7 +7,8 @@ interface SortType {
   direction: SortTypes
 }
 
-export const useSorting = <T extends Record<string, unknown>>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const useSorting = <T extends Record<string, any>>(
   data: T[],
   defaultField: string
 ) => {
