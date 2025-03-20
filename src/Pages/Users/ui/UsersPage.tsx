@@ -22,6 +22,7 @@ import {
   SearchInput,
   LoaderBackdrop,
   useDebounceSearch,
+  NoFoundCell,
 } from '@/Shared'
 import {PreparedUser} from '../api/useUsers'
 import UsersList from './UsersList'
@@ -258,7 +259,21 @@ const UsersPage: FC = () => {
               </CustomIconButton>
             </CustomTdCell>
           </Box>
-          <UsersList listData={filteredData} parentRef={tbodyRef} />
+          {filteredData?.length ? (
+            <UsersList listData={filteredData} parentRef={tbodyRef} />
+          ) : (
+            <NoFoundCell
+              reset={() =>
+                setFilters((prev) => ({
+                  ...prev,
+                  searchState: '',
+                }))
+              }
+            />
+          )}
+          <TableRow>
+            <TableCell colSpan={6} />
+          </TableRow>
         </TableBody>
       </Table>
     </main>

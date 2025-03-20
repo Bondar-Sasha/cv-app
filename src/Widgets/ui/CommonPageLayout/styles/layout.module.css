@@ -88,10 +88,13 @@
 }
 
 @media (width <= 768px) {
-  .aside > div:last-child > :last-child,
-  .aside > :first-child > :last-child {
+  .aside > div:last-child > :last-child {
     display: none;
   }
+  .asideMarkerLabel {
+    display: none;
+  }
+
   .header {
     padding-left: 44px;
   }
@@ -130,8 +133,8 @@
   }
 }
 
-@media (width <= 600px) {
-  .asideMarker > span {
+@media (width <= 400px) {
+  .markerContainer > :last-child {
     display: none;
   }
 }

@@ -41,6 +41,12 @@ const asideMarkersMap: AsideMarkersMap[] = [
     handlingPath: AppRouterMap.languages.path,
   },
   {id: 4, icon: 'profile', label: 'CVs', handlingPath: AppRouterMap.CVs.path},
+  {
+    id: 5,
+    icon: 'projects',
+    label: 'Projects',
+    handlingPath: AppRouterMap.projects.path,
+  },
 ]
 
 const Aside: FC = memo(() => {
@@ -62,7 +68,7 @@ const Aside: FC = memo(() => {
     <aside
       className={`${layoutStyles.aside} ${asideState ? layoutStyles.asideOpened : layoutStyles.asideClosed}`}
     >
-      <div>
+      <div className={layoutStyles.markerContainer}>
         {asideMarkersMap.map((marker) => {
           return (
             <AsideMarker
@@ -75,7 +81,9 @@ const Aside: FC = memo(() => {
             >
               <AsideSvg color={theme.palette.text.primary} type={marker.icon} />
 
-              <span>{t(marker.label)}</span>
+              <span className={layoutStyles.asideMarkerLabel}>
+                {t(marker.label)}
+              </span>
             </AsideMarker>
           )
         })}
