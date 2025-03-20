@@ -1,4 +1,4 @@
-import {FC, useEffect, useMemo, useRef, useState, useTransition} from 'react'
+import {FC, useMemo, useRef, useState} from 'react'
 import {
   Box,
   Table,
@@ -16,21 +16,18 @@ import {useNavigate} from 'react-router-dom'
 
 import {useUsers} from '../api'
 import {
-  CircleProgress,
   AppRouterMap,
   useUser,
   EnvUserLogo,
   SearchInput,
+  LoaderBackdrop,
+  useDebounceSearch,
 } from '@/Shared'
 import {PreparedUser} from '../api/useUsers'
 import UsersList from './UsersList'
-import {
-  CustomArrow,
-  CustomIconButton,
-  CustomTdCell,
-  CustomThCell,
-} from './preparedUi'
+import {CustomIconButton, CustomTdCell, CustomThCell} from './preparedUi'
 import UpdateProfilePopup from './UpdateProfilePopup'
+import {CustomArrow} from '@/Pages/ui'
 
 interface Filters {
   searchState: string
@@ -94,22 +91,8 @@ const UsersPage: FC = () => {
     },
   })
   const popoverAnchor = useRef<HTMLButtonElement | null>(null)
-  const [debouncedSearchState, setDebouncedSearch] = useState(
-    filtersState.searchState
-  )
-  const [, startTransition] = useTransition()
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      startTransition(() => {
-        setDebouncedSearch(filtersState.searchState)
-      })
-    }, 300)
-
-    return () => {
-      clearTimeout(handler)
-    }
-  }, [filtersState.searchState, startTransition])
+  const debouncedSearchState = useDebounceSearch(filtersState.searchState, 500)
 
   const filteredData = useMemo(() => {
     return filterFunc(data)(
@@ -133,18 +116,15 @@ const UsersPage: FC = () => {
     }))
   }
 
+  const resetSearch = () => {
+    setFilters((prev) => ({
+      ...prev,
+      searchState: '',
+    }))
+  }
+
   if (loading) {
-    return (
-      <Box
-        width="100%"
-        height="50%"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <CircleProgress />
-      </Box>
-    )
+    return <LoaderBackdrop loading />
   }
 
   return (
@@ -165,7 +145,14 @@ const UsersPage: FC = () => {
           bgcolor="inherit"
         >
           <TableRow>
-            <TableCell colSpan={7} sx={{border: 'none', padding: 0}}>
+            <TableCell
+              colSpan={7}
+              sx={{
+                border: 'none',
+                padding: 0,
+                '@media (width <= 768px)': {paddingLeft: '44px'},
+              }}
+            >
               <Box display="flex" alignItems="end" height="50px" width="100%">
                 <SearchInput
                   variant="outlined"
@@ -177,6 +164,7 @@ const UsersPage: FC = () => {
                     }))
                   }
                   placeholder="Search..."
+                  reset={resetSearch}
                 />
               </Box>
             </TableCell>
@@ -188,16 +176,23 @@ const UsersPage: FC = () => {
                 align="left"
                 key={item.id}
                 onClick={() => toggleFilter(item.id)}
-                aria-label={`Sort by ${item.label}`}
+                sx={{cursor: 'pointer'}}
               >
-                <span>{t(item.label)}</span>
-                <CustomArrow
-                  arrowState={
-                    filtersState.currentFilter.id === item.id
-                      ? filtersState.currentFilter.state
-                      : null
-                  }
-                />
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  fontSize="15px"
+                  whiteSpace="nowrap"
+                >
+                  <span>{t(item.label)}</span>
+                  <CustomArrow
+                    arrowState={
+                      filtersState.currentFilter.id === item.id
+                        ? filtersState.currentFilter.state
+                        : null
+                    }
+                  />
+                </Box>
               </CustomThCell>
             ))}
             <CustomThCell width="80px"></CustomThCell>

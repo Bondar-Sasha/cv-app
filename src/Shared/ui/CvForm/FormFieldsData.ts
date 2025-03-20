@@ -5,7 +5,7 @@ export const FormFieldsData = [
     name: 'name',
     autoComplete: 'name',
     multiline: false,
-    rows: 1,
+    minRows: 1,
   },
   {
     id: 'education',
@@ -13,7 +13,7 @@ export const FormFieldsData = [
     name: 'education',
     autoComplete: 'education',
     multiline: false,
-    rows: 1,
+    minRows: 1,
   },
   {
     id: 'description',
@@ -21,6 +21,6 @@ export const FormFieldsData = [
     name: 'description',
     autoComplete: 'description',
     multiline: true,
-    rows: 7,
+    minRows: 7,
   },
 ]

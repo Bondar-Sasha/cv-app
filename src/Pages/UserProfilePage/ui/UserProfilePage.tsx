@@ -1,5 +1,5 @@
 import {OneUserLayout} from '@/Features'
-import {ProfilePage} from '@/Pages/Profile'
+import {ProfilePage} from '@/Widgets'
 
 const UserProfilePage = () => {
   return <OneUserLayout path="profile" page={<ProfilePage />} />

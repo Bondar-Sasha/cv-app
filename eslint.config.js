@@ -2,10 +2,11 @@ import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
+// import i18next from 'eslint-plugin-i18next'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
-  {ignores: ['dist']},
+  {ignores: ['dist', 'node_modules']},
   {
     extends: [
       js.configs.recommended,
@@ -21,6 +22,7 @@ export default tseslint.config(
       },
     },
     plugins: {
+      // i18next,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
     },
@@ -28,15 +30,17 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
       '@typescript-eslint/no-unsafe-argument': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
       'react-refresh/only-export-components': 'off',
+      // 'i18next/no-literal-string': ['error', {markupOnly: true}],
       'no-console': ['error', {allow: ['warn', 'error']}],
       'spaced-comment': ['error', 'always'],
       'multiline-comment-style': ['error', 'starred-block'],
       'capitalized-comments': ['error', 'always'],
       '@typescript-eslint/no-unused-vars': 'error',
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'error',
     },
   }
 )

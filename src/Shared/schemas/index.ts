@@ -30,9 +30,6 @@ export const USER = gql`
         name
         education
         description
-        user {
-          id
-        }
       }
       department {
         id

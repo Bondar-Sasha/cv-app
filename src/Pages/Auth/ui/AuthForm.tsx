@@ -26,7 +26,6 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
   return (
     <BoxCustom
       component={'form'}
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit((data) => {
         handleAuth(data.email, data.password)
       })}
