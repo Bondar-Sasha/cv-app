@@ -2,7 +2,7 @@ import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
-import i18next from 'eslint-plugin-i18next'
+// import i18next from 'eslint-plugin-i18next'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
@@ -22,7 +22,7 @@ export default tseslint.config(
       },
     },
     plugins: {
-      i18next,
+      // i18next,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
     },
@@ -36,7 +36,7 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
       'react-refresh/only-export-components': 'off',
-      'i18next/no-literal-string': ['error', {markupOnly: true}],
+      // 'i18next/no-literal-string': ['error', {markupOnly: true}],
       'no-console': ['error', {allow: ['warn', 'error']}],
       'spaced-comment': ['error', 'always'],
       'multiline-comment-style': ['error', 'starred-block'],

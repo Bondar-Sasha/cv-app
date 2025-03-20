@@ -4,11 +4,11 @@ import {
   TransformedSkill,
 } from '../utilits/addCategoryAndProficiencyToUserSkills'
 import {useGetSkillsCategories} from '../api/useGetSkillsCategories'
-import {useGetSkills} from '../api/useGetSkills'
 import {groupByCategory} from '../utilits/groupByCategory'
 import {Skill} from 'cv-graphql'
 import {FiltersTechnologies} from '../UniversalSkillsLogic'
 import {removeTechnologyByName} from '../utilits/removeTechnologyByName'
+import {useGetSkills} from '@/Features'
 
 interface Technology {
   value: string

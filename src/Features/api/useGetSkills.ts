@@ -12,11 +12,23 @@ export type SkillsResult = {
 export const GETSKILLS = gql`
   query GetSkills($userId: ID!) {
     user(userId: $userId) {
+      email
+      department {
+        name
+      }
+      position {
+        name
+      }
       profile {
+        full_name
         skills {
           name
           categoryId
           mastery
+        }
+        languages {
+          name
+          proficiency
         }
       }
     }

@@ -16,8 +16,12 @@
   background-color: inherit;
   color: inherit;
 }
+
 .main_wrapper {
+  margin: auto;
+  max-width: 1536px;
   display: grid;
+  padding: 0 24px;
   box-sizing: border-box;
   grid-template-columns: 1fr;
   grid-template-rows: 44px auto;
@@ -25,32 +29,35 @@
   background-color: inherit;
   color: inherit;
 }
+
 .main_wrapper > main {
   background-color: inherit;
   overflow-x: auto;
   color: inherit;
 }
+
 .asideMarker {
   display: flex;
   align-items: center;
   cursor: pointer;
 }
+
 .asideMarker > span {
   margin-left: 17px;
 }
 
 @media (width > 768px) {
   .main_wrapper {
-    margin-left: 44px;
+    padding-left: 44px;
   }
+
   .main_wrapper > header {
     width: 100%;
-
     justify-self: center;
   }
+
   .main_wrapper > main {
     width: 100%;
-
     justify-self: center;
   }
 
@@ -63,9 +70,11 @@
     justify-content: space-between;
     transition: width ease 0.3s;
   }
+
   .aside.asideOpened {
     width: 200px;
   }
+
   .aside.asideClosed {
     width: 56px;
   }
@@ -82,6 +91,7 @@
   .asideIcon.asideIconClosed {
     transform: rotate(180deg);
   }
+
   .asideIcon.asideIconOpened {
     transform: rotate(0deg);
   }
@@ -98,11 +108,12 @@
   .header {
     padding-left: 44px;
   }
+
   .main_wrapper > header {
     width: 100%;
-
     justify-self: center;
   }
+
   .main_wrapper > main {
     width: 100%;
     justify-self: center;
@@ -122,6 +133,7 @@
     bottom: 0;
     width: 100%;
   }
+
   .asideMarker {
     height: 40px;
     border-radius: 20px;
