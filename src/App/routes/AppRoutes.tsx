@@ -12,6 +12,7 @@ import {
   CvSkillsPage,
   CVsPage,
   LanguagesPage,
+  ProjectsPage,
   ResetPassword,
   SettingsPage,
   SkillsPage,
@@ -24,7 +25,7 @@ import {CommonPageLayout} from '@/Widgets'
 
 const {
   users,
-  userCVs,
+
   userLanguages,
   userProfile,
   userSkills,
@@ -33,10 +34,10 @@ const {
   CVProjects,
   CVSkills,
   CVs,
-  positions,
+
   project,
   projects,
-  departments,
+
   skills,
   languages,
   settings,
@@ -65,16 +66,13 @@ const AppRoutes: FC = () => {
           <Route path={userProfile.path()} element={<UserProfilePage />} />
           <Route path={userSkills.path()} element={<UserSkillsPage />} />
           <Route path={userLanguages.path()} element={<UserLanguagesPage />} />
-          <Route path={userCVs.path()} element={<></>} />
-          <Route path={projects.path} element={<></>} />
-          <Route path={project.path()} element={<> </>} />
+          <Route path={projects.path} element={<ProjectsPage />} />
+          <Route path={project.path()} element={<></>} />
           <Route path={CVs.path} element={<CVsPage />} />
           <Route path={CVDetails.path()} element={<CvDetailsPage />} />
           <Route path={CVSkills.path()} element={<CvSkillsPage />} />
           <Route path={CVProjects.path()} element={<CvProjectsPage />} />
           <Route path={CVPreview.path()} element={<CvPreviewPage />} />
-          <Route path={departments.path} element={<></>} />
-          <Route path={positions.path} element={<></>} />
           <Route path={skills.path} element={<SkillsPage />} />
           <Route path={languages.path} element={<LanguagesPage />} />
           <Route path={settings.path} element={<SettingsPage />} />

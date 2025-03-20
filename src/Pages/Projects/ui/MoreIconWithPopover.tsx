@@ -4,14 +4,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert'
 import {useTranslation} from 'react-i18next'
 
 interface MoreIconWithPopoverProps {
-  onUpdate: () => void
-  onDelete: () => void
+  onDetails: () => void
 }
 
-const MoreIconWithPopover: FC<MoreIconWithPopoverProps> = ({
-  onDelete,
-  onUpdate,
-}) => {
+const MoreIconWithPopover: FC<MoreIconWithPopoverProps> = ({onDetails}) => {
   const anchorRef = useRef<HTMLButtonElement>(null)
   const {t} = useTranslation()
   const theme = useTheme()
@@ -49,20 +45,14 @@ const MoreIconWithPopover: FC<MoreIconWithPopoverProps> = ({
           <Button
             color="inherit"
             onClick={() => {
-              onUpdate()
+              onDetails()
               onClose()
             }}
           >
-            {t('Update project')}
+            {t('Project details')}
           </Button>
 
-          <Button
-            color="inherit"
-            onClick={() => {
-              onDelete()
-              onClose()
-            }}
-          >
+          <Button disabled color="inherit" onClick={onClose}>
             {t('Remove project')}
           </Button>
         </Box>
