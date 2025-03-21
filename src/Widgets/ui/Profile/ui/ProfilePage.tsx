@@ -221,7 +221,7 @@ const ProfilePage: FC = () => {
             onChange={handleFileChange}
             multiple={false}
           />
-          {user?.profile?.avatar && (
+          {user?.profile?.avatar && isEqual && (
             <IconButton
               onClick={handleDeleteAvatar}
               sx={{position: 'absolute', top: '-15px', right: '-20px'}}

@@ -132,7 +132,7 @@ const TableForProjects: FC<TableForProjectsProps> = ({
                   }))
                 }
                 variant="outlined"
-                placeholder="Search..."
+                placeholder={`${t('Search')}...`}
               />
             </TableCell>
             {addButton && (

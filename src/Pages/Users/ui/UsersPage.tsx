@@ -174,7 +174,7 @@ const UsersPage: FC = () => {
                         searchState: e.target.value,
                       }))
                     }
-                    placeholder="Search..."
+                    placeholder={`${t('Search')}...`}
                     reset={resetSearch}
                   />
                 </Box>

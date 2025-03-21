@@ -87,6 +87,7 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
         userId: user.id,
       })
       toast.success(t('Profile was updated'))
+      onClose()
     } catch (error) {
       toast.error((error as Error).message)
       console.error(error)
@@ -224,7 +225,10 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
           </Box>
           <Box display="flex" justifyContent="end" marginTop="16px">
             <Button
-              onClick={() => reset()}
+              onClick={() => {
+                reset()
+                onClose()
+              }}
               loading={isFetching}
               sx={(theme) => ({
                 borderRadius: '24px',

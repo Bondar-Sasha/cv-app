@@ -46,7 +46,7 @@ const CustomTableHead: FC<CustomTableHeadProps> = ({
       <TableRow>
         <TableCell sx={{borderBottom: 'none'}} colSpan={2}>
           <SearchInput
-            placeholder="Search"
+            placeholder={`${t('Search')}...`}
             value={searchState}
             onChange={(e) => setSearchState(e.target.value)}
             reset={() => setSearchState('')}
