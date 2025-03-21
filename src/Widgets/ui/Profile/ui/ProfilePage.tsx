@@ -268,7 +268,10 @@ const ProfilePage: FC = () => {
         <Box component="span" color="rgb(189, 189, 189)" marginBottom="3px">
           {user?.email}
         </Box>
-        <Box component="span">{t(`A member since ${preparedDate}`)}</Box>
+        <Box component="span">
+          {t(`A member since`)}
+          {` ${preparedDate}`}
+        </Box>
       </Box>
 
       <Box

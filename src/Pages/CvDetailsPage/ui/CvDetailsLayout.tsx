@@ -13,8 +13,10 @@ import {
 } from '@/Shared'
 import {useGetCvDetails} from '../api/useGetCvDetails'
 import {useUpdateCvDetails} from '../api/useUpdateCvDetails'
+import {useTranslation} from 'react-i18next'
 
 const CvDetailsLayout = () => {
+  const {t} = useTranslation()
   const {cvId = ''} = useParams()
   const {data, loading, error} = useGetCvDetails(cvId)
   const [isDisabled, setIsDisabled] = useState(true)
@@ -98,7 +100,7 @@ const CvDetailsLayout = () => {
           <StyledButton
             type="submit"
             variant="contained"
-            children="Update"
+            children={t('Update')}
             disabled={isDisabled}
             sx={{marginTop: '25px', width: '50%'}}
           />

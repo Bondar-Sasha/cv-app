@@ -34,9 +34,17 @@ const CustomTableHead: FC<CustomTableHeadProps> = ({
   const {t} = useTranslation()
 
   return (
-    <TableHead>
+    <TableHead
+      sx={(theme) => ({
+        position: 'sticky',
+        top: '0',
+        left: '0',
+        backgroundColor: theme.palette.background.default,
+        zIndex: theme.zIndex.drawer + 1,
+      })}
+    >
       <TableRow>
-        <TableCell sx={{borderBottom: 'none'}}>
+        <TableCell sx={{borderBottom: 'none'}} colSpan={2}>
           <SearchInput
             placeholder="Search"
             value={searchState}
@@ -44,7 +52,6 @@ const CustomTableHead: FC<CustomTableHeadProps> = ({
             reset={() => setSearchState('')}
           />
         </TableCell>
-        <TableCell sx={{borderBottom: 'none'}} />
         <TableCell sx={{borderBottom: 'none'}}>
           <WrapperButton
             onClick={() => setOpenForm(true)}

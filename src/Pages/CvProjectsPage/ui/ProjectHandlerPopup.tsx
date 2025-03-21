@@ -228,7 +228,7 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
                   onChange={(value) => {
                     setValue('start_date', value?.toISOString() || '')
                   }}
-                  label="Start Date"
+                  label={t('Start Date')}
                 />
                 {errors.start_date?.message && (
                   <FormHelperText
@@ -246,7 +246,7 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
                 onChange={(value) => {
                   setValue('end_date', value?.toISOString() || '')
                 }}
-                label="End Date"
+                label={t('End Date')}
               />
             </LocalizationProvider>
           </Box>
@@ -275,7 +275,7 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
             {...register('responsibilities')}
             multiline
             sx={{margin: '16px 0'}}
-            label={t('Responsibility')}
+            label={t('Responsibilities')}
             placeholder={t('Responsibility')}
             variant="outlined"
           />

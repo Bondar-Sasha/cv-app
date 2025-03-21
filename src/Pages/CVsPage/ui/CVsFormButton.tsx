@@ -1,6 +1,7 @@
 import {StyledButton} from '@/Shared'
 import {FC} from 'react'
 import {BoxCustom} from './StyledComponents'
+import {useTranslation} from 'react-i18next'
 
 interface CVsFormButtonProps {
   handleClose: () => void
@@ -15,10 +16,11 @@ const CVsFormButton: FC<CVsFormButtonProps> = ({
   titleBtn,
   mutate,
 }) => {
+  const {t} = useTranslation()
   return (
     <BoxCustom>
       <StyledButton
-        children="Cancel"
+        children={t('Cancel')}
         variant="outlined"
         onClick={handleClose}
         sx={{maxWidth: '40%', height: '50px'}}
@@ -26,7 +28,7 @@ const CVsFormButton: FC<CVsFormButtonProps> = ({
       <StyledButton
         type="submit"
         variant="contained"
-        children={titleBtn}
+        children={t(titleBtn)}
         disabled={isDisabled}
         sx={{maxWidth: '40%', height: '50px'}}
         onClick={mutate}

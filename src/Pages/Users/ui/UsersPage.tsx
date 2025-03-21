@@ -1,14 +1,12 @@
 import {FC, useMemo, useRef, useState} from 'react'
 import {
   Box,
-  Table,
-  TableHead,
   TableBody,
   TableRow,
   TableCell,
   Popover,
-  Button,
-  useTheme,
+  TableContainer,
+  Paper,
 } from '@mui/material'
 import {useTranslation} from 'react-i18next'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -26,7 +24,15 @@ import {
 } from '@/Shared'
 import {PreparedUser} from '../api/useUsers'
 import UsersList from './UsersList'
-import {CustomIconButton, CustomTdCell, CustomThCell} from './preparedUi'
+import {
+  ButtonWrapper,
+  CustomIconButton,
+  CustomTable,
+  CustomTableButton,
+  CustomTableHead,
+  CustomTdCell,
+  CustomThCell,
+} from './preparedUi'
 import UpdateProfilePopup from './UpdateProfilePopup'
 import {CustomArrow} from '@/Pages/ui'
 
@@ -76,7 +82,6 @@ const filterFunc = (data?: PreparedUser[]) => {
 }
 
 const UsersPage: FC = () => {
-  const theme = useTheme()
   const {user} = useUser()
   const {data, loading} = useUsers()
   const {t} = useTranslation()
@@ -135,150 +140,149 @@ const UsersPage: FC = () => {
           setPopup(false)
         }}
       />
-      <Table sx={{bgcolor: 'inherit', color: 'inherit'}}>
-        <Box
-          component={TableHead}
-          position="sticky"
-          top="0px"
-          height="58px"
-          zIndex="100"
-          bgcolor="inherit"
-        >
-          <TableRow>
-            <TableCell
-              colSpan={7}
-              sx={{
-                border: 'none',
-                padding: 0,
-                paddingLeft: '20px',
-                paddingBottom: '7px',
-                '@media (width <= 768px)': {
-                  paddingLeft: '0',
-                },
-              }}
-            >
-              <Box display="flex" alignItems="end" height="50px" width="100%">
-                <SearchInput
-                  variant="outlined"
-                  value={filtersState.searchState}
-                  onChange={(e) =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      searchState: e.target.value,
-                    }))
-                  }
-                  placeholder="Search..."
-                  reset={resetSearch}
-                />
-              </Box>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <CustomThCell width="80px"></CustomThCell>
-            {THeadItems.map((item) => (
-              <CustomThCell
-                align="left"
-                key={item.id}
-                onClick={() => toggleFilter(item.id)}
-                sx={{cursor: 'pointer'}}
+      <TableContainer
+        component={Paper}
+        sx={(theme) => ({
+          backgroundColor: theme.palette.background.default,
+          boxShadow: 'none',
+          maxHeight: '100vh',
+          paddingRight: '40px',
+        })}
+      >
+        <CustomTable stickyHeader>
+          <CustomTableHead>
+            <TableRow>
+              <TableCell
+                colSpan={7}
+                sx={{
+                  borderBottom: 'none',
+                  padding: 0,
+                  paddingLeft: '20px',
+                  paddingBottom: '7px',
+                  '@media (width <= 768px)': {
+                    paddingLeft: '0',
+                  },
+                }}
               >
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  fontSize="15px"
-                  whiteSpace="nowrap"
-                >
-                  <span>{t(item.label)}</span>
-                  <CustomArrow
-                    arrowState={
-                      filtersState.currentFilter.id === item.id
-                        ? filtersState.currentFilter.state
-                        : null
+                <Box display="flex" alignItems="end" height="50px" width="100%">
+                  <SearchInput
+                    variant="outlined"
+                    value={filtersState.searchState}
+                    onChange={(e) =>
+                      setFilters((prev) => ({
+                        ...prev,
+                        searchState: e.target.value,
+                      }))
                     }
+                    placeholder="Search..."
+                    reset={resetSearch}
                   />
                 </Box>
-              </CustomThCell>
-            ))}
-            <CustomThCell width="80px"></CustomThCell>
-          </TableRow>
-        </Box>
-        <TableBody>
-          <Box component={TableRow} height="73px">
-            <Popover
-              anchorEl={popoverAnchor.current}
-              open={popoverState}
-              onClose={() => setPopover(false)}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-              }}
-            >
-              <Box
-                width="210px"
-                display="flex"
-                flexDirection="column"
-                color={theme.palette.text.primary}
-                bgcolor={theme.palette.background.default}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <CustomThCell width="80px"></CustomThCell>
+              {THeadItems.map((item) => (
+                <CustomThCell
+                  align="left"
+                  key={item.id}
+                  onClick={() => toggleFilter(item.id)}
+                  sx={{cursor: 'pointer'}}
+                >
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    fontSize="15px"
+                    whiteSpace="nowrap"
+                  >
+                    <span>{t(item.label)}</span>
+                    <CustomArrow
+                      arrowState={
+                        filtersState.currentFilter.id === item.id
+                          ? filtersState.currentFilter.state
+                          : null
+                      }
+                    />
+                  </Box>
+                </CustomThCell>
+              ))}
+              <CustomThCell width="80px"></CustomThCell>
+            </TableRow>
+          </CustomTableHead>
+
+          <TableBody ref={tbodyRef}>
+            <Box component={TableRow} height="73px">
+              <Popover
+                anchorEl={popoverAnchor.current}
+                open={popoverState}
+                onClose={() => setPopover(false)}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
               >
-                <Button
-                  color="inherit"
-                  onClick={() =>
-                    void navigate(AppRouterMap.userProfile.path(user?.id))
+                <ButtonWrapper>
+                  <CustomTableButton
+                    onClick={() =>
+                      void navigate(AppRouterMap.userProfile.path(user?.id))
+                    }
+                  >
+                    {t('Profile')}
+                  </CustomTableButton>
+                  <CustomTableButton
+                    onClick={() => {
+                      setPopover(false)
+                      setPopup(true)
+                    }}
+                  >
+                    {t('Update user')}
+                  </CustomTableButton>
+                  <CustomTableButton disabled>
+                    {t('Delete user')}
+                  </CustomTableButton>
+                </ButtonWrapper>
+              </Popover>
+
+              <CustomTdCell>
+                <EnvUserLogo
+                  latter={
+                    user?.profile.first_name?.charAt(0) || user?.email[0] || ''
                   }
+                  src={user?.profile?.avatar}
+                />
+              </CustomTdCell>
+              <CustomTdCell>{user?.profile?.first_name}</CustomTdCell>
+              <CustomTdCell>{user?.profile?.last_name}</CustomTdCell>
+              <CustomTdCell>{user?.email}</CustomTdCell>
+              <CustomTdCell>{user?.department?.name}</CustomTdCell>
+              <CustomTdCell>{user?.position?.name}</CustomTdCell>
+              <CustomTdCell>
+                <CustomIconButton
+                  ref={popoverAnchor}
+                  onClick={() => setPopover((prev) => !prev)}
                 >
-                  {t('Profile')}
-                </Button>
-                <Button
-                  color="inherit"
-                  onClick={() => {
-                    setPopover(false)
-                    setPopup(true)
-                  }}
-                >
-                  {t('Update user')}
-                </Button>
-                <Button disabled>{t('Delete user')}</Button>
-              </Box>
-            </Popover>
-            <CustomTdCell>
-              <EnvUserLogo
-                latter={
-                  user?.profile.first_name?.charAt(0) || user?.email[0] || ''
+                  <MoreVertIcon />
+                </CustomIconButton>
+              </CustomTdCell>
+            </Box>
+            {filteredData?.length ? (
+              <UsersList listData={filteredData} parentRef={tbodyRef} />
+            ) : (
+              <NoFoundCell
+                reset={() =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    searchState: '',
+                  }))
                 }
-                src={user?.profile?.avatar}
               />
-            </CustomTdCell>
-            <CustomTdCell>{user?.profile?.first_name}</CustomTdCell>
-            <CustomTdCell>{user?.profile?.last_name}</CustomTdCell>
-            <CustomTdCell>{user?.email}</CustomTdCell>
-            <CustomTdCell>{user?.department?.name}</CustomTdCell>
-            <CustomTdCell>{user?.position?.name}</CustomTdCell>
-            <CustomTdCell>
-              <CustomIconButton
-                ref={popoverAnchor}
-                onClick={() => setPopover((prev) => !prev)}
-              >
-                <MoreVertIcon />
-              </CustomIconButton>
-            </CustomTdCell>
-          </Box>
-          {filteredData?.length ? (
-            <UsersList listData={filteredData} />
-          ) : (
-            <NoFoundCell
-              reset={() =>
-                setFilters((prev) => ({
-                  ...prev,
-                  searchState: '',
-                }))
-              }
-            />
-          )}
-          <TableRow>
-            <TableCell colSpan={6} />
-          </TableRow>
-        </TableBody>
-      </Table>
+            )}
+            <TableRow>
+              <TableCell colSpan={6} />
+            </TableRow>
+          </TableBody>
+        </CustomTable>
+      </TableContainer>
     </main>
   )
 }

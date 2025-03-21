@@ -125,7 +125,7 @@ const CvProjectsPage: FC = () => {
             }}
           >
             <AddIcon sx={{color: 'inherit', marginRight: '7px'}} />
-            {t('Add Project')}
+            {t('Add project')}
           </Button>
         }
       >
