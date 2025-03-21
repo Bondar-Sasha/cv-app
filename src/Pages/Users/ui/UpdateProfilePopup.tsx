@@ -18,6 +18,8 @@ import {
 } from '@/Shared'
 import {useDepartments, usePositions, useUpdateUserProfile} from '@/Features'
 import {useTranslation} from 'react-i18next'
+import {Navigate} from 'react-router-dom'
+import {toast} from 'react-toastify'
 
 interface UpdateProfilePopupProps {
   open: boolean
@@ -57,15 +59,11 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
   }, [user, reset])
 
   if (departmentsFetching || positionsFetching || loading) {
-    return (
-      <LoaderBackdrop
-        loading={departmentsFetching || positionsFetching || loading}
-      />
-    )
+    return <LoaderBackdrop loading />
   }
 
   if (!departments || !positions) {
-    return <div>{t('Something went wrong')}</div>
+    return <Navigate to="/" />
   }
 
   const selectHandler =
@@ -79,13 +77,20 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
     department,
     position,
   }) => {
-    await update({
-      last_name: lastName,
-      first_name: firstName,
-      departmentId: department,
-      positionId: position,
-      userId: user?.id || '',
-    }).catch((error) => console.error(error))
+    if (!user?.id) return
+    try {
+      await update({
+        last_name: lastName,
+        first_name: firstName,
+        departmentId: department,
+        positionId: position,
+        userId: user.id,
+      })
+      toast.success(t('Profile was updated'))
+    } catch (error) {
+      toast.error((error as Error).message)
+      console.error(error)
+    }
   }
 
   return (
@@ -170,9 +175,8 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
             <CustomTextField
               type="text"
               id="First Name"
-              name="First Name"
               autoComplete="First Name"
-              defaultValue={user?.profile.first_name ?? ''}
+              name="firstName"
               register={register}
               label="First Name"
               placeholder="First Name"
@@ -180,9 +184,8 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
             <CustomTextField
               type="text"
               id="Last Name"
-              name="Last Name"
-              defaultValue={user?.profile.last_name ?? ''}
               autoComplete="Last Name"
+              name="lastName"
               register={register}
               label="Last Name"
               placeholder="Last Name"

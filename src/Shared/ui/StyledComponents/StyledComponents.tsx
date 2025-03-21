@@ -8,7 +8,6 @@ export const FormBox = styled(Box)(({theme}) => ({
   minWidth: '550px',
   width: '100%',
   maxHeight: 'calc(100% - 64px)',
-  overflow: 'scroll',
   boxShadow:
     'rgba(0, 0, 0, 0.2) 0px 11px 15px -7px, rgba(0, 0, 0, 0.14) 0px 24px 38px 3px, rgba(0, 0, 0, 0.12) 0px 9px 46px 8px',
   [theme.breakpoints.down('sm')]: {

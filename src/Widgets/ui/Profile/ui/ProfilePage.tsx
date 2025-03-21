@@ -4,7 +4,6 @@ import {
   FC,
   useEffect,
   useRef,
-  useState,
 } from 'react'
 import {
   Box,
@@ -24,6 +23,7 @@ import {
   EnvUserLogo,
   LoaderBackdrop,
   Params,
+  USER,
   useUser,
 } from '@/Shared'
 import UploadLogo from './UploadLogo'
@@ -50,10 +50,7 @@ const ProfilePage: FC = () => {
 
   const {user, loading, error} = useUser(params.userId)
 
-  const [logoUrl, setLogoUrl] = useState<string | null | undefined>(
-    user?.profile.avatar
-  )
-  const {uploadAvatar, uploadFetching, uploadData} = useUploadAvatar()
+  const {uploadAvatar, uploadFetching} = useUploadAvatar()
   const {deleteAvatar, deleteFetching} = useDeleteAvatar()
   const {departments, departmentsFetching} = useDepartments()
   const {positions, positionsFetching} = usePositions()
@@ -68,15 +65,20 @@ const ProfilePage: FC = () => {
     reader.onloadend = async () => {
       const base64 = reader.result as string
       try {
+        if (!user?.id) {
+          return
+        }
         await uploadAvatar({
           variables: {
-            base64,
-            userId: user?.id || '',
-            size: file.size,
-            type: file.type,
+            avatar: {
+              base64,
+              userId: user.id,
+              size: file.size,
+              type: file.type,
+            },
           },
+          refetchQueries: [{query: USER, variables: {userId: user.id}}],
         })
-        setLogoUrl(uploadData)
       } catch (error) {
         console.error(error)
       }
@@ -100,17 +102,32 @@ const ProfilePage: FC = () => {
       void uploadPreparedAvatar(file)
     }
   }
-  const handleDeleteAvatar = () => {
-    const deleteAvatarHelper = async () => {
+  const handleDeleteAvatar = async () => {
+    try {
+      if (!user?.id) {
+        return
+      }
       await deleteAvatar({
-        variables: {userId: user?.id || ''},
-      }).catch((error) => console.error(error))
-      setLogoUrl(null)
+        variables: {avatar: {userId: user.id}},
+        refetchQueries: [{query: USER, variables: {userId: user.id}}],
+      })
+    } catch (error) {
+      console.error(error)
     }
-    void deleteAvatarHelper()
   }
 
-  const {register, watch, setValue, handleSubmit} = useForm<FormFields>()
+  const {register, watch, setValue, handleSubmit, reset} = useForm<FormFields>()
+
+  useEffect(() => {
+    if (user) {
+      reset({
+        firstName: user.profile.first_name || '',
+        lastName: user.profile.last_name || '',
+        department: user.department?.id || '',
+        position: user.position?.id || '',
+      })
+    }
+  }, [user, reset])
 
   useEffect(() => {
     if (error) {
@@ -144,13 +161,22 @@ const ProfilePage: FC = () => {
     department,
     position,
   }) => {
-    await update({
-      last_name: lastName,
-      first_name: firstName,
-      departmentId: department,
-      positionId: position,
-      userId: user?.id || '',
-    }).catch((error) => console.error(error))
+    if (!user?.id) {
+      return
+    }
+    try {
+      await update({
+        last_name: lastName,
+        first_name: firstName,
+        departmentId: department,
+        positionId: position,
+        userId: user.id,
+      })
+      toast.success(t('Profile was updated'))
+    } catch (error) {
+      toast.error((error as Error).message)
+      console.error(error)
+    }
   }
 
   const isEqual = user?.id === currentUser?.id
@@ -168,6 +194,8 @@ const ProfilePage: FC = () => {
         alignItems="center"
         justifyContent="center"
         flexWrap="wrap"
+        gap="60px"
+        rowGap="0"
         width="100%"
         maxWidth="fit-content"
         marginBottom="50px"
@@ -193,7 +221,7 @@ const ProfilePage: FC = () => {
             onChange={handleFileChange}
             multiple={false}
           />
-          {logoUrl && (
+          {user?.profile?.avatar && (
             <IconButton
               onClick={handleDeleteAvatar}
               sx={{position: 'absolute', top: '-15px', right: '-20px'}}
@@ -209,7 +237,7 @@ const ProfilePage: FC = () => {
                 latter={
                   user?.profile.first_name?.charAt(0) || user?.email[0] || ''
                 }
-                src={logoUrl}
+                src={user?.profile.avatar}
                 height={120}
                 width={120}
               />
@@ -217,12 +245,7 @@ const ProfilePage: FC = () => {
           </Box>
         </Box>
         {isEqual && (
-          <Box
-            display="flex"
-            alignItems="center"
-            flexDirection="column"
-            marginLeft="60px"
-          >
+          <Box display="flex" alignItems="center" flexDirection="column">
             <Box component="h3" textAlign="center" margin={0}>
               <IconButton onClick={handleIconClick} sx={{marginRight: '8px'}}>
                 <UploadLogo color={theme.palette.text.primary} />
@@ -263,6 +286,7 @@ const ProfilePage: FC = () => {
           display="grid"
           gridTemplateColumns="repeat(auto-fit, minmax(auto, 1fr))"
           sx={{
+            '& > .MuiFormControl-root': {margin: 0},
             '@media (min-width: 1100px)': {
               gridTemplateColumns: 'repeat(2, minmax(auto, auto))',
             },
@@ -272,28 +296,25 @@ const ProfilePage: FC = () => {
           <CustomTextField
             type="text"
             id="First Name"
-            name="First Name"
             label="First Name"
             placeholder="First Name"
             autoComplete="First Name"
+            name="firstName"
             register={register}
             disabled={!isEqual}
-            defaultValue={user?.profile.first_name ?? undefined}
           />
           <CustomTextField
             type="text"
             id="Last Name"
-            name="Last Name"
             label="Last Name"
             placeholder="Last Name"
             autoComplete="Last Name"
+            name="lastName"
             register={register}
             disabled={!isEqual}
-            defaultValue={user?.profile.last_name ?? undefined}
           />
           <CustomSelectComponent
             disabled={!isEqual}
-            defaultValue={user?.department?.id || ''}
             value={watch('department')}
             onChange={selectHandler('department')}
             label="Department"
@@ -304,7 +325,6 @@ const ProfilePage: FC = () => {
           />
           <CustomSelectComponent
             disabled={!isEqual}
-            defaultValue={user?.position?.id || ''}
             value={watch('position')}
             onChange={selectHandler('position')}
             label="Position"

@@ -10,7 +10,7 @@ const DELETE_AVATAR = gql`
 export const useDeleteAvatar = () => {
   const [deleteAvatar, deleteAvatarFetching] = useMutation<
     void,
-    DeleteAvatarInput
+    {avatar: DeleteAvatarInput}
   >(DELETE_AVATAR)
   return {
     deleteAvatar,

@@ -3,7 +3,7 @@ import React, {FC, useEffect, useMemo, useState} from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import {Box, Button, TableCell, TableRow} from '@mui/material'
 import {useTranslation} from 'react-i18next'
-import {useNavigate, useParams} from 'react-router-dom'
+import {Navigate, useNavigate, useParams} from 'react-router-dom'
 
 import ProjectHandlerPopup from './ProjectHandlerPopup'
 import {LoaderBackdrop, Params, useUser} from '@/Shared'
@@ -93,7 +93,7 @@ const CvProjectsPage: FC = () => {
   }
 
   if (!cv || !availableProjects) {
-    return <div>404</div>
+    return <Navigate to="/" />
   }
 
   const closePopup = () => {
@@ -135,10 +135,14 @@ const CvProjectsPage: FC = () => {
             return (
               <React.Fragment key={project.id}>
                 <TableRow key={project.id}>
-                  <TableCell>{project.name}</TableCell>
-                  <TableCell>{project.domain}</TableCell>
+                  <TableCell sx={{whiteSpace: 'nowrap'}}>
+                    {project.name}
+                  </TableCell>
+                  <TableCell sx={{whiteSpace: 'nowrap'}}>
+                    {project.domain}
+                  </TableCell>
                   <TableCell>{project.start_date}</TableCell>
-                  <TableCell>{project?.end_date}</TableCell>
+                  <TableCell>{project?.end_date || t('Till now')}</TableCell>
                   <TableCell align="right">
                     <MoreIconWithPopover
                       onUpdate={() => {
@@ -173,22 +177,21 @@ const CvProjectsPage: FC = () => {
                 <TableRow>
                   <TableCell
                     sx={{
-                      borderRadius: '10px',
-                      height: '20px',
-                      bgcolor: 'rgb(228, 228, 228)',
-                      width: 'fit-content',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      padding: ' 0 7px',
+                      padding: 0,
+                      paddingRight: '16px',
+                      textAlign: 'justify',
+                      opacity: 0.5,
+
                       maxWidth: '300px',
                     }}
+                    colSpan={6}
                   >
                     {project.description}
                   </TableCell>
                 </TableRow>
                 {preparedResponsibilities && (
                   <TableRow>
-                    <TableCell colSpan={5}>
+                    <TableCell colSpan={6}>
                       <Box
                         sx={{
                           borderRadius: '10px',

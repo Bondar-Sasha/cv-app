@@ -1,31 +1,17 @@
-import {FC, RefObject} from 'react'
-import {useVirtualizer} from '@tanstack/react-virtual'
+import {FC} from 'react'
 
 import {PreparedUser} from '../api/useUsers'
 import UserRow from './UserRow'
 
 interface UsersListProps {
-  listData?: PreparedUser[] | null
-  parentRef: RefObject<HTMLTableSectionElement>
+  listData: PreparedUser[]
 }
 
-const UsersList: FC<UsersListProps> = ({listData, parentRef}) => {
-  const rowVirtualizer = useVirtualizer({
-    count: listData?.length || 0,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 73,
-
-    overscan: 5,
-  })
-
-  if (!listData) {
-    return null
-  }
-
+const UsersList: FC<UsersListProps> = ({listData}) => {
   return (
     <>
-      {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-        const {department, position, ...userInf} = listData[virtualRow.index]
+      {listData.map((user) => {
+        const {department, position, ...userInf} = user
         return (
           <UserRow
             {...userInf}

@@ -86,7 +86,6 @@ const UsersPage: FC = () => {
   const {data, loading} = useUsers()
   const {t} = useTranslation()
   const navigate = useNavigate()
-  const tbodyRef = useRef<HTMLTableSectionElement | null>(null)
   const [popoverState, setPopover] = useState<boolean>(false)
   const [popupState, setPopup] = useState<boolean>(false)
   const [filtersState, setFilters] = useState<Filters>({
@@ -211,7 +210,7 @@ const UsersPage: FC = () => {
             </TableRow>
           </CustomTableHead>
 
-          <TableBody ref={tbodyRef}>
+          <TableBody>
             <Box component={TableRow} height="73px">
               <Popover
                 anchorEl={popoverAnchor.current}
@@ -267,7 +266,7 @@ const UsersPage: FC = () => {
               </CustomTdCell>
             </Box>
             {filteredData?.length ? (
-              <UsersList listData={filteredData} parentRef={tbodyRef} />
+              <UsersList listData={filteredData} />
             ) : (
               <NoFoundCell
                 reset={() =>

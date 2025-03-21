@@ -1,3 +1,4 @@
+import {CV} from '@/Features'
 import {gql, useMutation} from '@apollo/client'
 import {Cv, RemoveCvProjectInput} from 'cv-graphql'
 
@@ -17,8 +18,11 @@ export const DELETE_CV_PROJECT = gql`
   }
 `
 
-export const useDeleteCVProject = () => {
+export const useDeleteCVProject = (cvId?: string) => {
   return useMutation<DeleteCvProjectResult, DeleteCvProjectArgs>(
-    DELETE_CV_PROJECT
+    DELETE_CV_PROJECT,
+    {
+      refetchQueries: cvId ? [{query: CV, variables: {cvId}}] : [],
+    }
   )
 }

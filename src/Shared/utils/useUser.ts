@@ -16,7 +16,7 @@ export const useUser = (userId?: string) => {
     USER,
     {
       skip: !id,
-      fetchPolicy: 'cache-first',
+      fetchPolicy: 'cache-and-network',
       variables: {
         userId: id,
       },

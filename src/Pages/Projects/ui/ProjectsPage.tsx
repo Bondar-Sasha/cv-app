@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react'
 import {Box, TableCell, TableRow} from '@mui/material'
-import {useNavigate} from 'react-router-dom'
+import {Navigate, useNavigate} from 'react-router-dom'
 import MoreIconWithPopover from './MoreIconWithPopover'
 import {useTranslation} from 'react-i18next'
 
@@ -26,7 +26,7 @@ const ProjectsPage: FC = () => {
   }
 
   if (!data) {
-    return <div>404</div>
+    return <Navigate to="/" />
   }
 
   return (
