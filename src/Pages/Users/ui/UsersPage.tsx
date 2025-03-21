@@ -150,7 +150,7 @@ const UsersPage: FC = () => {
             <TableCell
               colSpan={7}
               sx={{
-                border: 'none',
+                borderBottom: 'none',
                 padding: 0,
                 paddingLeft: '20px',
                 paddingBottom: '7px',

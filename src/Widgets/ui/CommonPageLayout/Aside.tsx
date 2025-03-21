@@ -105,11 +105,14 @@ const Aside: FC = memo(() => {
         <Box
           width="200px"
           display="flex"
+          gap="15px"
+          padding="10px 0"
           flexDirection="column"
           color={theme.palette.text.primary}
           bgcolor={theme.palette.background.default}
         >
           <CustomPopoverButton
+            sx={{padding: '10px'}}
             onClick={() =>
               void navigate(AppRouterMap.userProfile.path(user?.id))
             }
@@ -118,13 +121,17 @@ const Aside: FC = memo(() => {
             {t('Profile')}
           </CustomPopoverButton>
           <CustomPopoverButton
+            sx={{
+              borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+              padding: '10px',
+            }}
             onClick={() => void navigate(AppRouterMap.settings.path)}
           >
             <SettingsIcon sx={{marginRight: '10px'}} />
             {t('Settings')}
           </CustomPopoverButton>
           <CustomPopoverButton onClick={void handleLogout}>
-            <LogoutIcon sx={{marginRight: '10px'}} />
+            <LogoutIcon sx={{marginRight: '10px', paddingLeft: '5px'}} />
             {t('Logout')}
           </CustomPopoverButton>
         </Box>

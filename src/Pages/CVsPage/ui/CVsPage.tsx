@@ -43,7 +43,7 @@ const CVsPage = () => {
           boxShadow: 'none',
         })}
       >
-        <Table sx={{tableLayout: 'fixed', width: '100%'}} stickyHeader>
+        <Table sx={{tableLayout: 'fixed', width: '100%'}}>
           <CustomTableHead
             setOpenForm={setOpenForm}
             searchState={searchState}
