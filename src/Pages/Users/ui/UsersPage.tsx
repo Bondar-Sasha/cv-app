@@ -151,7 +151,11 @@ const UsersPage: FC = () => {
               sx={{
                 border: 'none',
                 padding: 0,
-                '@media (width <= 768px)': {paddingLeft: '44px'},
+                paddingLeft: '20px',
+                paddingBottom: '7px',
+                '@media (width <= 768px)': {
+                  paddingLeft: '0',
+                },
               }}
             >
               <Box display="flex" alignItems="end" height="50px" width="100%">

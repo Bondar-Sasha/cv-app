@@ -38,8 +38,25 @@ const CommonPageLayout: FC = () => {
       <Aside />
       <Box sx={{width: '100%', overflow: 'scroll'}}>
         <div className={layoutStyles.main_wrapper}>
-          <header className={layoutStyles.header}>
-            <Breadcrumbs separator=">" aria-label="breadcrumb">
+          <Box
+            component={'header'}
+            className={layoutStyles.header}
+            sx={{
+              '@media (width <= 768px)': {
+                paddingLeft: '0',
+              },
+            }}
+          >
+            <Breadcrumbs
+              separator=">"
+              aria-label="breadcrumb"
+              sx={{
+                paddingLeft: '20px',
+                '@media (width <= 768px)': {
+                  paddingLeft: '0',
+                },
+              }}
+            >
               {breadcrumbs.map(({breadcrumb, match}) => (
                 <CustomLink
                   component={Link}
@@ -52,7 +69,7 @@ const CommonPageLayout: FC = () => {
                 </CustomLink>
               ))}
             </Breadcrumbs>
-          </header>
+          </Box>
           <Outlet />
         </div>
       </Box>
