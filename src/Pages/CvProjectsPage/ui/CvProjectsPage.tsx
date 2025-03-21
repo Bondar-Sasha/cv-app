@@ -112,7 +112,7 @@ const CvProjectsPage: FC = () => {
             onClick={() => {
               setPopup({open: true, isCreating: true, projectName: ''})
             }}
-            sx={{
+            sx={(theme) => ({
               color: 'rgb(198, 48, 49)',
               width: '220px',
               height: '40px',
@@ -120,9 +120,12 @@ const CvProjectsPage: FC = () => {
               display: 'flex',
               alignItems: 'center',
               '&:hover': {
-                backgroundColor: 'rgb(236, 209, 210)',
+                backgroundColor:
+                  theme.palette.mode === 'light'
+                    ? 'rgb(236, 209, 210)'
+                    : 'rgba(198, 48, 49, 0.08)',
               },
-            }}
+            })}
           >
             <AddIcon sx={{color: 'inherit', marginRight: '7px'}} />
             {t('Add project')}

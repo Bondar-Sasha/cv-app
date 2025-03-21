@@ -32,11 +32,16 @@ const ProfessionalSkillsSection: FC<ProfessionalSkillsSectionProps> = ({
       <TableContainer
         component={Paper}
         sx={{
-          backgroundColor: 'transparent',
           boxShadow: 'none',
         }}
       >
-        <Table sx={{tableLayout: 'fixed', width: '100%'}}>
+        <Table
+          sx={(theme) => ({
+            backgroundColor: theme.palette.background.default,
+            tableLayout: 'fixed',
+            width: '100%',
+          })}
+        >
           <TableHead>
             <TableRow>
               <StyledTableCell sx={{width: 'auto', textAlign: 'left'}}>
