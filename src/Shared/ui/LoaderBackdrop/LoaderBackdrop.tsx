@@ -6,10 +6,12 @@ import {FC} from 'react'
 const Loader = styled(Backdrop)(({theme}) => ({
   zIndex: theme.zIndex.drawer + 1,
   color: theme.palette.error.light,
-  backgroundColor: 'transparent',
+  backgroundColor: theme.palette.background.default,
   position: 'static',
+  overflow: 'hidden',
   top: 0,
   left: 0,
+  minWidth: '200px',
   width: '100%',
   height: '100%',
 }))

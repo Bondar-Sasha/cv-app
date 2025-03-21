@@ -144,9 +144,9 @@ const UsersPage: FC = () => {
         component={Paper}
         sx={(theme) => ({
           backgroundColor: theme.palette.background.default,
+          '&::-webkit-scrollbar': {width: 0},
           boxShadow: 'none',
           maxHeight: '100vh',
-          paddingRight: '40px',
         })}
       >
         <CustomTable stickyHeader>
@@ -157,7 +157,7 @@ const UsersPage: FC = () => {
                 sx={{
                   borderBottom: 'none',
                   padding: 0,
-                  paddingLeft: '20px',
+
                   paddingBottom: '7px',
                   '@media (width <= 768px)': {
                     paddingLeft: '0',

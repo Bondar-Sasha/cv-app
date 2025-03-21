@@ -193,16 +193,17 @@ const CvProjectsPage: FC = () => {
                   <TableRow>
                     <TableCell colSpan={6}>
                       <Box
-                        sx={{
+                        sx={(theme) => ({
+                          bgcolor: theme.palette.background.default,
                           borderRadius: '10px',
                           height: '20px',
-                          bgcolor: 'rgb(228, 228, 228)',
+                          border: '1px solid rgb(189, 189, 189)',
                           width: 'fit-content',
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
                           padding: ' 0 7px',
                           maxWidth: '300px',
-                        }}
+                        })}
                       >
                         {preparedResponsibilities}
                       </Box>

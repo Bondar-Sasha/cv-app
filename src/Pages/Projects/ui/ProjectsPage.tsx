@@ -74,6 +74,9 @@ const ProjectsPage: FC = () => {
                           padding="0 7px"
                           height="20px"
                           borderRadius="10px"
+                          sx={(theme) => ({
+                            bgcolor: theme.palette.background.default,
+                          })}
                           border="1px solid rgb(189, 189, 189)"
                         >
                           {env}

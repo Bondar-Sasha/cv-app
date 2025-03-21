@@ -43,15 +43,11 @@ const App: FC = () => {
     }
   }, [refetchTokens])
 
-  if (isFetching) {
-    return <LoaderBackdrop loading={isFetching} />
-  }
-
   return (
     <I18nextProvider i18n={i18n}>
       <ThemeContext.Provider value={{themeMode, handleChangeTheme}}>
         <ThemeProvider theme={theme}>
-          <AppRoutes />
+          {isFetching ? <LoaderBackdrop loading /> : <AppRoutes />}
         </ThemeProvider>
       </ThemeContext.Provider>
       <ToastContainer

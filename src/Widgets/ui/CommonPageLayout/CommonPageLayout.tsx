@@ -36,7 +36,7 @@ const CommonPageLayout: FC = () => {
   return (
     <ResponsiveBox>
       <Aside />
-      <Box sx={{width: '100%', overflow: 'auto'}}>
+      <Box boxSizing="border-box">
         <div className={layoutStyles.main_wrapper}>
           <Box
             component={'header'}

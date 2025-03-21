@@ -86,15 +86,14 @@ const TableForProjects: FC<TableForProjectsProps> = ({
       sx={(theme) => ({
         backgroundColor: theme.palette.background.default,
         boxShadow: 'none',
+        '&::-webkit-scrollbar': {width: 0},
+
         maxHeight: '100vh',
-        paddingRight: '25px',
       })}
     >
       <Table
         stickyHeader
         sx={{
-          tableLayout: 'fixed',
-          width: 'unset',
           bgcolor: 'inherit',
           color: 'inherit',
           '& :is(td,th)': {paddingLeft: 0, border: 'none'},
