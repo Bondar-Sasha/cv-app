@@ -57,9 +57,10 @@ export const CustomTableHead = styled(TableHead)(({theme}) => ({
   zIndex: 100,
 }))
 
-export const CustomTable = styled(Table)({
-  tableLayout: 'fixed',
-  width: 'unset',
-  bgcolor: 'inherit',
+export const CustomTable = styled(Table)(({theme}) => ({
+  '& td, th': {
+    backgroundColor: theme.palette.background.default,
+    color: 'inherit',
+  },
   color: 'inherit',
-})
+}))
