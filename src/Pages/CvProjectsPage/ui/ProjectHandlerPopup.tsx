@@ -14,7 +14,6 @@ import {useTranslation} from 'react-i18next'
 import CloseIcon from '@mui/icons-material/Close'
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider'
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs'
-import {DatePicker} from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
 import {SubmitHandler, useForm} from 'react-hook-form'
 import {z} from 'zod'
@@ -26,6 +25,7 @@ import {zodResolver} from '@hookform/resolvers/zod'
 import {useAddCvProject, useUpdateCvProject} from '../api'
 import {AddCvProjectInput} from 'cv-graphql'
 import {Params, useParams} from 'react-router-dom'
+import {CustomDate} from './StyledElements'
 
 interface PreparedProject {
   projectId: string
@@ -221,12 +221,7 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <FormControl fullWidth>
-                <DatePicker
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      color: 'inherit',
-                    },
-                  }}
+                <CustomDate
                   format="DD/MM/YYYY"
                   value={dayjs(watch('start_date'))}
                   onOpen={() => clearErrors('start_date')}
@@ -245,7 +240,7 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
                   </FormHelperText>
                 )}
               </FormControl>
-              <DatePicker
+              <CustomDate
                 format="DD/MM/YYYY"
                 value={dayjs(watch('end_date'))}
                 onChange={(value) => {
