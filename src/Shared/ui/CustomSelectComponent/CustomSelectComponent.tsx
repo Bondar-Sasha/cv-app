@@ -38,19 +38,20 @@ const CustomSelectComponent: FC<CustomSelectComponentProps> = forwardRef<
         }}
       >
         {options.map((option) => {
-          const isNumber = !isNaN(Number(option.value))
+          const isHidden = option.value === 'notSelect'
           return (
             <CustomMenuItem
               key={crypto.randomUUID()}
               value={option.value}
               style={{
-                position: isNumber ? 'sticky' : 'static',
-                backgroundColor: isNumber ? '#f0f0f0' : 'inherit',
-                color: isNumber ? theme.palette.error.main : 'inherit',
-                top: isNumber ? 0 : 'auto',
-                padding: isNumber ? '20px 15px' : '13px 30px',
-                fontSize: isNumber ? '15px' : '18px',
-                cursor: isNumber ? 'default' : 'pointer',
+                position: isHidden ? 'sticky' : 'static',
+                backgroundColor: isHidden ? '#f0f0f0' : 'inherit',
+                color: isHidden ? theme.palette.error.main : 'inherit',
+                top: isHidden ? 0 : 'auto',
+                padding: isHidden ? '20px 15px' : '13px 30px',
+                fontSize: isHidden ? '15px' : '18px',
+                cursor: isHidden ? 'default' : 'pointer',
+                pointerEvents: isHidden ? 'none' : undefined,
               }}
             >
               {t(option.label)}
