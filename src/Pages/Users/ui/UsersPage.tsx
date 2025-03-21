@@ -1,14 +1,10 @@
 import {FC, useMemo, useRef, useState} from 'react'
 import {
   Box,
-  Table,
-  TableHead,
   TableBody,
   TableRow,
   TableCell,
   Popover,
-  Button,
-  useTheme,
   TableContainer,
   Paper,
 } from '@mui/material'
@@ -28,7 +24,15 @@ import {
 } from '@/Shared'
 import {PreparedUser} from '../api/useUsers'
 import UsersList from './UsersList'
-import {CustomIconButton, CustomTdCell, CustomThCell} from './preparedUi'
+import {
+  ButtonWrapper,
+  CustomIconButton,
+  CustomTable,
+  CustomTableButton,
+  CustomTableHead,
+  CustomTdCell,
+  CustomThCell,
+} from './preparedUi'
 import UpdateProfilePopup from './UpdateProfilePopup'
 import {CustomArrow} from '@/Pages/ui'
 
@@ -78,7 +82,6 @@ const filterFunc = (data?: PreparedUser[]) => {
 }
 
 const UsersPage: FC = () => {
-  const theme = useTheme()
   const {user} = useUser()
   const {data, loading} = useUsers()
   const {t} = useTranslation()
@@ -146,25 +149,8 @@ const UsersPage: FC = () => {
           maxHeight: '100vh',
         })}
       >
-        <Table
-          stickyHeader
-          sx={{
-            tableLayout: 'fixed',
-            width: 'unset',
-            bgcolor: 'inherit',
-            color: 'inherit',
-          }}
-        >
-          <TableHead
-            sx={(theme) => ({
-              position: 'sticky',
-              top: '0',
-              left: '0',
-              height: '58px',
-              backgroundColor: theme.palette.background.default,
-              zIndex: theme.zIndex.drawer + 1,
-            })}
-          >
+        <CustomTable stickyHeader>
+          <CustomTableHead>
             <TableRow>
               <TableCell
                 colSpan={7}
@@ -222,7 +208,8 @@ const UsersPage: FC = () => {
               ))}
               <CustomThCell width="80px"></CustomThCell>
             </TableRow>
-          </TableHead>
+          </CustomTableHead>
+
           <TableBody ref={tbodyRef}>
             <Box component={TableRow} height="73px">
               <Popover
@@ -234,33 +221,28 @@ const UsersPage: FC = () => {
                   horizontal: 'center',
                 }}
               >
-                <Box
-                  width="210px"
-                  display="flex"
-                  flexDirection="column"
-                  color={theme.palette.text.primary}
-                  bgcolor={theme.palette.background.default}
-                >
-                  <Button
-                    color="inherit"
+                <ButtonWrapper>
+                  <CustomTableButton
                     onClick={() =>
                       void navigate(AppRouterMap.userProfile.path(user?.id))
                     }
                   >
                     {t('Profile')}
-                  </Button>
-                  <Button
-                    color="inherit"
+                  </CustomTableButton>
+                  <CustomTableButton
                     onClick={() => {
                       setPopover(false)
                       setPopup(true)
                     }}
                   >
                     {t('Update user')}
-                  </Button>
-                  <Button disabled>{t('Delete user')}</Button>
-                </Box>
+                  </CustomTableButton>
+                  <CustomTableButton disabled>
+                    {t('Delete user')}
+                  </CustomTableButton>
+                </ButtonWrapper>
               </Popover>
+
               <CustomTdCell>
                 <EnvUserLogo
                   latter={
@@ -299,7 +281,7 @@ const UsersPage: FC = () => {
               <TableCell colSpan={6} />
             </TableRow>
           </TableBody>
-        </Table>
+        </CustomTable>
       </TableContainer>
     </main>
   )
