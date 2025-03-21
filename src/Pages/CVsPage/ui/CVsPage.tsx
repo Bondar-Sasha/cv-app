@@ -41,9 +41,10 @@ const CVsPage = () => {
         sx={(theme) => ({
           backgroundColor: theme.palette.background.default,
           boxShadow: 'none',
+          maxHeight: '100vh',
         })}
       >
-        <Table sx={{tableLayout: 'fixed', width: '100%'}}>
+        <Table sx={{tableLayout: 'fixed', width: '100%'}} stickyHeader>
           <CustomTableHead
             setOpenForm={setOpenForm}
             searchState={searchState}

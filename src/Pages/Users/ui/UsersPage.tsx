@@ -9,6 +9,8 @@ import {
   Popover,
   Button,
   useTheme,
+  TableContainer,
+  Paper,
 } from '@mui/material'
 import {useTranslation} from 'react-i18next'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -136,151 +138,169 @@ const UsersPage: FC = () => {
           setPopup(false)
         }}
       />
-      <Table sx={{bgcolor: 'inherit', color: 'inherit'}}>
-        <TableHead
+      <TableContainer
+        component={Paper}
+        sx={(theme) => ({
+          backgroundColor: theme.palette.background.default,
+          boxShadow: 'none',
+          maxHeight: '100vh',
+        })}
+      >
+        <Table
+          stickyHeader
           sx={{
-            position: 'sticky',
-            top: '0px',
-            height: '58px',
-            zIndex: '100',
+            tableLayout: 'fixed',
+            width: 'unset',
             bgcolor: 'inherit',
+            color: 'inherit',
           }}
         >
-          <TableRow>
-            <TableCell
-              colSpan={7}
-              sx={{
-                borderBottom: 'none',
-                padding: 0,
-                paddingLeft: '20px',
-                paddingBottom: '7px',
-                '@media (width <= 768px)': {
-                  paddingLeft: '0',
-                },
-              }}
-            >
-              <Box display="flex" alignItems="end" height="50px" width="100%">
-                <SearchInput
-                  variant="outlined"
-                  value={filtersState.searchState}
-                  onChange={(e) =>
-                    setFilters((prev) => ({
-                      ...prev,
-                      searchState: e.target.value,
-                    }))
-                  }
-                  placeholder="Search..."
-                  reset={resetSearch}
-                />
-              </Box>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <CustomThCell width="80px"></CustomThCell>
-            {THeadItems.map((item) => (
-              <CustomThCell
-                align="left"
-                key={item.id}
-                onClick={() => toggleFilter(item.id)}
-                sx={{cursor: 'pointer'}}
+          <TableHead
+            sx={(theme) => ({
+              position: 'sticky',
+              top: '0',
+              left: '0',
+              height: '58px',
+              backgroundColor: theme.palette.background.default,
+              zIndex: theme.zIndex.drawer + 1,
+            })}
+          >
+            <TableRow>
+              <TableCell
+                colSpan={7}
+                sx={{
+                  borderBottom: 'none',
+                  padding: 0,
+                  paddingLeft: '20px',
+                  paddingBottom: '7px',
+                  '@media (width <= 768px)': {
+                    paddingLeft: '0',
+                  },
+                }}
               >
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  fontSize="15px"
-                  whiteSpace="nowrap"
-                >
-                  <span>{t(item.label)}</span>
-                  <CustomArrow
-                    arrowState={
-                      filtersState.currentFilter.id === item.id
-                        ? filtersState.currentFilter.state
-                        : null
+                <Box display="flex" alignItems="end" height="50px" width="100%">
+                  <SearchInput
+                    variant="outlined"
+                    value={filtersState.searchState}
+                    onChange={(e) =>
+                      setFilters((prev) => ({
+                        ...prev,
+                        searchState: e.target.value,
+                      }))
                     }
+                    placeholder="Search..."
+                    reset={resetSearch}
                   />
                 </Box>
-              </CustomThCell>
-            ))}
-            <CustomThCell width="80px"></CustomThCell>
-          </TableRow>
-        </TableHead>
-        <TableBody ref={tbodyRef}>
-          <Box component={TableRow} height="73px">
-            <Popover
-              anchorEl={popoverAnchor.current}
-              open={popoverState}
-              onClose={() => setPopover(false)}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-              }}
-            >
-              <Box
-                width="210px"
-                display="flex"
-                flexDirection="column"
-                color={theme.palette.text.primary}
-                bgcolor={theme.palette.background.default}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <CustomThCell width="80px"></CustomThCell>
+              {THeadItems.map((item) => (
+                <CustomThCell
+                  align="left"
+                  key={item.id}
+                  onClick={() => toggleFilter(item.id)}
+                  sx={{cursor: 'pointer'}}
+                >
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    fontSize="15px"
+                    whiteSpace="nowrap"
+                  >
+                    <span>{t(item.label)}</span>
+                    <CustomArrow
+                      arrowState={
+                        filtersState.currentFilter.id === item.id
+                          ? filtersState.currentFilter.state
+                          : null
+                      }
+                    />
+                  </Box>
+                </CustomThCell>
+              ))}
+              <CustomThCell width="80px"></CustomThCell>
+            </TableRow>
+          </TableHead>
+          <TableBody ref={tbodyRef}>
+            <Box component={TableRow} height="73px">
+              <Popover
+                anchorEl={popoverAnchor.current}
+                open={popoverState}
+                onClose={() => setPopover(false)}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
               >
-                <Button
-                  color="inherit"
-                  onClick={() =>
-                    void navigate(AppRouterMap.userProfile.path(user?.id))
+                <Box
+                  width="210px"
+                  display="flex"
+                  flexDirection="column"
+                  color={theme.palette.text.primary}
+                  bgcolor={theme.palette.background.default}
+                >
+                  <Button
+                    color="inherit"
+                    onClick={() =>
+                      void navigate(AppRouterMap.userProfile.path(user?.id))
+                    }
+                  >
+                    {t('Profile')}
+                  </Button>
+                  <Button
+                    color="inherit"
+                    onClick={() => {
+                      setPopover(false)
+                      setPopup(true)
+                    }}
+                  >
+                    {t('Update user')}
+                  </Button>
+                  <Button disabled>{t('Delete user')}</Button>
+                </Box>
+              </Popover>
+              <CustomTdCell>
+                <EnvUserLogo
+                  latter={
+                    user?.profile.first_name?.charAt(0) || user?.email[0] || ''
                   }
+                  src={user?.profile?.avatar}
+                />
+              </CustomTdCell>
+              <CustomTdCell>{user?.profile?.first_name}</CustomTdCell>
+              <CustomTdCell>{user?.profile?.last_name}</CustomTdCell>
+              <CustomTdCell>{user?.email}</CustomTdCell>
+              <CustomTdCell>{user?.department?.name}</CustomTdCell>
+              <CustomTdCell>{user?.position?.name}</CustomTdCell>
+              <CustomTdCell>
+                <CustomIconButton
+                  ref={popoverAnchor}
+                  onClick={() => setPopover((prev) => !prev)}
                 >
-                  {t('Profile')}
-                </Button>
-                <Button
-                  color="inherit"
-                  onClick={() => {
-                    setPopover(false)
-                    setPopup(true)
-                  }}
-                >
-                  {t('Update user')}
-                </Button>
-                <Button disabled>{t('Delete user')}</Button>
-              </Box>
-            </Popover>
-            <CustomTdCell>
-              <EnvUserLogo
-                latter={
-                  user?.profile.first_name?.charAt(0) || user?.email[0] || ''
+                  <MoreVertIcon />
+                </CustomIconButton>
+              </CustomTdCell>
+            </Box>
+            {filteredData?.length ? (
+              <UsersList listData={filteredData} parentRef={tbodyRef} />
+            ) : (
+              <NoFoundCell
+                reset={() =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    searchState: '',
+                  }))
                 }
-                src={user?.profile?.avatar}
               />
-            </CustomTdCell>
-            <CustomTdCell>{user?.profile?.first_name}</CustomTdCell>
-            <CustomTdCell>{user?.profile?.last_name}</CustomTdCell>
-            <CustomTdCell>{user?.email}</CustomTdCell>
-            <CustomTdCell>{user?.department?.name}</CustomTdCell>
-            <CustomTdCell>{user?.position?.name}</CustomTdCell>
-            <CustomTdCell>
-              <CustomIconButton
-                ref={popoverAnchor}
-                onClick={() => setPopover((prev) => !prev)}
-              >
-                <MoreVertIcon />
-              </CustomIconButton>
-            </CustomTdCell>
-          </Box>
-          {filteredData?.length ? (
-            <UsersList listData={filteredData} parentRef={tbodyRef} />
-          ) : (
-            <NoFoundCell
-              reset={() =>
-                setFilters((prev) => ({
-                  ...prev,
-                  searchState: '',
-                }))
-              }
-            />
-          )}
-          <TableRow>
-            <TableCell colSpan={6} />
-          </TableRow>
-        </TableBody>
-      </Table>
+            )}
+            <TableRow>
+              <TableCell colSpan={6} />
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
     </main>
   )
 }
