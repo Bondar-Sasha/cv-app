@@ -1,5 +1,6 @@
 import {FC} from 'react'
 import {SvgIcon} from '@mui/material'
+import FolderCopyOutlinedIcon from '@mui/icons-material/FolderCopyOutlined'
 
 const SVGMap = (color: string) => ({
   users: (
@@ -56,6 +57,7 @@ const SVGMap = (color: string) => ({
       </svg>
     </SvgIcon>
   ),
+  projects: <FolderCopyOutlinedIcon sx={{color}} />,
 })
 
 interface AsideSvgProps {

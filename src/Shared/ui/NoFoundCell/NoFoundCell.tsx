@@ -18,7 +18,7 @@ const NoFoundCell: FC<NoFoundCellProps> = ({reset}) => {
       }}
     >
       <TableCell
-        colSpan={3}
+        colSpan={1000}
         sx={{
           width: '100%',
           borderBottom: 'none',

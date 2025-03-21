@@ -3,7 +3,6 @@ interface IAppRouterMap {
   userProfile: {label: string; path: (userId?: string | number) => string}
   userSkills: {label: string; path: (userId?: string | number) => string}
   userLanguages: {label: string; path: (userId?: string | number) => string}
-  userCVs: {label: string; path: (userId?: string | number) => string}
   projects: {label: string; path: string}
   project: {label: string; path: (projectId?: string | number) => string}
   CVs: {label: string; path: string}
@@ -11,8 +10,6 @@ interface IAppRouterMap {
   CVSkills: {label: string; path: (cvId?: string | number) => string}
   CVProjects: {label: string; path: (cvId?: string | number) => string}
   CVPreview: {label: string; path: (cvId?: string | number) => string}
-  departments: {label: string; path: string}
-  positions: {label: string; path: string}
   skills: {label: string; path: string}
   languages: {label: string; path: string}
   singUp: {label: string; path: string}
@@ -36,10 +33,7 @@ export const AppRouterMap: IAppRouterMap = {
     label: 'user-languages',
     path: (userId = ':userId') => `/users/${userId}/languages`,
   },
-  userCVs: {
-    label: 'user-cvs',
-    path: (userId = ':userId') => `/users/${userId}/cvs`,
-  },
+
   projects: {label: 'projects', path: '/projects'},
   project: {
     label: 'project',
@@ -62,8 +56,6 @@ export const AppRouterMap: IAppRouterMap = {
     label: 'cv-preview',
     path: (cvId = ':cvId') => `/cvs/${cvId}/preview`,
   },
-  departments: {label: 'departments', path: '/departments'},
-  positions: {label: 'positions', path: '/positions'},
   skills: {label: 'Skills', path: '/skills'},
   languages: {label: 'Languages', path: '/languages'},
   singUp: {label: 'signup', path: '/auth/signup'},
