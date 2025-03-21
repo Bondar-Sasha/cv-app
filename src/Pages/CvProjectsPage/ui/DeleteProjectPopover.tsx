@@ -67,9 +67,9 @@ const DeleteProjectPopover: FC<DeleteProjectPopoverProps> = ({
         </Box>
         <Box>
           <span>
-            {t('Are you sure you want to remove project ')}
+            {t('Are you sure you want to remove project')}
             <Box component="span" fontWeight="700">
-              {projectName}
+              {` ${projectName}`}
             </Box>
           </span>
         </Box>

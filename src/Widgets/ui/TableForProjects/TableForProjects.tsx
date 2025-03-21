@@ -87,6 +87,7 @@ const TableForProjects: FC<TableForProjectsProps> = ({
         backgroundColor: theme.palette.background.default,
         boxShadow: 'none',
         maxHeight: '100vh',
+        paddingRight: '25px',
       })}
     >
       <Table

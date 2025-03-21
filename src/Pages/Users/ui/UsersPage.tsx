@@ -147,6 +147,7 @@ const UsersPage: FC = () => {
           backgroundColor: theme.palette.background.default,
           boxShadow: 'none',
           maxHeight: '100vh',
+          paddingRight: '40px',
         })}
       >
         <CustomTable stickyHeader>
