@@ -21,7 +21,7 @@ import {
   UserSkillsPage,
   UsersPage,
 } from '@/Pages'
-import {CommonPageLayout} from '@/Widgets'
+import {CommonPageLayout, refreshUserFunc} from '@/Widgets'
 import {CvLayout} from '@/Features'
 
 const {
@@ -49,8 +49,8 @@ const {
 } = AppRouterMap
 
 const AppRoutes: FC = () => {
-  const {user} = useUser()
-
+  const {user, refetch} = useUser()
+  refreshUserFunc(refetch)
   return (
     <BrowserRouter>
       <Routes>

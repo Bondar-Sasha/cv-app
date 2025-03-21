@@ -286,6 +286,7 @@ const ProfilePage: FC = () => {
           display="grid"
           gridTemplateColumns="repeat(auto-fit, minmax(auto, 1fr))"
           sx={{
+            '& > .MuiFormControl-root': {margin: 0},
             '@media (min-width: 1100px)': {
               gridTemplateColumns: 'repeat(2, minmax(auto, auto))',
             },

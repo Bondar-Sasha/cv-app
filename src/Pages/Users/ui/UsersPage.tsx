@@ -210,7 +210,7 @@ const UsersPage: FC = () => {
             </TableRow>
           </CustomTableHead>
 
-          <TableBody ref={tbodyRef}>
+          <TableBody>
             <Box component={TableRow} height="73px">
               <Popover
                 anchorEl={popoverAnchor.current}
@@ -266,7 +266,7 @@ const UsersPage: FC = () => {
               </CustomTdCell>
             </Box>
             {filteredData?.length ? (
-              <UsersList listData={filteredData} parentRef={tbodyRef} />
+              <UsersList listData={filteredData} />
             ) : (
               <NoFoundCell
                 reset={() =>

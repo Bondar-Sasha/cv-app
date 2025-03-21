@@ -20,7 +20,7 @@ import {SubmitHandler, useForm} from 'react-hook-form'
 import {z} from 'zod'
 import {toast} from 'react-toastify'
 
-import {CustomSelectComponent} from '@/Shared'
+import {CustomSelectComponent, CustomTextField} from '@/Shared'
 import EnvSelect from './EnvSelect'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useAddCvProject, useUpdateCvProject} from '../api'
@@ -222,6 +222,11 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <FormControl fullWidth>
                 <DatePicker
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: 'inherit',
+                    },
+                  }}
                   format="DD/MM/YYYY"
                   value={dayjs(watch('start_date'))}
                   onOpen={() => clearErrors('start_date')}
@@ -250,10 +255,13 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
               />
             </LocalizationProvider>
           </Box>
-          <TextField
+          <CustomTextField
             disabled
             multiline
-            value={t(pickedProject?.description || '')}
+            autoComplete="off"
+            name="description"
+            register={register}
+            defaultValue={t(pickedProject?.description || '')}
             sx={{
               margin: '16px 0',
               minHeight: '140px',
@@ -263,7 +271,7 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
             }}
             label={t('Description')}
             placeholder={t('Description')}
-            variant="outlined"
+            type="text"
           />
           <EnvSelect
             value={pickedProject?.environment || []}
@@ -271,13 +279,14 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
             placeholder={t('Environment')}
             sx={{margin: '16px 0'}}
           />
-          <TextField
-            {...register('responsibilities')}
-            multiline
+          <CustomTextField
+            autoComplete="off"
+            name="responsibilities"
+            register={register}
             sx={{margin: '16px 0'}}
             label={t('Responsibilities')}
             placeholder={t('Responsibility')}
-            variant="outlined"
+            type="text"
           />
 
           <Box display="flex" justifyContent="end" marginTop="16px">

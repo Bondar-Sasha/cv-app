@@ -13,6 +13,8 @@ import AsideSvg from './assets/AsideSvg'
 import {Box, Popover} from '@mui/material'
 import {useTranslation} from 'react-i18next'
 import {AsideMarker, CustomPopoverButton} from './preparedUi'
+import {useReactiveVar} from '@apollo/client'
+import {refreshUserFunc} from './utils'
 
 interface AsideMarkersMap {
   id: number
@@ -55,6 +57,7 @@ const Aside: FC = memo(() => {
   const theme = useTheme()
   const {t} = useTranslation()
   const {user} = useUser()
+  const refreshUser = useReactiveVar(refreshUserFunc)
   const [asideState, setAsideState] = useState<boolean>(true)
   const [userMenuState, setUserMenu] = useState<boolean>(false)
   const userMenuAnchor = useRef<HTMLDivElement>(null)
@@ -62,7 +65,11 @@ const Aside: FC = memo(() => {
     setAsideState((prev) => !prev)
   }
 
-  const handleLogout = async () => {}
+  const handleLogout = async () => {
+    localStorage.removeItem('userId')
+    localStorage.removeItem('refreshToken')
+    await refreshUser?.({userId: ''})
+  }
 
   return (
     <aside
@@ -98,8 +105,8 @@ const Aside: FC = memo(() => {
           horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: 120,
-          horizontal: 30,
+          vertical: 190,
+          horizontal: 20,
         }}
       >
         <Box
@@ -130,7 +137,7 @@ const Aside: FC = memo(() => {
             <SettingsIcon sx={{marginRight: '10px'}} />
             {t('Settings')}
           </CustomPopoverButton>
-          <CustomPopoverButton onClick={void handleLogout}>
+          <CustomPopoverButton onClick={handleLogout}>
             <LogoutIcon sx={{marginRight: '10px', paddingLeft: '5px'}} />
             {t('Logout')}
           </CustomPopoverButton>

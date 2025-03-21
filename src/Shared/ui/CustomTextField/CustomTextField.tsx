@@ -3,17 +3,18 @@ import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton'
 import {Visibility, VisibilityOff} from '@mui/icons-material'
-import {useTheme} from '@mui/material/styles'
+import {SxProps, useTheme} from '@mui/material/styles'
 import {FieldErrors, UseFormRegister} from 'react-hook-form'
 import {useTranslation} from 'react-i18next'
 
 interface CustomTextFieldProps {
-  id: string
+  id?: string
   label: string
   name: string
   type: string
   autoComplete: string
   placeholder?: string
+  sx?: SxProps
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: UseFormRegister<any>
   errors?: FieldErrors
@@ -26,6 +27,7 @@ interface CustomTextFieldProps {
 
 const CustomTextField: React.FC<CustomTextFieldProps> = ({
   id,
+  sx,
   label,
   name,
   type,
@@ -115,6 +117,7 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
         '& .MuiInputLabel-root.Mui-focused': {
           color: redColor,
         },
+        ...sx,
       }}
     />
   )

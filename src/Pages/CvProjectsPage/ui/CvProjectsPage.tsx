@@ -3,7 +3,7 @@ import React, {FC, useEffect, useMemo, useState} from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import {Box, Button, TableCell, TableRow} from '@mui/material'
 import {useTranslation} from 'react-i18next'
-import {useNavigate, useParams} from 'react-router-dom'
+import {Navigate, useNavigate, useParams} from 'react-router-dom'
 
 import ProjectHandlerPopup from './ProjectHandlerPopup'
 import {LoaderBackdrop, Params, useUser} from '@/Shared'
@@ -93,7 +93,7 @@ const CvProjectsPage: FC = () => {
   }
 
   if (!cv || !availableProjects) {
-    return <div>404</div>
+    return <Navigate to="/" />
   }
 
   const closePopup = () => {

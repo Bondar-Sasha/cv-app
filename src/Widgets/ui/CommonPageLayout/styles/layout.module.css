@@ -1,6 +1,7 @@
 .aside {
   overflow: hidden;
   position: sticky;
+  background-color: inherit;
 }
 
 .header {
@@ -30,7 +31,7 @@
   color: inherit;
 }
 
-.main_wrapper>main {
+.main_wrapper > main {
   background-color: inherit;
   overflow-x: auto;
   color: inherit;
@@ -42,7 +43,7 @@
   cursor: pointer;
 }
 
-.asideMarker>span {
+.asideMarker > span {
   margin-left: 17px;
 }
 
@@ -51,12 +52,12 @@
     padding-left: 44px;
   }
 
-  .main_wrapper>header {
+  .main_wrapper > header {
     width: 100%;
     justify-self: center;
   }
 
-  .main_wrapper>main {
+  .main_wrapper > main {
     width: 100%;
     justify-self: center;
   }
@@ -98,7 +99,7 @@
 }
 
 @media (width <=768px) {
-  .aside>div:last-child> :last-child {
+  .aside > div:last-child > :last-child {
     display: none;
   }
 
@@ -110,17 +111,17 @@
     padding-left: 44px;
   }
 
-  .main_wrapper>header {
+  .main_wrapper > header {
     width: 100%;
     justify-self: center;
   }
 
-  .main_wrapper>main {
+  .main_wrapper > main {
     width: 100%;
     justify-self: center;
   }
 
-  .aside>div {
+  .aside > div {
     display: contents;
   }
 
@@ -147,7 +148,7 @@
 }
 
 @media (width <=400px) {
-  .markerContainer> :last-child {
+  .markerContainer > :last-child {
     display: none;
   }
 }
