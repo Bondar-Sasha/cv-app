@@ -11,7 +11,6 @@ import {
   Button,
   IconButton,
   SelectChangeEvent,
-  TextField,
   useTheme,
 } from '@mui/material'
 import {SubmitHandler, useForm} from 'react-hook-form'
@@ -21,6 +20,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import {useDepartments, usePositions, useUpdateUserProfile} from '@/Features'
 import {
   CustomSelectComponent,
+  CustomTextField,
   EnvUserLogo,
   LoaderBackdrop,
   Params,
@@ -170,7 +170,7 @@ const ProfilePage: FC = () => {
         flexWrap="wrap"
         width="100%"
         maxWidth="fit-content"
-        marginBottom="32px"
+        marginBottom="50px"
       >
         <Box
           position="relative"
@@ -264,23 +264,29 @@ const ProfilePage: FC = () => {
               gridTemplateColumns: 'repeat(2, minmax(auto, auto))',
             },
           }}
-          gap="16px"
+          gap="30px"
         >
-          <TextField
-            {...register('firstName')}
-            disabled={!isEqual}
-            defaultValue={user?.profile.first_name}
+          <CustomTextField
+            type="text"
+            id="First Name"
+            name="First Name"
             label="First Name"
             placeholder="First Name"
-            variant="outlined"
-          />
-          <TextField
-            {...register('lastName')}
+            autoComplete="First Name"
+            register={register}
             disabled={!isEqual}
-            defaultValue={user?.profile.last_name}
+            defaultValue={user?.profile.first_name ?? undefined}
+          />
+          <CustomTextField
+            type="text"
+            id="Last Name"
+            name="Last Name"
             label="Last Name"
             placeholder="Last Name"
-            variant="outlined"
+            autoComplete="Last Name"
+            register={register}
+            disabled={!isEqual}
+            defaultValue={user?.profile.last_name ?? undefined}
           />
           <CustomSelectComponent
             disabled={!isEqual}
@@ -306,7 +312,7 @@ const ProfilePage: FC = () => {
           />
         </Box>
         {isEqual && (
-          <Box display="flex" justifyContent="end">
+          <Box display="flex" justifyContent="end" paddingTop="15px">
             <Button
               type="submit"
               disabled={isFetching}

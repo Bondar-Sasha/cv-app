@@ -1,4 +1,4 @@
-import {CvLayout, useCV} from '@/Features'
+import {useCV} from '@/Features'
 import React, {FC, useEffect, useMemo, useState} from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import {Box, Button, TableCell, TableRow} from '@mui/material'
@@ -102,151 +102,149 @@ const CvProjectsPage: FC = () => {
   }
 
   return (
-    <CvLayout
-      path="projects"
-      page={
-        <Box component="main" sx={{overflowX: 'auto'}}>
-          <TableForProjects
-            data={cv.cv.projects || []}
-            addButton={
-              <Button
-                disabled={availableProjectsForSelect?.length === 0}
-                variant="text"
-                onClick={() => {
-                  setPopup({open: true, isCreating: true, projectName: ''})
-                }}
-                sx={{
-                  color: 'rgb(198, 48, 49)',
-                  width: '220px',
-                  height: '40px',
-                  borderRadius: '20px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  '&:hover': {
-                    backgroundColor: 'rgb(236, 209, 210)',
-                  },
-                }}
-              >
-                <AddIcon sx={{color: 'inherit', marginRight: '7px'}} />
-                {t('Add Project')}
-              </Button>
-            }
-          >
-            {(project) => {
-              if ('responsibilities' in project) {
-                const preparedResponsibilities =
-                  project.responsibilities.join(' ')
-                return (
-                  <React.Fragment key={project.id}>
-                    <TableRow key={project.id}>
-                      <TableCell>{project.name}</TableCell>
-                      <TableCell>{project.domain}</TableCell>
-                      <TableCell>{project.start_date}</TableCell>
-                      <TableCell>{project?.end_date}</TableCell>
-                      <TableCell align="right">
-                        <MoreIconWithPopover
-                          onUpdate={() => {
-                            setPopup({
-                              open: true,
-                              isCreating: false,
-                              projectName: project.name,
-                              end_date: project.end_date,
-                              start_date: project.start_date,
-                              responsibilities: project.responsibilities,
-                            })
-                          }}
-                          onDelete={() => {
-                            const projectId = availableProjects.projects.find(
-                              (projectForSearching) =>
-                                project.name === projectForSearching.name
-                            )?.id
-
-                            if (!projectId) {
-                              return
-                            }
-
-                            setDeletePopup({
-                              projectId,
-                              open: true,
-                              projectName: project.name,
-                            })
-                          }}
-                        />
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell
-                        sx={{
-                          padding: 0,
-                          paddingRight: '16px',
-                          textAlign: 'justify',
-                        }}
-                        colSpan={5}
-                      >
-                        {project.description}
-                      </TableCell>
-                    </TableRow>
-                    {preparedResponsibilities && (
-                      <TableRow>
-                        <TableCell colSpan={5}>
-                          <Box
-                            sx={{
-                              borderRadius: '10px',
-                              height: '20px',
-                              bgcolor: 'rgb(228, 228, 228)',
-                              width: 'fit-content',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              padding: ' 0 7px',
-                              maxWidth: '300px',
-                            }}
-                          >
-                            {preparedResponsibilities}
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </React.Fragment>
-                )
-              }
+    <Box component="main" sx={{overflowX: 'auto'}}>
+      <TableForProjects
+        data={cv.cv.projects || []}
+        addButton={
+          <Button
+            disabled={availableProjectsForSelect?.length === 0}
+            variant="text"
+            onClick={() => {
+              setPopup({open: true, isCreating: true, projectName: ''})
             }}
-          </TableForProjects>
-          <DeleteProjectPopover
-            {...deletePopupState}
-            onClose={handleCloseDeletePopup}
-            cvId={cv.cv.id}
-          />
-          {popupState.open && (
-            <ProjectHandlerPopup
-              {...popupState}
-              selectedProject={selectedProjectState}
-              onSelect={setSelectedProject}
-              projectsForSelect={
-                (popupState.isCreating
-                  ? availableProjectsForSelect
-                  : availableProjects.projects
-                )?.map((project) => ({
-                  value: project.id,
-                  label: project.name,
-                })) || []
-              }
-              pickedProject={
-                particularProject
-                  ? {
-                      projectId: particularProject.id,
-                      description: particularProject.description,
-                      environment: particularProject.environment,
-                      domain: particularProject.domain,
-                    }
-                  : undefined
-              }
-              onClose={closePopup}
-              cvId={cv.cv.id}
-            />
-          )}
-        </Box>
-      }
-    />
+            sx={{
+              color: 'rgb(198, 48, 49)',
+              width: '220px',
+              height: '40px',
+              borderRadius: '20px',
+              display: 'flex',
+              alignItems: 'center',
+              '&:hover': {
+                backgroundColor: 'rgb(236, 209, 210)',
+              },
+            }}
+          >
+            <AddIcon sx={{color: 'inherit', marginRight: '7px'}} />
+            {t('Add Project')}
+          </Button>
+        }
+      >
+        {(project) => {
+          if ('responsibilities' in project) {
+            const preparedResponsibilities = project.responsibilities.join(' ')
+            return (
+              <React.Fragment key={project.id}>
+                <TableRow key={project.id}>
+                  <TableCell>{project.name}</TableCell>
+                  <TableCell>{project.domain}</TableCell>
+                  <TableCell>{project.start_date}</TableCell>
+                  <TableCell>{project?.end_date}</TableCell>
+                  <TableCell align="right">
+                    <MoreIconWithPopover
+                      onUpdate={() => {
+                        setPopup({
+                          open: true,
+                          isCreating: false,
+                          projectName: project.name,
+                          end_date: project.end_date,
+                          start_date: project.start_date,
+                          responsibilities: project.responsibilities,
+                        })
+                      }}
+                      onDelete={() => {
+                        const projectId = availableProjects.projects.find(
+                          (projectForSearching) =>
+                            project.name === projectForSearching.name
+                        )?.id
+
+                        if (!projectId) {
+                          return
+                        }
+
+                        setDeletePopup({
+                          projectId,
+                          open: true,
+                          projectName: project.name,
+                        })
+                      }}
+                    />
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell
+                    sx={{
+                      borderRadius: '10px',
+                      height: '20px',
+                      bgcolor: 'rgb(228, 228, 228)',
+                      width: 'fit-content',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      padding: ' 0 7px',
+                      maxWidth: '300px',
+                    }}
+                  >
+                    {project.description}
+                  </TableCell>
+                </TableRow>
+                {preparedResponsibilities && (
+                  <TableRow>
+                    <TableCell colSpan={5}>
+                      <Box
+                        sx={{
+                          borderRadius: '10px',
+                          height: '20px',
+                          bgcolor: 'rgb(228, 228, 228)',
+                          width: 'fit-content',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          padding: ' 0 7px',
+                          maxWidth: '300px',
+                        }}
+                      >
+                        {preparedResponsibilities}
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </React.Fragment>
+            )
+          }
+        }}
+      </TableForProjects>
+      <DeleteProjectPopover
+        {...deletePopupState}
+        onClose={handleCloseDeletePopup}
+        cvId={cv.cv.id}
+      />
+      {popupState.open && (
+        <ProjectHandlerPopup
+          {...popupState}
+          selectedProject={selectedProjectState}
+          onSelect={setSelectedProject}
+          projectsForSelect={
+            (popupState.isCreating
+              ? availableProjectsForSelect
+              : availableProjects.projects
+            )?.map((project) => ({
+              value: project.id,
+              label: project.name,
+            })) || []
+          }
+          pickedProject={
+            particularProject
+              ? {
+                  projectId: particularProject.id,
+                  description: particularProject.description,
+                  environment: particularProject.environment,
+                  domain: particularProject.domain,
+                }
+              : undefined
+          }
+          onClose={closePopup}
+          cvId={cv.cv.id}
+        />
+      )}
+    </Box>
   )
 }
 

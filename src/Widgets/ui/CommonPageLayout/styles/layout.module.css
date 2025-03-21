@@ -30,7 +30,7 @@
   color: inherit;
 }
 
-.main_wrapper > main {
+.main_wrapper>main {
   background-color: inherit;
   overflow-x: auto;
   color: inherit;
@@ -42,21 +42,21 @@
   cursor: pointer;
 }
 
-.asideMarker > span {
+.asideMarker>span {
   margin-left: 17px;
 }
 
 @media (width > 768px) {
-  .main_wrapper {
+  /* .main_wrapper {
     padding-left: 44px;
-  }
+  } */
 
-  .main_wrapper > header {
+  .main_wrapper>header {
     width: 100%;
     justify-self: center;
   }
 
-  .main_wrapper > main {
+  .main_wrapper>main {
     width: 100%;
     justify-self: center;
   }
@@ -97,10 +97,11 @@
   }
 }
 
-@media (width <= 768px) {
-  .aside > div:last-child > :last-child {
+@media (width <=768px) {
+  .aside>div:last-child> :last-child {
     display: none;
   }
+
   .asideMarkerLabel {
     display: none;
   }
@@ -109,17 +110,17 @@
     padding-left: 44px;
   }
 
-  .main_wrapper > header {
+  .main_wrapper>header {
     width: 100%;
     justify-self: center;
   }
 
-  .main_wrapper > main {
+  .main_wrapper>main {
     width: 100%;
     justify-self: center;
   }
 
-  .aside > div {
+  .aside>div {
     display: contents;
   }
 
@@ -145,8 +146,8 @@
   }
 }
 
-@media (width <= 400px) {
-  .markerContainer > :last-child {
+@media (width <=400px) {
+  .markerContainer> :last-child {
     display: none;
   }
 }

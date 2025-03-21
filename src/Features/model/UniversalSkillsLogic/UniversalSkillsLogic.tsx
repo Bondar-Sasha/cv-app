@@ -64,7 +64,7 @@ const UniversalSkillsLogic = ({
 
   const transformArray: TransformedArray[] = []
   transformedSkills.map((elem) => {
-    transformArray.push({value: '0', label: elem.category})
+    transformArray.push({value: 'notSelect', label: elem.category})
     transformArray.push(...elem.technologies)
   })
 

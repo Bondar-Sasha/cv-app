@@ -1,4 +1,4 @@
-import {CvLayout, UniversalSkillsLogic} from '@/Features'
+import {UniversalSkillsLogic} from '@/Features'
 import {useParams} from 'react-router-dom'
 import {useAddCvSkill} from '../api/useAddCvSkill'
 import {useDeleteCvSkill} from '../api/useDeleteCvSkill'
@@ -74,17 +74,12 @@ const CvSkillsPage = () => {
   }
 
   return (
-    <CvLayout
-      path="skills"
-      page={
-        <UniversalSkillsLogic
-          forState="cv"
-          userId={cvId}
-          handleDeleteSkill={handleDeleteCvSkill}
-          handleAddSkill={handleAddCvSkill}
-          handleUpdateSkill={handleUpdateSkill}
-        />
-      }
+    <UniversalSkillsLogic
+      forState="cv"
+      userId={cvId}
+      handleDeleteSkill={handleDeleteCvSkill}
+      handleAddSkill={handleAddCvSkill}
+      handleUpdateSkill={handleUpdateSkill}
     />
   )
 }

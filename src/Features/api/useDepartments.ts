@@ -19,6 +19,7 @@ export const useDepartments = () => {
     ALL_DEPARTMENTS,
     {}
   )
+
   return {
     ...helpers,
     departmentsFetching: loading,
