@@ -68,12 +68,17 @@ const ProfilePage: FC = () => {
     reader.onloadend = async () => {
       const base64 = reader.result as string
       try {
+        if (!user?.id) {
+          return
+        }
         await uploadAvatar({
           variables: {
-            base64,
-            userId: user?.id || '',
-            size: file.size,
-            type: file.type,
+            avatar: {
+              base64,
+              userId: user.id,
+              size: file.size,
+              type: file.type,
+            },
           },
         })
         setLogoUrl(uploadData)
@@ -100,14 +105,18 @@ const ProfilePage: FC = () => {
       void uploadPreparedAvatar(file)
     }
   }
-  const handleDeleteAvatar = () => {
-    const deleteAvatarHelper = async () => {
+  const handleDeleteAvatar = async () => {
+    try {
+      if (!user?.id) {
+        return
+      }
       await deleteAvatar({
-        variables: {userId: user?.id || ''},
-      }).catch((error) => console.error(error))
+        variables: {avatar: {userId: user.id}},
+      })
       setLogoUrl(null)
+    } catch (error) {
+      console.error(error)
     }
-    void deleteAvatarHelper()
   }
 
   const {register, watch, setValue, handleSubmit} = useForm<FormFields>()
@@ -144,12 +153,15 @@ const ProfilePage: FC = () => {
     department,
     position,
   }) => {
+    if (!user?.id) {
+      return
+    }
     await update({
       last_name: lastName,
       first_name: firstName,
       departmentId: department,
       positionId: position,
-      userId: user?.id || '',
+      userId: user.id,
     }).catch((error) => console.error(error))
   }
 

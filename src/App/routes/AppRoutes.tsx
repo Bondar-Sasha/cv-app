@@ -81,7 +81,7 @@ const AppRoutes: FC = () => {
         <Route
           path={singUp.path}
           element={
-            <SecureRoute redirectTo="/users" isRedirection={!!user}>
+            <SecureRoute redirectTo={users.path} isRedirection={!!user}>
               <Auth location="signup" />
             </SecureRoute>
           }
@@ -89,7 +89,7 @@ const AppRoutes: FC = () => {
         <Route
           path={login.path}
           element={
-            <SecureRoute redirectTo="/users" isRedirection={!!user}>
+            <SecureRoute redirectTo={users.path} isRedirection={!!user}>
               <Auth location="login" />
             </SecureRoute>
           }
@@ -97,7 +97,7 @@ const AppRoutes: FC = () => {
         <Route
           path={forgotPassword.path}
           element={
-            <SecureRoute redirectTo="/users" isRedirection={!!user}>
+            <SecureRoute redirectTo={users.path} isRedirection={!!user}>
               <ChangePassword />
             </SecureRoute>
           }
@@ -105,12 +105,12 @@ const AppRoutes: FC = () => {
         <Route
           path={resetPassword.path}
           element={
-            <SecureRoute redirectTo="/users" isRedirection={!!user}>
+            <SecureRoute redirectTo={users.path} isRedirection={!!user}>
               <ResetPassword />
             </SecureRoute>
           }
         />
-        <Route path="*" element={<>404</>} />
+        <Route path="*" element={<Navigate to={users.path} replace />} />
       </Routes>
     </BrowserRouter>
   )

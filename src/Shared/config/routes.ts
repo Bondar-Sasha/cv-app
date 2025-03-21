@@ -22,46 +22,46 @@ interface IAppRouterMap {
 export const AppRouterMap: IAppRouterMap = {
   users: {label: 'Employees', path: '/users'},
   userProfile: {
-    label: 'user-profile',
+    label: 'Profile',
     path: (userId = ':userId') => `/users/${userId}/profile`,
   },
   userSkills: {
-    label: 'user-skills',
+    label: 'Skills',
     path: (userId = ':userId') => `/users/${userId}/skills`,
   },
   userLanguages: {
-    label: 'user-languages',
+    label: 'Languages',
     path: (userId = ':userId') => `/users/${userId}/languages`,
   },
 
   projects: {label: 'projects', path: '/projects'},
   project: {
-    label: 'project',
+    label: 'Project',
     path: (projectId = ':projectId') => `/projects/${projectId}`,
   },
   CVs: {label: 'cvs', path: '/cvs'},
   CVDetails: {
-    label: 'cv-details',
+    label: 'Details',
     path: (cvId = ':cvId') => `/cvs/${cvId}/details`,
   },
   CVSkills: {
-    label: 'cv-skills',
+    label: 'Skills',
     path: (cvId = ':cvId') => `/cvs/${cvId}/skills`,
   },
   CVProjects: {
-    label: 'cv-projects',
+    label: 'Projects',
     path: (cvId = ':cvId') => `/cvs/${cvId}/projects`,
   },
   CVPreview: {
-    label: 'cv-preview',
+    label: 'Preview',
     path: (cvId = ':cvId') => `/cvs/${cvId}/preview`,
   },
   skills: {label: 'Skills', path: '/skills'},
   languages: {label: 'Languages', path: '/languages'},
-  singUp: {label: 'signup', path: '/auth/signup'},
-  login: {label: 'login', path: '/auth/login'},
-  forgotPassword: {label: 'forgot-password', path: '/forgot-password'},
-  resetPassword: {label: 'reset-password', path: '/reset-password'},
+  singUp: {label: '', path: '/auth/signup'},
+  login: {label: '', path: '/auth/login'},
+  forgotPassword: {label: '', path: '/forgot-password'},
+  resetPassword: {label: '', path: '/reset-password'},
   settings: {label: 'Settings', path: '/settings'},
 }
 

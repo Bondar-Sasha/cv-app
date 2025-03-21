@@ -10,7 +10,7 @@ const UPLOAD_AVATAR = gql`
 export const useUploadAvatar = () => {
   const [uploadAvatar, uploadAvatarFetching] = useMutation<
     string,
-    UploadAvatarInput
+    {avatar: UploadAvatarInput}
   >(UPLOAD_AVATAR)
   return {
     uploadAvatar,

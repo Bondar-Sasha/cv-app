@@ -14,6 +14,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import {CustomSelectComponent, LoaderBackdrop, useUser} from '@/Shared'
 import {useDepartments, usePositions, useUpdateUserProfile} from '@/Features'
 import {useTranslation} from 'react-i18next'
+import {Navigate} from 'react-router-dom'
 
 interface UpdateProfilePopupProps {
   open: boolean
@@ -53,15 +54,11 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
   }, [user, reset])
 
   if (departmentsFetching || positionsFetching || loading) {
-    return (
-      <LoaderBackdrop
-        loading={departmentsFetching || positionsFetching || loading}
-      />
-    )
+    return <LoaderBackdrop loading />
   }
 
   if (!departments || !positions) {
-    return <div>{t('Something went wrong')}</div>
+    return <Navigate to="/" />
   }
 
   const selectHandler =
@@ -75,12 +72,13 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
     department,
     position,
   }) => {
+    if (!user?.id) return
     await update({
       last_name: lastName,
       first_name: firstName,
       departmentId: department,
       positionId: position,
-      userId: user?.id || '',
+      userId: user.id,
     }).catch((error) => console.error(error))
   }
 
