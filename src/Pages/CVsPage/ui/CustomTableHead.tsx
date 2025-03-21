@@ -36,7 +36,7 @@ const CustomTableHead: FC<CustomTableHeadProps> = ({
   return (
     <TableHead>
       <TableRow>
-        <TableCell sx={{borderBottom: 'none'}}>
+        <TableCell sx={{borderBottom: 'none'}} colSpan={2}>
           <SearchInput
             placeholder="Search"
             value={searchState}
@@ -44,7 +44,6 @@ const CustomTableHead: FC<CustomTableHeadProps> = ({
             reset={() => setSearchState('')}
           />
         </TableCell>
-        <TableCell sx={{borderBottom: 'none'}} />
         <TableCell sx={{borderBottom: 'none'}}>
           <WrapperButton
             onClick={() => setOpenForm(true)}

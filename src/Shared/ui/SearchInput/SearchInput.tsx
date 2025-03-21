@@ -5,7 +5,8 @@ import ClearIcon from '@mui/icons-material/Clear'
 
 export const CustomTextField = styled(TextField)(({theme}) => ({
   zIndex: 100,
-  width: '320px',
+  maxWidth: '320px',
+  width: '100%',
   '& .MuiOutlinedInput-root': {
     borderRadius: '20px',
     backgroundColor: theme.palette.background.default,

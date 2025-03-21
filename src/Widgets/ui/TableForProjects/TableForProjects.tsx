@@ -84,6 +84,12 @@ const TableForProjects: FC<TableForProjectsProps> = ({
         bgcolor: 'inherit',
         color: 'inherit',
         '& :is(td,th)': {paddingLeft: 0, border: 'none'},
+        '& tr:nth-of-type(3n)': {
+          '& td': {
+            borderBottom: '1px solid',
+            borderColor: 'rgba(0, 0, 0, 0.12)',
+          },
+        },
       }}
     >
       <Box

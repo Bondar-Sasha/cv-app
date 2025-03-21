@@ -3,7 +3,6 @@ import {IconButton, styled, TableCell} from '@mui/material'
 export const CustomThCell = styled(TableCell)({
   cursor: 'pointer',
   paddingRight: 0,
-  border: 'none',
   whiteSpace: 'nowrap',
 })
 

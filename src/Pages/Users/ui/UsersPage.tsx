@@ -137,13 +137,14 @@ const UsersPage: FC = () => {
         }}
       />
       <Table sx={{bgcolor: 'inherit', color: 'inherit'}}>
-        <Box
-          component={TableHead}
-          position="sticky"
-          top="0px"
-          height="58px"
-          zIndex="100"
-          bgcolor="inherit"
+        <TableHead
+          sx={{
+            position: 'sticky',
+            top: '0px',
+            height: '58px',
+            zIndex: '100',
+            bgcolor: 'inherit',
+          }}
         >
           <TableRow>
             <TableCell
@@ -202,7 +203,7 @@ const UsersPage: FC = () => {
             ))}
             <CustomThCell width="80px"></CustomThCell>
           </TableRow>
-        </Box>
+        </TableHead>
         <TableBody ref={tbodyRef}>
           <Box component={TableRow} height="73px">
             <Popover
