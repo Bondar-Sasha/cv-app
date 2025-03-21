@@ -1,7 +1,7 @@
 import {gql, useQuery} from '@apollo/client'
 import {Cv} from 'cv-graphql'
 
-const CV = gql`
+export const CV = gql`
   query CV($cvId: ID!) {
     cv(cvId: $cvId) {
       id

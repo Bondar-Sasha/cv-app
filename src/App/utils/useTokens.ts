@@ -76,6 +76,7 @@ export const useTokens = () => {
         client.setLink(preparedApolloLink(accessToken))
         const {data} = await getUser({
           variables: {userId: userId as string | number},
+          fetchPolicy: 'cache-and-network',
         })
         if (!data) {
           return

@@ -55,10 +55,14 @@ const App: FC = () => {
         </ThemeProvider>
       </ThemeContext.Provider>
       <ToastContainer
-        theme={themeMode}
-        position="bottom-right"
-        autoClose={1500}
+        theme={theme.palette.mode === 'light' ? 'dark' : 'light'}
+        position="top-right"
+        autoClose={4000}
         pauseOnHover
+        closeButton={false}
+        hideProgressBar={true}
+        icon={false}
+        style={{justifyContent: 'center !important'}}
       />
     </I18nextProvider>
   )

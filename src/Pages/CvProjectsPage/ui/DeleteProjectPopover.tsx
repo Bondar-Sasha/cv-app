@@ -3,6 +3,9 @@ import {FC} from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import {useTranslation} from 'react-i18next'
 import {useDeleteCVProject} from '../api'
+import {toast} from 'react-toastify'
+import {useParams} from 'react-router-dom'
+import {Params} from '@/Shared'
 
 interface DeleteProjectPopoverProps {
   open: boolean
@@ -19,16 +22,24 @@ const DeleteProjectPopover: FC<DeleteProjectPopoverProps> = ({
   projectId,
   cvId,
 }) => {
+  const params = useParams<Params>()
+
   const {t} = useTranslation()
-  const [deleteProject, {loading}] = useDeleteCVProject()
+  const [deleteProject, {loading}] = useDeleteCVProject(params.cvId)
 
   const handleDelete = async () => {
-    await deleteProject({
-      variables: {
-        project: {cvId, projectId},
-      },
-    }).catch((error) => console.error(error))
-    onClose()
+    try {
+      await deleteProject({
+        variables: {
+          project: {cvId, projectId},
+        },
+      })
+      toast.success(t('Project was removed'))
+      onClose()
+    } catch (error) {
+      toast.error((error as Error).message)
+      console.error(error)
+    }
   }
   return (
     <Backdrop

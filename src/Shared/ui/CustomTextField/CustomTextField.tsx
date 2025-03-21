@@ -16,10 +16,12 @@ interface CustomTextFieldProps {
   placeholder?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: UseFormRegister<any>
-  errors: FieldErrors
+  errors?: FieldErrors
   icon?: React.ReactNode
   multiline?: boolean
   minRows?: number
+  disabled?: boolean
+  defaultValue?: string
 }
 
 const CustomTextField: React.FC<CustomTextFieldProps> = ({
@@ -34,6 +36,8 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
   icon,
   multiline,
   minRows,
+  disabled,
+  defaultValue,
 }) => {
   const theme = useTheme()
   const redColor = theme.palette.error.main
@@ -62,8 +66,10 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
       placeholder={t(placeholder || '')}
       type={showPassword && isPasswordType ? 'text' : type}
       {...register(name)}
-      helperText={errors[name]?.message?.toString()}
-      error={!!errors[name]}
+      helperText={errors?.[name]?.message?.toString()}
+      error={!!errors?.[name]}
+      disabled={disabled}
+      defaultValue={defaultValue}
       slotProps={{
         input: {
           endAdornment: isPasswordType && (

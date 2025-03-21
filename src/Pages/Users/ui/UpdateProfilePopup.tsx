@@ -5,16 +5,21 @@ import {
   Backdrop,
   Box,
   Button,
-  TextField,
   IconButton,
   SelectChangeEvent,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
-import {CustomSelectComponent, LoaderBackdrop, useUser} from '@/Shared'
+import {
+  CustomSelectComponent,
+  CustomTextField,
+  LoaderBackdrop,
+  useUser,
+} from '@/Shared'
 import {useDepartments, usePositions, useUpdateUserProfile} from '@/Features'
 import {useTranslation} from 'react-i18next'
 import {Navigate} from 'react-router-dom'
+import {toast} from 'react-toastify'
 
 interface UpdateProfilePopupProps {
   open: boolean
@@ -73,13 +78,19 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
     position,
   }) => {
     if (!user?.id) return
-    await update({
-      last_name: lastName,
-      first_name: firstName,
-      departmentId: department,
-      positionId: position,
-      userId: user.id,
-    }).catch((error) => console.error(error))
+    try {
+      await update({
+        last_name: lastName,
+        first_name: firstName,
+        departmentId: department,
+        positionId: position,
+        userId: user.id,
+      })
+      toast.success(t('Profile was updated'))
+    } catch (error) {
+      toast.error((error as Error).message)
+      console.error(error)
+    }
   }
 
   return (
@@ -141,33 +152,45 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
             }}
             gap="16px"
           >
-            <TextField
+            <CustomTextField
+              type="email"
+              id="Email"
+              name="email"
+              autoComplete="email"
               disabled
-              {...register('email')}
+              register={register}
               label="Email"
               placeholder="Email"
-              variant="outlined"
             />
-            <TextField
-              disabled
-              {...register('password')}
+            <CustomTextField
               type="password"
+              id="password"
+              name="password"
+              autoComplete="password"
+              disabled
+              register={register}
               label="Password"
               placeholder="Password"
-              variant="outlined"
             />
-            <TextField
-              {...register('firstName')}
+            <CustomTextField
+              type="text"
+              id="First Name"
+              autoComplete="First Name"
+              name="firstName"
+              register={register}
               label="First Name"
               placeholder="First Name"
-              variant="outlined"
             />
-            <TextField
-              {...register('lastName')}
+            <CustomTextField
+              type="text"
+              id="Last Name"
+              autoComplete="Last Name"
+              name="lastName"
+              register={register}
               label="Last Name"
               placeholder="Last Name"
-              variant="outlined"
             />
+
             <CustomSelectComponent
               value={watch('department')}
               onChange={selectHandler('department')}

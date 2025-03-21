@@ -1,3 +1,3 @@
-import CvPreviewPage from './ui/CvPreviewPage'
+import CvPreviewLayout from './ui/CvPreviewLayout'
 
-export {CvPreviewPage}
+export {CvPreviewLayout}

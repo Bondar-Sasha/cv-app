@@ -6,8 +6,8 @@ import {AppRouterMap, useUser} from '@/Shared'
 import {
   Auth,
   ChangePassword,
-  CvDetailsPage,
-  CvPreviewPage,
+  CvDetailsLayout,
+  CvPreviewLayout,
   CvProjectsPage,
   CvSkillsPage,
   CVsPage,
@@ -22,6 +22,7 @@ import {
   UsersPage,
 } from '@/Pages'
 import {CommonPageLayout} from '@/Widgets'
+import {CvLayout} from '@/Features'
 
 const {
   users,
@@ -69,10 +70,22 @@ const AppRoutes: FC = () => {
           <Route path={projects.path} element={<ProjectsPage />} />
           <Route path={project.path()} element={<></>} />
           <Route path={CVs.path} element={<CVsPage />} />
-          <Route path={CVDetails.path()} element={<CvDetailsPage />} />
-          <Route path={CVSkills.path()} element={<CvSkillsPage />} />
-          <Route path={CVProjects.path()} element={<CvProjectsPage />} />
-          <Route path={CVPreview.path()} element={<CvPreviewPage />} />
+          <Route
+            path={CVDetails.path()}
+            element={<CvLayout page={<CvDetailsLayout />} />}
+          />
+          <Route
+            path={CVSkills.path()}
+            element={<CvLayout page={<CvSkillsPage />} />}
+          />
+          <Route
+            path={CVProjects.path()}
+            element={<CvLayout page={<CvProjectsPage />} />}
+          />
+          <Route
+            path={CVPreview.path()}
+            element={<CvLayout page={<CvPreviewLayout />} />}
+          />
           <Route path={skills.path} element={<SkillsPage />} />
           <Route path={languages.path} element={<LanguagesPage />} />
           <Route path={settings.path} element={<SettingsPage />} />

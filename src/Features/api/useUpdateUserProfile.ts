@@ -1,3 +1,4 @@
+import {useUser} from '@/Shared'
 import {gql, useMutation} from '@apollo/client'
 import {useCallback} from 'react'
 
@@ -23,6 +24,7 @@ interface UpdateProfile {
 }
 
 export const useUpdateUserProfile = () => {
+  const {refetch} = useUser()
   const [updateUser, updateUserFetching] = useMutation<void, UpdateUser>(
     UPDATE_USER
   )
@@ -38,14 +40,16 @@ export const useUpdateUserProfile = () => {
       departmentId,
       positionId,
     }: UpdateUser['user'] & UpdateProfile['profile']) => {
-      return Promise.all([
+      await Promise.all([
         updateUser({variables: {user: {userId, departmentId, positionId}}}),
         updateUserProfile({
           variables: {profile: {userId, last_name, first_name}},
         }),
       ])
+      refetch()
+      return
     },
-    [updateUser, updateUserProfile]
+    [refetch, updateUser, updateUserProfile]
   )
   return {
     update,

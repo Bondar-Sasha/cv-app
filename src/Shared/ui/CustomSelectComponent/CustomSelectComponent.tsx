@@ -1,4 +1,9 @@
-import {InputLabel, SelectChangeEvent, useTheme} from '@mui/material'
+import {
+  FormHelperText,
+  InputLabel,
+  SelectChangeEvent,
+  useTheme,
+} from '@mui/material'
 import {CustomFormControl, CustomMenuItem, CustomSelect} from './StyledElement'
 import {useTranslation} from 'react-i18next'
 import {FC, forwardRef} from 'react'
@@ -8,6 +13,7 @@ interface CustomSelectComponentProps {
   onChange: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void
   options: {value: string; label: string}[]
   label: string
+  helpingText?: string
   disabled?: boolean
   defaultValue?: string
 }
@@ -15,51 +21,62 @@ interface CustomSelectComponentProps {
 const CustomSelectComponent: FC<CustomSelectComponentProps> = forwardRef<
   HTMLDivElement,
   CustomSelectComponentProps
->(({value, onChange, options, label, disabled, defaultValue}, ref) => {
-  const {t} = useTranslation()
-  const theme = useTheme()
-  return (
-    <CustomFormControl fullWidth disabled={disabled}>
-      <InputLabel id="custom-select-label">{t(label)}</InputLabel>
-      <CustomSelect
-        ref={ref}
-        labelId="custom-select-label"
-        id="custom-select"
-        value={defaultValue && !value ? defaultValue : value}
-        label={t(label)}
-        onChange={onChange}
-        MenuProps={{
-          PaperProps: {
-            style: {
-              maxHeight: 350,
-              overflowY: 'auto',
+>(
+  (
+    {value, onChange, options, label, disabled, defaultValue, helpingText},
+    ref
+  ) => {
+    const {t} = useTranslation()
+    const theme = useTheme()
+    return (
+      <CustomFormControl fullWidth disabled={disabled}>
+        <InputLabel id="custom-select-label">{t(label)}</InputLabel>
+        <CustomSelect
+          ref={ref}
+          labelId="custom-select-label"
+          id="custom-select"
+          value={defaultValue && !value ? defaultValue : value}
+          label={t(label)}
+          onChange={onChange}
+          MenuProps={{
+            PaperProps: {
+              style: {
+                maxHeight: 350,
+                overflowY: 'auto',
+              },
             },
-          },
-        }}
-      >
-        {options.map((option) => {
-          const isNumber = !isNaN(Number(option.value))
-          return (
-            <CustomMenuItem
-              key={crypto.randomUUID()}
-              value={option.value}
-              style={{
-                position: isNumber ? 'sticky' : 'static',
-                backgroundColor: isNumber ? '#f0f0f0' : 'inherit',
-                color: isNumber ? theme.palette.error.main : 'inherit',
-                top: isNumber ? 0 : 'auto',
-                padding: isNumber ? '20px 15px' : '13px 30px',
-                fontSize: isNumber ? '15px' : '18px',
-                cursor: isNumber ? 'default' : 'pointer',
-              }}
-            >
-              {t(option.label)}
-            </CustomMenuItem>
-          )
-        })}
-      </CustomSelect>
-    </CustomFormControl>
-  )
-})
+          }}
+        >
+          {options.map((option) => {
+            const isHidden = option.value === 'notSelect'
+            return (
+              <CustomMenuItem
+                key={crypto.randomUUID()}
+                value={option.value}
+                style={{
+                  position: isHidden ? 'sticky' : 'static',
+                  backgroundColor: isHidden ? '#f0f0f0' : 'inherit',
+                  color: isHidden ? theme.palette.error.main : 'inherit',
+                  top: isHidden ? 0 : 'auto',
+                  padding: isHidden ? '20px 15px' : '13px 30px',
+                  fontSize: isHidden ? '15px' : '18px',
+                  cursor: isHidden ? 'default' : 'pointer',
+                  pointerEvents: isHidden ? 'none' : undefined,
+                }}
+              >
+                {t(option.label)}
+              </CustomMenuItem>
+            )
+          })}
+        </CustomSelect>
+        {helpingText && (
+          <FormHelperText sx={{color: theme.palette.error.main}}>
+            {t(helpingText)}
+          </FormHelperText>
+        )}
+      </CustomFormControl>
+    )
+  }
+)
 
 export default CustomSelectComponent

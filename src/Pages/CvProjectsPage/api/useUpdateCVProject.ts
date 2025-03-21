@@ -1,3 +1,4 @@
+import {CV} from '@/Features'
 import {gql, useMutation} from '@apollo/client'
 import type {Cv, UpdateCvProjectInput} from 'cv-graphql'
 
@@ -17,8 +18,11 @@ export const UPDATE_CV_PROJECT = gql`
   }
 `
 
-export const useUpdateCvProject = () => {
+export const useUpdateCvProject = (cvId?: string) => {
   return useMutation<UpdateCvProjectResult, UpdateCvProjectArgs>(
-    UPDATE_CV_PROJECT
+    UPDATE_CV_PROJECT,
+    {
+      refetchQueries: cvId ? [{query: CV, variables: {cvId}}] : [],
+    }
   )
 }

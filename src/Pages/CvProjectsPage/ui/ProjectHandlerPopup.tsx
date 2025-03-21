@@ -7,6 +7,8 @@ import {
   TextField,
   IconButton,
   SelectChangeEvent,
+  FormControl,
+  FormHelperText,
 } from '@mui/material'
 import {useTranslation} from 'react-i18next'
 import CloseIcon from '@mui/icons-material/Close'
@@ -16,11 +18,14 @@ import {DatePicker} from '@mui/x-date-pickers/DatePicker'
 import dayjs from 'dayjs'
 import {SubmitHandler, useForm} from 'react-hook-form'
 import {z} from 'zod'
+import {toast} from 'react-toastify'
 
 import {CustomSelectComponent} from '@/Shared'
 import EnvSelect from './EnvSelect'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useAddCvProject, useUpdateCvProject} from '../api'
+import {AddCvProjectInput} from 'cv-graphql'
+import {Params, useParams} from 'react-router-dom'
 
 interface PreparedProject {
   projectId: string
@@ -57,20 +62,30 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
   selectedProject,
   onSelect,
 }) => {
+  const params = useParams<Params>()
   const {t} = useTranslation()
-  const [addCVProject, {loading: addingLoading}] = useAddCvProject()
-  const [updateCVProject, {loading: updatingLoading}] = useUpdateCvProject()
+  const [addCVProject, {loading: addingLoading}] = useAddCvProject(params.cvId)
+  const [updateCVProject, {loading: updatingLoading}] = useUpdateCvProject(
+    params.cvId
+  )
 
   const FormSchema = z.object({
     projectId: z.string().nonempty(t('Pick a project')),
     start_date: z.string().nonempty(t('Start date is required')),
-    end_date: z.string().nonempty(t('End date is required')),
+    end_date: z.string(),
     responsibilities: z.string().optional(),
   })
 
   type FormFields = z.infer<typeof FormSchema>
 
-  const {register, watch, setValue, handleSubmit} = useForm<FormFields>({
+  const {
+    register,
+    watch,
+    setValue,
+    handleSubmit,
+    clearErrors,
+    formState: {errors},
+  } = useForm<FormFields>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       projectId: pickedProject?.projectId || '',
@@ -86,34 +101,43 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
     end_date,
     responsibilities,
   }) => {
-    if (isCreating) {
-      await addCVProject({
-        variables: {
-          project: {
-            roles: [],
-            cvId,
-            projectId,
-            start_date,
-            end_date,
-            responsibilities: [responsibilities || ''],
-          },
-        },
-      }).catch((error) => console.error(error))
-    } else {
-      await updateCVProject({
-        variables: {
-          project: {
-            cvId,
-            roles: [],
-            projectId,
-            start_date,
-            end_date,
-            responsibilities: [responsibilities || ''],
-          },
-        },
-      }).catch((error) => console.error(error))
+    const projectDto: AddCvProjectInput = {
+      roles: [],
+      cvId,
+      projectId,
+      start_date,
+      responsibilities: [responsibilities || ''],
     }
-    onClose()
+    if (end_date) {
+      projectDto['end_date'] = end_date
+    }
+
+    try {
+      if (isCreating) {
+        await addCVProject({
+          variables: {
+            project: {
+              ...projectDto,
+            },
+          },
+        })
+        toast.success(t('Project was added'))
+      } else {
+        await updateCVProject({
+          variables: {
+            project: {
+              ...projectDto,
+            },
+          },
+        })
+        toast.success(t('Project was updated'))
+      }
+      onClose()
+    } catch (error) {
+      toast.error((error as Error).message)
+
+      console.error(error)
+    }
   }
 
   return (
@@ -179,9 +203,11 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
               disabled={!isCreating}
               value={selectedProject}
               onChange={(event: SelectChangeEvent<unknown>) => {
+                clearErrors('projectId')
                 onSelect(event.target.value as string)
                 setValue('projectId', event.target.value as string)
               }}
+              helpingText={errors.projectId?.message}
               label={t('Project')}
               options={projectsForSelect}
             />
@@ -194,14 +220,26 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
               variant="outlined"
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                format="DD/MM/YYYY"
-                value={dayjs(watch('start_date'))}
-                onChange={(value) => {
-                  setValue('start_date', value?.toISOString() || '')
-                }}
-                label="Start Date"
-              />
+              <FormControl fullWidth>
+                <DatePicker
+                  format="DD/MM/YYYY"
+                  value={dayjs(watch('start_date'))}
+                  onOpen={() => clearErrors('start_date')}
+                  onChange={(value) => {
+                    setValue('start_date', value?.toISOString() || '')
+                  }}
+                  label="Start Date"
+                />
+                {errors.start_date?.message && (
+                  <FormHelperText
+                    sx={(theme) => ({
+                      color: theme.palette.error.main,
+                    })}
+                  >
+                    {t(errors.start_date.message)}
+                  </FormHelperText>
+                )}
+              </FormControl>
               <DatePicker
                 format="DD/MM/YYYY"
                 value={dayjs(watch('end_date'))}
