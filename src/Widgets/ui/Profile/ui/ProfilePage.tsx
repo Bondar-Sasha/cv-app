@@ -194,6 +194,8 @@ const ProfilePage: FC = () => {
         alignItems="center"
         justifyContent="center"
         flexWrap="wrap"
+        gap="60px"
+        rowGap="0"
         width="100%"
         maxWidth="fit-content"
         marginBottom="50px"
@@ -243,12 +245,7 @@ const ProfilePage: FC = () => {
           </Box>
         </Box>
         {isEqual && (
-          <Box
-            display="flex"
-            alignItems="center"
-            flexDirection="column"
-            marginLeft="60px"
-          >
+          <Box display="flex" alignItems="center" flexDirection="column">
             <Box component="h3" textAlign="center" margin={0}>
               <IconButton onClick={handleIconClick} sx={{marginRight: '8px'}}>
                 <UploadLogo color={theme.palette.text.primary} />
