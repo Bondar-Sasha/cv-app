@@ -33,6 +33,7 @@ export const ResponsiveBox = styled(Box)(({theme}) => ({
   gap: '0',
   width: '100%',
   height: '100%',
+  overflow: 'hidden',
   '@media (width > 768px)': {
     gridTemplateColumns: 'auto 1fr',
   },

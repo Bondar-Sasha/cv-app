@@ -47,9 +47,9 @@
 }
 
 @media (width > 768px) {
-  /* .main_wrapper {
+  .main_wrapper {
     padding-left: 44px;
-  } */
+  }
 
   .main_wrapper>header {
     width: 100%;

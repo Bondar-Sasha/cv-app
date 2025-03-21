@@ -18,7 +18,6 @@ interface UserRowProps {
 
 const CustomTdCell = styled(TableCell)({
   textOverflow: 'ellipsis',
-  border: 'none',
   maxWidth: '300px',
 })
 
