@@ -35,7 +35,7 @@ const OneUserLayout: FC<OneUserLayoutProps> = ({path, page, sx}) => {
   ]
 
   return (
-    <Box>
+    <Box sx={{overflowX: 'hidden'}}>
       <Box sx={{marginLeft: '-27px'}}>
         <StyledLinkList arrLinks={links} />
       </Box>

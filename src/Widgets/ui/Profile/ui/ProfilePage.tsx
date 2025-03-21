@@ -170,7 +170,7 @@ const ProfilePage: FC = () => {
         flexWrap="wrap"
         width="100%"
         maxWidth="fit-content"
-        marginBottom="32px"
+        marginBottom="50px"
       >
         <Box
           position="relative"
@@ -264,7 +264,7 @@ const ProfilePage: FC = () => {
               gridTemplateColumns: 'repeat(2, minmax(auto, auto))',
             },
           }}
-          gap="16px"
+          gap="30px"
         >
           <CustomTextField
             type="text"
@@ -312,7 +312,7 @@ const ProfilePage: FC = () => {
           />
         </Box>
         {isEqual && (
-          <Box display="flex" justifyContent="end">
+          <Box display="flex" justifyContent="end" paddingTop="15px">
             <Button
               type="submit"
               disabled={isFetching}

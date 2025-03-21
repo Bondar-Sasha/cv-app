@@ -5,13 +5,17 @@ import {
   Backdrop,
   Box,
   Button,
-  TextField,
   IconButton,
   SelectChangeEvent,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
-import {CustomSelectComponent, LoaderBackdrop, useUser} from '@/Shared'
+import {
+  CustomSelectComponent,
+  CustomTextField,
+  LoaderBackdrop,
+  useUser,
+} from '@/Shared'
 import {useDepartments, usePositions, useUpdateUserProfile} from '@/Features'
 import {useTranslation} from 'react-i18next'
 
@@ -143,33 +147,47 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
             }}
             gap="16px"
           >
-            <TextField
+            <CustomTextField
+              type="email"
+              id="Email"
+              name="email"
+              autoComplete="email"
               disabled
-              {...register('email')}
+              register={register}
               label="Email"
               placeholder="Email"
-              variant="outlined"
             />
-            <TextField
-              disabled
-              {...register('password')}
+            <CustomTextField
               type="password"
+              id="password"
+              name="password"
+              autoComplete="password"
+              disabled
+              register={register}
               label="Password"
               placeholder="Password"
-              variant="outlined"
             />
-            <TextField
-              {...register('firstName')}
+            <CustomTextField
+              type="text"
+              id="First Name"
+              name="First Name"
+              autoComplete="First Name"
+              defaultValue={user?.profile.first_name ?? ''}
+              register={register}
               label="First Name"
               placeholder="First Name"
-              variant="outlined"
             />
-            <TextField
-              {...register('lastName')}
+            <CustomTextField
+              type="text"
+              id="Last Name"
+              name="Last Name"
+              defaultValue={user?.profile.last_name ?? ''}
+              autoComplete="Last Name"
+              register={register}
               label="Last Name"
               placeholder="Last Name"
-              variant="outlined"
             />
+
             <CustomSelectComponent
               value={watch('department')}
               onChange={selectHandler('department')}
