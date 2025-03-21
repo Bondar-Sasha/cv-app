@@ -55,7 +55,12 @@ const CustomSelectComponent: FC<CustomSelectComponentProps> = forwardRef<
                 value={option.value}
                 style={{
                   position: isHidden ? 'sticky' : 'static',
-                  backgroundColor: isHidden ? '#f0f0f0' : 'inherit',
+                  backgroundColor:
+                    isHidden && theme.palette.mode === 'light'
+                      ? '#f0f0f0'
+                      : isHidden && theme.palette.mode === 'dark'
+                        ? theme.palette.background.default
+                        : 'inherit',
                   color: isHidden ? theme.palette.error.main : 'inherit',
                   top: isHidden ? 0 : 'auto',
                   padding: isHidden ? '20px 15px' : '13px 30px',
