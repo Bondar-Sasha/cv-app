@@ -1,10 +1,11 @@
 import {FC, memo, useCallback} from 'react'
-import {Box, IconButton, styled, TableCell, TableRow} from '@mui/material'
+import {Box, TableRow} from '@mui/material'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import {useNavigate} from 'react-router-dom'
 import {useTranslation} from 'react-i18next'
 
 import {AppRouterMap, EnvUserLogo} from '@/Shared'
+import {CustomIconButton, CustomTdCell} from './preparedUi'
 
 interface UserRowProps {
   id: string
@@ -15,19 +16,6 @@ interface UserRowProps {
   last_name: string
   avatar: string
 }
-
-const CustomTdCell = styled(TableCell)({
-  textOverflow: 'ellipsis',
-  maxWidth: '300px',
-})
-
-const CustomIconButton = styled(IconButton)({
-  zIndex: 0,
-  '& .MuiSvgIcon-root': {
-    fontSize: '14px',
-    zIndex: 0,
-  },
-})
 
 const UserRow: FC<UserRowProps> = memo(
   ({id, first_name, last_name, email, department, position, avatar}) => {
