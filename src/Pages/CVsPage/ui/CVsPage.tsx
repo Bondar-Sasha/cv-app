@@ -1,10 +1,10 @@
 import {LoaderBackdrop, NoFoundCell} from '@/Shared'
-import {Paper, Table, TableBody, TableContainer} from '@mui/material'
+import {Paper, Table, TableBody} from '@mui/material'
 import {useState} from 'react'
 import BackdropForm from './BackdropForm'
 import CustomTableHead from './CustomTableHead'
 import CVRow from './CVRow'
-import {TableBox} from './StyledComponents'
+import {CustomTableContainer, TableBox} from './StyledComponents'
 import {useDebounce} from '../hooks/useDebaunced'
 import {useSorting} from '../hooks/useSorting'
 import {useFetchCVs} from '../api/useGetAllCvs'
@@ -36,20 +36,7 @@ const CVsPage = () => {
 
   return (
     <TableBox>
-      <TableContainer
-        component={Paper}
-        sx={(theme) => ({
-          backgroundColor: theme.palette.background.default,
-          boxShadow: 'none',
-          maxHeight: '100vh',
-          paddingRight: '50px',
-          [theme.breakpoints.down('md')]: {
-            width: '100%',
-            minWidth: '600px',
-            paddingRight: '0',
-          },
-        })}
-      >
+      <CustomTableContainer component={Paper}>
         <Table sx={{tableLayout: 'fixed', width: '100%'}} stickyHeader>
           <CustomTableHead
             setOpenForm={setOpenForm}
@@ -78,7 +65,7 @@ const CVsPage = () => {
             )}
           </TableBody>
         </Table>
-      </TableContainer>
+      </CustomTableContainer>
 
       {isOpenForm && (
         <BackdropForm

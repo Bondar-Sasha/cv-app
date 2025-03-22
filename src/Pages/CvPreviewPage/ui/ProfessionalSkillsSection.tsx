@@ -1,5 +1,6 @@
 import {TypographyTitle} from '@/Shared'
 import {
+  CustomTable,
   SectionBox,
   StyledTableCell,
   TableCellInfo,
@@ -7,7 +8,6 @@ import {
 } from './StyledComponents'
 import {
   Paper,
-  Table,
   TableBody,
   TableContainer,
   TableHead,
@@ -35,13 +35,7 @@ const ProfessionalSkillsSection: FC<ProfessionalSkillsSectionProps> = ({
           boxShadow: 'none',
         }}
       >
-        <Table
-          sx={(theme) => ({
-            backgroundColor: theme.palette.background.default,
-            tableLayout: 'fixed',
-            width: '100%',
-          })}
-        >
+        <CustomTable>
           <TableHead>
             <TableRow>
               <StyledTableCell sx={{width: 'auto', textAlign: 'left'}}>
@@ -62,7 +56,7 @@ const ProfessionalSkillsSection: FC<ProfessionalSkillsSectionProps> = ({
               </TableRow>
             ))}
           </TableBody>
-        </Table>
+        </CustomTable>
       </TableContainer>
     </>
   )

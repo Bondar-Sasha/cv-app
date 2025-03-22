@@ -3,11 +3,10 @@ import {useGetCvInfoForDetails} from '../api/useGetInfoForPreview'
 import {LoaderBackdrop, Params, TypographyTitle} from '@/Shared'
 import {RefObject, useEffect, useId, useRef} from 'react'
 import {toast} from 'react-toastify'
-import {Box} from '@mui/material'
 import MainInfo from './MainInfo'
 import ProjectsSection from './ProjectsSection'
 import ProfessionalSkillsSection from './ProfessionalSkillsSection'
-import {SectionBox, WrapperPreview} from './StyledComponents'
+import {CustomBox, SectionBox, WrapperPreview} from './StyledComponents'
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import {useGetSkills} from '@/Features'
@@ -81,36 +80,34 @@ const CvPreviewLayout = () => {
 
   return (
     <WrapperPreview>
-      <>
-        <Box ref={mainInfoRef} sx={{width: '100%'}}>
-          <MainInfo
-            userInfo={userData?.user?.profile}
-            cvData={data.cv}
-            btnId={btnId}
-            handleExport={() => void handleExport()}
+      <CustomBox ref={mainInfoRef}>
+        <MainInfo
+          userInfo={userData?.user?.profile}
+          cvData={data.cv}
+          btnId={btnId}
+          handleExport={() => void handleExport()}
+        />
+      </CustomBox>
+      <CustomBox>
+        <SectionBox>
+          <TypographyTitle title="Projects" sx={{marginBottom: '0'}} />
+        </SectionBox>
+        {data.cv?.projects?.map((elem, index) => (
+          <ProjectsSection
+            refs={(el) => {
+              if (el) {
+                itemRefs.current[index] = el
+              }
+            }}
+            key={elem.project.id}
+            dataProject={elem}
+            userInfo={userData?.user}
           />
-        </Box>
-        <Box sx={{width: '100%'}}>
-          <SectionBox>
-            <TypographyTitle title="Projects" sx={{marginBottom: '0'}} />
-          </SectionBox>
-          {data.cv?.projects?.map((elem, index) => (
-            <ProjectsSection
-              refs={(el) => {
-                if (el) {
-                  itemRefs.current[index] = el
-                }
-              }}
-              key={elem.project.id}
-              dataProject={elem}
-              userInfo={userData?.user}
-            />
-          ))}
-        </Box>
-        <Box ref={skillsSectionRef} sx={{width: '100%'}}>
-          <ProfessionalSkillsSection data={data.cv.skills} />
-        </Box>
-      </>
+        ))}
+      </CustomBox>
+      <CustomBox ref={skillsSectionRef}>
+        <ProfessionalSkillsSection data={data.cv.skills} />
+      </CustomBox>
     </WrapperPreview>
   )
 }

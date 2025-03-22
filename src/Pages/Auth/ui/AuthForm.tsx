@@ -1,10 +1,9 @@
-import {FormControl} from '@mui/material'
 import {FC} from 'react'
 import {useForm} from 'react-hook-form'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {createAuthForm, createAuthShema} from '../api/authShema'
 import {CircleProgress, CustomTextField, StyledButton} from '@/Shared'
-import {BoxCustom, Wrapper} from './StyledComponents'
+import {BoxCustom, CustomFormControl, Wrapper} from './StyledComponents'
 import {useTranslation} from 'react-i18next'
 
 export interface AuthFormProps {
@@ -30,12 +29,7 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
         handleAuth(data.email, data.password)
       })}
     >
-      <FormControl
-        sx={{
-          width: '100%',
-          alignItems: 'center',
-        }}
-      >
+      <CustomFormControl>
         <CustomTextField
           type="email"
           id="email"
@@ -68,7 +62,7 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
             )}
           </StyledButton>
         </Wrapper>
-      </FormControl>
+      </CustomFormControl>
     </BoxCustom>
   )
 }

@@ -1,4 +1,12 @@
-import {Box, BoxProps, styled, Typography, TypographyProps} from '@mui/material'
+import {
+  Box,
+  BoxProps,
+  styled,
+  TableContainer,
+  TableContainerProps,
+  Typography,
+  TypographyProps,
+} from '@mui/material'
 
 export const TypographyCustom = styled(Typography)<TypographyProps>(
   ({theme}) => ({
@@ -13,17 +21,29 @@ export const TypographyCustom = styled(Typography)<TypographyProps>(
   })
 )
 
-export const BoxCustom = styled(Box)<BoxProps>(() => ({
+export const BoxCustom = styled(Box)<BoxProps>({
   display: 'flex',
   gap: '10px',
   width: '100%',
   justifyContent: 'flex-end',
   marginTop: '30px',
-}))
+})
 
-export const TableBox = styled(Box)<BoxProps>(() => ({
+export const TableBox = styled(Box)<BoxProps>({
   display: 'flex',
   flexDirection: 'column',
   padding: '10px 0',
   overflow: 'scroll',
-}))
+})
+
+export const CustomTableContainer = styled(TableContainer)<TableContainerProps>(
+  ({theme}) => ({
+    backgroundColor: theme.palette.background.default,
+    boxShadow: 'none',
+    maxHeight: '100vh',
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+      minWidth: '600px',
+    },
+  })
+)
