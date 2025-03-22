@@ -1,11 +1,11 @@
-import {Backdrop, Box, Button, IconButton, Popover} from '@mui/material'
+import {Backdrop, Box, IconButton, Popover} from '@mui/material'
 import {FC} from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import {useTranslation} from 'react-i18next'
 import {useDeleteCVProject} from '../api'
 import {toast} from 'react-toastify'
 import {useParams} from 'react-router-dom'
-import {Params} from '@/Shared'
+import {Params, StyledButton} from '@/Shared'
 
 interface DeleteProjectPopoverProps {
   open: boolean
@@ -85,36 +85,28 @@ const DeleteProjectPopover: FC<DeleteProjectPopoverProps> = ({
           </span>
         </Box>
         <Box display="flex" justifyContent="end" marginTop="16px">
-          <Button
+          <StyledButton
             disabled={loading}
             onClick={onClose}
-            sx={(theme) => ({
-              borderRadius: '24px',
-              width: '220px',
-              height: '48px',
-              borderColor: theme.palette.text.primary,
-              color: theme.palette.text.primary,
-              marginRight: '8px',
-            })}
             variant="outlined"
+            sx={{
+              marginRight: '8px',
+              height: '48px',
+            }}
           >
             {t('Cancel')}
-          </Button>
-          <Button
+          </StyledButton>
+          <StyledButton
+            variant="contained"
             onClick={handleDelete}
             disabled={loading}
             type="submit"
             sx={{
-              borderRadius: '24px',
-              width: '220px',
               height: '48px',
-              backgroundColor: 'rgb(198, 48, 49)',
-              color: '#f5f5f7',
             }}
-            variant="contained"
           >
             {t('Delete')}
-          </Button>
+          </StyledButton>
         </Box>
       </Popover>
     </Backdrop>
