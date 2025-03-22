@@ -101,6 +101,7 @@ const useSkillsCvData = (userId: string) => {
     error: AllSkillsError || userSkillsError,
     userSkillsData: userSkillsData?.cv.skills,
     refetch,
+    name: userSkillsData?.cv.name,
   }
 }
 

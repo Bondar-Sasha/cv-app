@@ -32,6 +32,7 @@ import {
   FileBox,
   InputsWrapper,
 } from './StyledComponents'
+import {useBreadCrumbsContext} from '@/App'
 
 interface FormFields {
   firstName: string
@@ -50,6 +51,7 @@ const ProfilePage: FC = () => {
   const {user: currentUser, loading: currentUserFetching} = useUser()
 
   const {user, loading, error} = useUser(params.userId)
+  const breadcrumb = useBreadCrumbsContext()
 
   const {uploadAvatar, uploadFetching} = useUploadAvatar()
   const {deleteAvatar, deleteFetching} = useDeleteAvatar()
@@ -121,6 +123,7 @@ const ProfilePage: FC = () => {
 
   useEffect(() => {
     if (user) {
+      breadcrumb.setCurrentBread(user.profile.full_name as string)
       reset({
         firstName: user.profile.first_name || '',
         lastName: user.profile.last_name || '',

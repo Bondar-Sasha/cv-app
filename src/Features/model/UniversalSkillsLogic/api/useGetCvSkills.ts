@@ -12,6 +12,7 @@ export type SkillsCvResult = {
 export const GET_CV_SKILLS = gql`
   query GetCvSkills($cvId: ID!) {
     cv(cvId: $cvId) {
+      name
       skills {
         name
         categoryId

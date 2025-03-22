@@ -12,6 +12,7 @@ import MoreIconWithPopover from './MoreIconWithPopover'
 import DeleteProjectPopover from './DeleteProjectPopover'
 import {TableForProjects, useProjects} from '@/Widgets'
 import {CustomBox, CustomButton} from './StyledElements'
+import {useBreadCrumbsContext} from '@/App'
 
 interface PopupState {
   projectName: string
@@ -45,6 +46,7 @@ const CvProjectsPage: FC = () => {
   const {user} = useUser()
   const params = useParams<Params>()
   const navigate = useNavigate()
+  const breadcrumb = useBreadCrumbsContext()
   const {data: cv, loading: cvLoading} = useCV(params?.cvId)
   const {data: availableProjects, loading: availableProjectsLoading} =
     useProjects()
@@ -79,6 +81,12 @@ const CvProjectsPage: FC = () => {
       ),
     [availableProjects?.projects, cv?.cv?.projects]
   )
+
+  useEffect(() => {
+    if (cv) {
+      breadcrumb.setCurrentBread(cv.cv.name)
+    }
+  }, [cv, breadcrumb])
 
   useEffect(() => {
     if (cvLoading) {

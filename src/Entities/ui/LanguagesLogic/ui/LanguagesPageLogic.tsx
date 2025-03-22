@@ -13,7 +13,7 @@ import LanguagesList from './LanguagesList'
 import LanguageButtons from './LanguageButtons'
 import useEditLanguages from '../hooks/useEditLanguages'
 import useLanguageForm from '../hooks/useLanguageForm'
-import {getCurrentUserID} from '@/App'
+import {getCurrentUserID, useBreadCrumbsContext} from '@/App'
 
 export interface LanguageOption {
   label: string
@@ -28,6 +28,7 @@ const LanguagesPageLogic: FC<LanguagesPageLogicProps> = ({userId}) => {
   const {t} = useTranslation()
   const currentUserId = getCurrentUserID()
   const [mutateDeleteLanguage] = useDeleteProfileLanguage()
+  const breadcrumb = useBreadCrumbsContext()
 
   const {isEdit, edit, handleEdit, handleCancel, clickForEditDelete} =
     useEditLanguages()
@@ -51,7 +52,10 @@ const LanguagesPageLogic: FC<LanguagesPageLogicProps> = ({userId}) => {
     if (UserLanguagesError) {
       toast.error(UserLanguagesError.message)
     }
-  }, [UserLanguagesError])
+    if (UserLanguagesData?.user.profile.full_name) {
+      breadcrumb.setCurrentBread(UserLanguagesData.user.profile.full_name)
+    }
+  }, [UserLanguagesData, UserLanguagesError, breadcrumb])
 
   if (UserLanguagesLoading) {
     return <LoaderBackdrop loading />

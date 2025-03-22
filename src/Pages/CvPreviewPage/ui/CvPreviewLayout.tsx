@@ -1,7 +1,7 @@
 import {useParams} from 'react-router-dom'
 import {useGetCvInfoForDetails} from '../api/useGetInfoForPreview'
 import {LoaderBackdrop, Params, TypographyTitle} from '@/Shared'
-import {RefObject, useEffect, useId, useRef} from 'react'
+import {RefObject, useContext, useEffect, useId, useRef} from 'react'
 import {toast} from 'react-toastify'
 import MainInfo from './MainInfo'
 import ProjectsSection from './ProjectsSection'
@@ -10,12 +10,13 @@ import {CustomBox, SectionBox, WrapperPreview} from './StyledComponents'
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import {useGetSkills} from '@/Features'
-import {getCurrentUserID} from '@/App'
+import {BreadContext, getCurrentUserID} from '@/App'
 
 const CvPreviewLayout = () => {
   const cvId = useParams<Params>().cvId
   const userId = getCurrentUserID()
   const btnId = useId()
+  const breadcrumb = useContext(BreadContext)
   const {data, loading, error} = useGetCvInfoForDetails(cvId || '')
   const {
     data: userData,
@@ -63,6 +64,12 @@ const CvPreviewLayout = () => {
       console.error('Error exporting PDF:', error)
     }
   }
+
+  useEffect(() => {
+    if (data) {
+      breadcrumb.setCurrentBread(data.cv.name)
+    }
+  })
 
   useEffect(() => {
     if (error || userError) {
