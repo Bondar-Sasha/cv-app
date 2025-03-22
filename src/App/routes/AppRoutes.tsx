@@ -26,7 +26,6 @@ import {CvLayout} from '@/Features'
 
 const {
   users,
-
   userLanguages,
   userProfile,
   userSkills,
@@ -35,10 +34,8 @@ const {
   CVProjects,
   CVSkills,
   CVs,
-
   project,
   projects,
-
   skills,
   languages,
   settings,

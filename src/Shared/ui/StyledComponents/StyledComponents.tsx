@@ -4,6 +4,7 @@ export const FormBox = styled(Box)(({theme}) => ({
   backgroundColor: theme.palette.background.default,
   borderRadius: '5px',
   padding: '20px 25px',
+  margin: '0 15px',
   maxWidth: '38%',
   minWidth: '550px',
   width: '100%',
