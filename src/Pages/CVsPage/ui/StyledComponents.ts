@@ -25,4 +25,5 @@ export const TableBox = styled(Box)<BoxProps>(() => ({
   display: 'flex',
   flexDirection: 'column',
   padding: '10px 0',
+  overflow: 'scroll',
 }))

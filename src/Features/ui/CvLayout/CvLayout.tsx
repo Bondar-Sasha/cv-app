@@ -18,6 +18,9 @@ export const Container = styled(Box)(({theme}) => ({
     theme.palette.mode === 'light'
       ? 'linear-gradient(0deg, rgba(245,245,247,0) 0%, rgba(245,245,247,1) 60%)'
       : 'linear-gradient(0deg, rgba(53, 53, 53, 0) 0%, rgba(53, 53, 53, 1) 60%)',
+  '@media (max-width: 768px)': {
+    marginLeft: '0',
+  },
 }))
 
 const CvLayout: FC<CvLayoutProps> = ({page}) => {

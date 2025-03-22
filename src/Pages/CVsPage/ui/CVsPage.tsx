@@ -42,6 +42,12 @@ const CVsPage = () => {
           backgroundColor: theme.palette.background.default,
           boxShadow: 'none',
           maxHeight: '100vh',
+          paddingRight: '50px',
+          [theme.breakpoints.down('md')]: {
+            width: '100%',
+            minWidth: '600px',
+            paddingRight: '0',
+          },
         })}
       >
         <Table sx={{tableLayout: 'fixed', width: '100%'}} stickyHeader>
