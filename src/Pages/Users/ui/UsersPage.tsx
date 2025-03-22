@@ -7,6 +7,7 @@ import {
   Popover,
   TableContainer,
   Paper,
+  TableFooter,
 } from '@mui/material'
 import {useTranslation} from 'react-i18next'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -277,10 +278,8 @@ const UsersPage: FC = () => {
                 }
               />
             )}
-            <TableRow>
-              <TableCell colSpan={6} />
-            </TableRow>
           </TableBody>
+          <TableFooter sx={{height: '100px'}} />
         </CustomTable>
       </TableContainer>
     </main>

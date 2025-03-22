@@ -1,4 +1,4 @@
-<!-- # Calculator Application
+# Calculator Application
 
 ## Table of Contents
 
@@ -10,23 +10,23 @@
 
 ## Task
 
-Source: https://docs.google.com/document/d/1ARKFyS4bzCqgR-s0eeWwyiTtFtoq1-gaXvzhDKYJ5Rk/edit?tab=t.0
+Source: https://curriculum-vitae-project.notion.site/b5c2402e649a44629178f52a8679eff9?v=66b53609862b4aeaa1134e4c6d74af6c
 
 ## How to Run the App
 
 ### Deploy
 
 To access the app via GitHub Pages, simply visit the following link:  
-https://clever-to-do-list-608f2.web.app/
+https://cv-app-8b43a.web.app/
 
 ### On your computer
     
 1) Clone the repository:
    ```bash
-   git clone https://github.com/Bondar-Sasha/Clever-to-do-list
+   git clone https://github.com/Bondar-Sasha/cv-app
 2) Navigate to the project directory:
    ```bash
-   cd Clever-to-do-list
+   cd cv-app
 3) Install dependencies:
    ```bash
    npm ci
@@ -37,32 +37,21 @@ https://clever-to-do-list-608f2.web.app/
 
 ## Apps routes
 
-- `/`: Home page.
-- `/tasks/:taskId"`: Particular task page.
-- `/edit_task/:date/:taskId`: Page for editing your task.
-- `/create_task/:date`: Page for creating task.
-- `/auth/registration`: Register page.
+- `/users`: Home page.
+- `/users/${userId}/profile`: User's profile page.
+- `/users/${userId}/skills`: User's skills page.
+- `/users/${userId}/languages`: User's languages page.
+- `/projects`: Page with projects available to be added to CV.
+- `/cvs`: Page with user's CVs.
+- `/cvs/${cvId}/details`: CV's details page.
+- `/cvs/${cvId}/skills`: Page with user's skills in CV.
+- `/cvs/${cvId}/projects`: Page with projects in CV.
+- `/cvs/${cvId}/preview`: Preview CV page.
+- `/skills`: Page with user's skills.
+- `/languages`: Page with languages, which user knows.
+- `/settings`: Settings page.
+
+- `/auth/signup`: Register page.
 - `/auth/login`: Login page.
-
-## Database snapshot
-
-Collection name: task
-
-- `title` string
-- `description` string
-- `isDone` boolean
-- `date` timestamp
-- `user` string
-- `(id)` environment provides by itself
-
-
-## Application stack
-
-- `react` library
-- `mui` for ui
-- `firebase` backend platform
-- `formik && yup` for forms handling
-- `react-router-dom` app routing
-- `react-toastify` user notification
-- `react-icons` for getting prepared icons
-- `tailwind` css handling -->
+- `/forgot-password`: Page what you can restore your password in.
+- `/reset-password`: Page what you can reset your password in.

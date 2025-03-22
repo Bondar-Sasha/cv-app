@@ -16,7 +16,6 @@ export const CustomThCell = styled(TableCell)({
 
 export const CustomTdCell = styled(TableCell)({
   textOverflow: 'ellipsis',
-  border: 'none',
   maxWidth: '300px',
 })
 
