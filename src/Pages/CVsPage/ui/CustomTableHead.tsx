@@ -1,17 +1,12 @@
 import {WrapperButton} from '@/Features'
 import {SearchInput} from '@/Shared'
-import {
-  IconButton,
-  TableCell,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material'
+import {IconButton, TableCell, TableRow, Typography} from '@mui/material'
 import {useTranslation} from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
 import {FC} from 'react'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import {SortTypes} from './CVsPage'
+import {CustomTblHead} from './StyledComponents'
 
 interface CustomTableHeadProps {
   setOpenForm: (value: boolean) => void
@@ -34,15 +29,7 @@ const CustomTableHead: FC<CustomTableHeadProps> = ({
   const {t} = useTranslation()
 
   return (
-    <TableHead
-      sx={(theme) => ({
-        position: 'sticky',
-        top: '0',
-        left: '0',
-        backgroundColor: theme.palette.background.default,
-        zIndex: theme.zIndex.drawer + 1,
-      })}
-    >
+    <CustomTblHead>
       <TableRow>
         <TableCell sx={{borderBottom: 'none'}} colSpan={2}>
           <SearchInput
@@ -91,7 +78,7 @@ const CustomTableHead: FC<CustomTableHeadProps> = ({
           </Typography>
         </TableCell>
       </TableRow>
-    </TableHead>
+    </CustomTblHead>
   )
 }
 

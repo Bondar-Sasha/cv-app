@@ -4,8 +4,10 @@ import {
   styled,
   TableContainer,
   TableContainerProps,
+  TableHead,
   Typography,
   TypographyProps,
+  TableHeadProps,
 } from '@mui/material'
 
 export const TypographyCustom = styled(Typography)<TypographyProps>(
@@ -47,3 +49,11 @@ export const CustomTableContainer = styled(TableContainer)<TableContainerProps>(
     },
   })
 )
+
+export const CustomTblHead = styled(TableHead)<TableHeadProps>(({theme}) => ({
+  position: 'sticky',
+  top: '0',
+  left: '0',
+  backgroundColor: theme.palette.background.default,
+  zIndex: theme.zIndex.drawer + 1,
+}))
