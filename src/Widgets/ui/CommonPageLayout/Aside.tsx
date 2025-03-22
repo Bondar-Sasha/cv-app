@@ -98,7 +98,6 @@ const Aside: FC = memo(() => {
 
       <Popover
         open={userMenuState}
-        onClose={() => setUserMenu((prev) => !prev)}
         anchorEl={userMenuAnchor.current}
         anchorOrigin={{
           vertical: 'top',
@@ -120,9 +119,10 @@ const Aside: FC = memo(() => {
         >
           <CustomPopoverButton
             sx={{padding: '10px'}}
-            onClick={() =>
+            onClick={() => {
               void navigate(AppRouterMap.userProfile.path(user?.id))
-            }
+              setUserMenu(!userMenuState)
+            }}
           >
             <AccountCircleIcon sx={{marginRight: '10px'}} />
             {t('Profile')}
@@ -132,7 +132,10 @@ const Aside: FC = memo(() => {
               borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
               padding: '10px',
             }}
-            onClick={() => void navigate(AppRouterMap.settings.path)}
+            onClick={() => {
+              void navigate(AppRouterMap.settings.path)
+              setUserMenu(!userMenuState)
+            }}
           >
             <SettingsIcon sx={{marginRight: '10px'}} />
             {t('Settings')}
