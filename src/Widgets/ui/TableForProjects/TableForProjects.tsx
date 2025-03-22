@@ -7,6 +7,7 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
   TableRow,
 } from '@mui/material'
@@ -193,6 +194,7 @@ const TableForProjects: FC<TableForProjectsProps> = ({
             <TableCell colSpan={6} />
           </TableRow>
         </TableBody>
+        <TableFooter sx={{height: '100px'}} />
       </Table>
     </TableContainer>
   )
