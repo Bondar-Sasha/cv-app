@@ -1,66 +1,198 @@
-import {LoaderBackdrop, NoFoundCell, useDebounceSearch} from '@/Shared'
-import {Paper, Table, TableBody} from '@mui/material'
-import {useState} from 'react'
+import {
+  LoaderBackdrop,
+  NoFoundCell,
+  SearchInput,
+  useDebounceSearch,
+  useUser,
+} from '@/Shared'
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Typography,
+} from '@mui/material'
+import {useCallback, useMemo, useState} from 'react'
 import BackdropForm from './BackdropForm'
-import CustomTableHead from './CustomTableHead'
+import AddIcon from '@mui/icons-material/Add'
 import CVRow from './CVRow'
-import {CustomTableContainer, TableBox} from './StyledComponents'
-import {useSorting} from '../hooks/useSorting'
-import {useFetchCVs} from '../api/useGetAllCvs'
+import {CustomTableContainer, CustomTblHead, TableBox} from './StyledComponents'
+import {WrapperButton} from '@/Features'
+import {useTranslation} from 'react-i18next'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import {Cv} from 'cv-graphql'
+import {Navigate} from 'react-router-dom'
 
-export type SortTypes = 'asc' | 'desc'
+interface Filters {
+  searchState: string
+  currentFilter: {
+    id: 'name' | 'education'
+    state: boolean
+  }
+}
+
+interface THeadItem {
+  id: Filters['currentFilter']['id']
+  label: string
+}
+
+const THeadItems: THeadItem[] = [
+  {id: 'name', label: 'Name'},
+  {id: 'education', label: 'Education'},
+]
+
+const filterFunc = (data?: Cv[] | null) => {
+  return (curFilter: Filters['currentFilter']['id'], filterState: boolean) => {
+    return (str: string): Cv[] | null | undefined => {
+      if (!data || data.length === 0) return data
+
+      return data
+        .filter((cv) => (cv.name || '').includes(str))
+        .sort((a, b) => {
+          const aValue = a[curFilter]?.toLowerCase() || ''
+          const bValue = b[curFilter]?.toLowerCase() || ''
+
+          return filterState
+            ? aValue.localeCompare(bValue)
+            : bValue.localeCompare(aValue)
+        })
+    }
+  }
+}
 
 const CVsPage = () => {
+  const {t} = useTranslation()
   const [isOpenForm, setOpenForm] = useState(false)
-  const [searchState, setSearchState] = useState('')
+  const {user, loading, refetch} = useUser()
+  const [filtersState, setFilters] = useState<Filters>({
+    searchState: '',
+    currentFilter: {
+      id: 'name',
+      state: false,
+    },
+  })
+  const debouncedSearchState = useDebounceSearch(filtersState.searchState, 500)
 
-  const debouncedSearchState = useDebounceSearch(searchState)
-  const {data, loading, refetch, employee} = useFetchCVs()
+  const filteredData = useMemo(() => {
+    return filterFunc(user?.cvs)(
+      filtersState.currentFilter.id,
+      filtersState.currentFilter.state
+    )(debouncedSearchState)
+  }, [
+    debouncedSearchState,
+    filtersState.currentFilter.id,
+    filtersState.currentFilter.state,
+    user?.cvs,
+  ])
 
-  const filteredCVs: Cv[] =
-    data?.user?.cvs?.filter((cv: Cv) =>
-      cv.name.toLowerCase().includes(debouncedSearchState.toLowerCase())
-    ) || []
+  const toggleFilter = (id: Filters['currentFilter']['id']) => {
+    setFilters((prev) => ({
+      ...prev,
+      currentFilter: {
+        id,
+        state: prev.currentFilter.id === id ? !prev.currentFilter.state : true,
+      },
+    }))
+  }
 
-  const {
-    sortedData: sortedCVs,
-    sortState,
-    handleSort,
-  } = useSorting(filteredCVs, 'name')
+  const resetSearch = useCallback(() => {
+    setFilters((prev) => ({
+      ...prev,
+      searchState: '',
+    }))
+  }, [setFilters])
 
   if (loading) {
     return <LoaderBackdrop loading={loading} />
+  }
+
+  if (!filteredData) {
+    return <Navigate to="/" />
   }
 
   return (
     <TableBox>
       <CustomTableContainer component={Paper}>
         <Table sx={{width: '100%'}} stickyHeader>
-          <CustomTableHead
-            setOpenForm={setOpenForm}
-            searchState={searchState}
-            setSearchState={setSearchState}
-            sortState={sortState}
-            onSort={handleSort}
-          />
+          <CustomTblHead>
+            <TableRow>
+              <TableCell sx={{borderBottom: 'none'}} colSpan={2}>
+                <SearchInput
+                  placeholder={`${t('Search')}...`}
+                  value={filtersState.searchState}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      searchState: e.target.value,
+                    }))
+                  }
+                  reset={resetSearch}
+                />
+              </TableCell>
+              <TableCell sx={{borderBottom: 'none'}}>
+                <WrapperButton
+                  onClick={() => setOpenForm(true)}
+                  color="rgb(198, 48, 49)"
+                >
+                  <AddIcon style={{marginRight: '14px'}} /> {t('Create CV')}
+                </WrapperButton>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              {THeadItems.map((item) => (
+                <TableCell
+                  key={item.id}
+                  onClick={() => toggleFilter(item.id)}
+                  sx={{cursor: 'pointer'}}
+                >
+                  <Box display="flex" alignItems="center" whiteSpace="nowrap">
+                    <Typography variant="subtitle1" fontWeight="500">
+                      {t(item.label)}
+                    </Typography>
+                    <ArrowUpwardIcon
+                      sx={{
+                        marginLeft: '7px',
+                        visibility:
+                          item.id === filtersState.currentFilter.id
+                            ? 'visible'
+                            : 'hidden',
+                        transform: filtersState.currentFilter.state
+                          ? 'rotate(180deg)'
+                          : 'none',
+                        transition: 'transform 0.2s ease',
+                        fontSize: '15px',
+                      }}
+                    />
+                  </Box>
+                </TableCell>
+              ))}
+
+              <TableCell sx={{display: 'flex', alignItems: 'center'}}>
+                <Typography variant="subtitle1" fontWeight="500">
+                  {t('Employee')}
+                </Typography>
+              </TableCell>
+            </TableRow>
+          </CustomTblHead>
 
           <TableBody
             sx={(theme) => ({
               backgroundColor: theme.palette.background.default,
             })}
           >
-            {sortedCVs.length > 0 ? (
-              sortedCVs.map((cv) => (
+            {filteredData.length > 0 ? (
+              filteredData.map((cv) => (
                 <CVRow
                   key={cv.id as string | number}
                   cv={cv}
-                  employee={employee}
+                  employee={user?.profile.first_name || ''}
                   refetch={refetch}
                 />
               ))
             ) : (
-              <NoFoundCell reset={() => setSearchState('')} />
+              <NoFoundCell reset={resetSearch} />
             )}
           </TableBody>
         </Table>
@@ -70,7 +202,7 @@ const CVsPage = () => {
         <BackdropForm
           isOpen={isOpenForm}
           setOpen={setOpenForm}
-          refetch={() => void refetch()}
+          refetch={refetch}
         />
       )}
     </TableBox>
