@@ -16,10 +16,7 @@ export const WrapperPreview = styled(Box)({
   padding: ' 32px 24px',
   maxWidth: '80%',
   margin: '0 auto',
-  display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
   boxSizing: 'border-box',
 })
 

@@ -38,7 +38,7 @@ const CommonPageLayout: FC = () => {
   return (
     <ResponsiveBox>
       <Aside />
-      <Box boxSizing="border-box" overflow="scroll">
+      <Box boxSizing="border-box">
         <div className={layoutStyles.main_wrapper}>
           <Box
             component={'header'}
@@ -68,6 +68,8 @@ const CommonPageLayout: FC = () => {
                   color="inherit"
                 >
                   {breadFromContext.currentBread.length > 0 &&
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-expect-error
                   Number(breadcrumb?.props.children) ? (
                     <span
                       style={{

@@ -35,14 +35,14 @@ export const TableBox = styled(Box)<BoxProps>({
   display: 'flex',
   flexDirection: 'column',
   padding: '10px 0',
-  overflow: 'scroll',
+  maxHeight: '85vh',
 })
 
 export const CustomTableContainer = styled(TableContainer)<TableContainerProps>(
   ({theme}) => ({
+    '&::-webkit-scrollbar': {width: 0},
     backgroundColor: theme.palette.background.default,
     boxShadow: 'none',
-    maxHeight: '100vh',
     [theme.breakpoints.down('md')]: {
       width: '100%',
       minWidth: '600px',

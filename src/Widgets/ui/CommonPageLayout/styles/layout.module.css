@@ -28,8 +28,7 @@
   box-sizing: border-box;
   grid-template-columns: 1fr;
   grid-template-rows: 44px auto;
-  overflow-x: clip;
-  overflow-y: auto;
+  overflow: auto;
   background-color: inherit;
   color: inherit;
 }

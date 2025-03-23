@@ -1,12 +1,20 @@
 interface IAppRouterMap {
   users: {label: string; path: string}
-  userProfile: {label: string; path: (userId?: string | number) => string}
+  userProfile: {
+    label: string
+    path: (userId?: string | number) => string
+    additionalPath: string
+  }
   userSkills: {label: string; path: (userId?: string | number) => string}
   userLanguages: {label: string; path: (userId?: string | number) => string}
   projects: {label: string; path: string}
   project: {label: string; path: (projectId?: string | number) => string}
   CVs: {label: string; path: string}
-  CVDetails: {label: string; path: (cvId?: string | number) => string}
+  CVDetails: {
+    label: string
+    path: (cvId?: string | number) => string
+    additionalPath: string
+  }
   CVSkills: {label: string; path: (cvId?: string | number) => string}
   CVProjects: {label: string; path: (cvId?: string | number) => string}
   CVPreview: {label: string; path: (cvId?: string | number) => string}
@@ -24,6 +32,7 @@ export const AppRouterMap: IAppRouterMap = {
   userProfile: {
     label: 'Profile',
     path: (userId = ':userId') => `/users/${userId}/profile`,
+    additionalPath: `/users/:userId`,
   },
   userSkills: {
     label: 'Skills',
@@ -43,6 +52,7 @@ export const AppRouterMap: IAppRouterMap = {
   CVDetails: {
     label: 'Details',
     path: (cvId = ':cvId') => `/cvs/${cvId}/details`,
+    additionalPath: `/cvs/:cvId`,
   },
   CVSkills: {
     label: 'Skills',

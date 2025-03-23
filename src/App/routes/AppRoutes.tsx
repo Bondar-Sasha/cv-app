@@ -62,6 +62,10 @@ const AppRoutes: FC = () => {
           <Route index element={<Navigate to="/users" replace />} />
           <Route path={users.path} element={<UsersPage />} />
           <Route path={userProfile.path()} element={<UserProfilePage />} />
+          <Route
+            path={userProfile.additionalPath}
+            element={<UserProfilePage />}
+          />
           <Route path={userSkills.path()} element={<UserSkillsPage />} />
           <Route path={userLanguages.path()} element={<UserLanguagesPage />} />
           <Route path={projects.path} element={<ProjectsPage />} />
@@ -69,6 +73,10 @@ const AppRoutes: FC = () => {
           <Route path={CVs.path} element={<CVsPage />} />
           <Route
             path={CVDetails.path()}
+            element={<CvLayout page={<CvDetailsLayout />} />}
+          />
+          <Route
+            path={CVDetails.additionalPath}
             element={<CvLayout page={<CvDetailsLayout />} />}
           />
           <Route
