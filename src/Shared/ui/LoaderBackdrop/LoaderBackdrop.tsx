@@ -11,7 +11,7 @@ const Loader = styled(Backdrop)(({theme}) => ({
   overflow: 'hidden',
   top: 0,
   left: 0,
-  minWidth: '200px',
+  minHeight: '200px',
   width: '100%',
   height: '100%',
 }))
