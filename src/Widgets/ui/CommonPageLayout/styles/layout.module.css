@@ -3,6 +3,7 @@
   overflow: hidden;
   position: sticky;
   max-height: 100vh;
+  z-index: 200;
   background-color: inherit;
 }
 
