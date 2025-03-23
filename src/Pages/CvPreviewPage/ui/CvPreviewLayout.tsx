@@ -86,7 +86,15 @@ const CvPreviewLayout = () => {
   }
 
   return (
-    <WrapperPreview>
+    <WrapperPreview
+      sx={{
+        maxHeight: '85vh',
+        overflow: 'auto',
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+      }}
+    >
       <CustomBox ref={mainInfoRef}>
         <MainInfo
           userInfo={userData?.user?.profile}
