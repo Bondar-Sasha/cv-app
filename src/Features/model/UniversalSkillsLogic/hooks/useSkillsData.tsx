@@ -100,6 +100,7 @@ const useSkillsData = (userId: string) => {
     loading: AllSkillsLoading || userSkillsLoading,
     error: AllSkillsError || userSkillsError,
     userSkillsData: userSkillsData?.user.profile.skills,
+    name: userSkillsData?.user.profile.full_name,
     refetch,
   }
 }

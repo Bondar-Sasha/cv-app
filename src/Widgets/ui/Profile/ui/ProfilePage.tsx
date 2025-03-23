@@ -5,13 +5,7 @@ import {
   useEffect,
   useRef,
 } from 'react'
-import {
-  Box,
-  Button,
-  IconButton,
-  SelectChangeEvent,
-  useTheme,
-} from '@mui/material'
+import {Box, IconButton, SelectChangeEvent, useTheme} from '@mui/material'
 import {SubmitHandler, useForm} from 'react-hook-form'
 import {useNavigate, useParams} from 'react-router-dom'
 import CloseIcon from '@mui/icons-material/Close'
@@ -23,6 +17,7 @@ import {
   EnvUserLogo,
   LoaderBackdrop,
   Params,
+  StyledButton,
   USER,
   useUser,
 } from '@/Shared'
@@ -31,6 +26,13 @@ import {useUploadAvatar} from '../api/useUploadAvatar'
 import {useDeleteAvatar} from '../api/useDeleteAvatar'
 import {toast} from 'react-toastify'
 import {useTranslation} from 'react-i18next'
+import {
+  CommonWrapper,
+  CustomMain,
+  FileBox,
+  InputsWrapper,
+} from './StyledComponents'
+import {useBreadCrumbsContext} from '@/App'
 
 interface FormFields {
   firstName: string
@@ -49,6 +51,7 @@ const ProfilePage: FC = () => {
   const {user: currentUser, loading: currentUserFetching} = useUser()
 
   const {user, loading, error} = useUser(params.userId)
+  const breadcrumb = useBreadCrumbsContext()
 
   const {uploadAvatar, uploadFetching} = useUploadAvatar()
   const {deleteAvatar, deleteFetching} = useDeleteAvatar()
@@ -120,6 +123,7 @@ const ProfilePage: FC = () => {
 
   useEffect(() => {
     if (user) {
+      breadcrumb.setCurrentBread(user.profile.full_name as string)
       reset({
         firstName: user.profile.first_name || '',
         lastName: user.profile.last_name || '',
@@ -182,29 +186,9 @@ const ProfilePage: FC = () => {
   const isEqual = user?.id === currentUser?.id
   const preparedDate = new Date(Number(user?.profile.created_at)).toDateString()
   return (
-    <Box
-      component="main"
-      width="100%"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-    >
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        flexWrap="wrap"
-        gap="60px"
-        rowGap="0"
-        width="100%"
-        maxWidth="fit-content"
-        marginBottom="50px"
-      >
-        <Box
-          position="relative"
-          alignContent="center"
-          width="120px"
-          height="120px"
+    <CustomMain component="main">
+      <CommonWrapper>
+        <FileBox
           onDragOver={(e) => {
             e.preventDefault()
             e.stopPropagation()
@@ -243,7 +227,7 @@ const ProfilePage: FC = () => {
               />
             )}
           </Box>
-        </Box>
+        </FileBox>
         {isEqual && (
           <Box display="flex" alignItems="center" flexDirection="column">
             <Box component="h3" textAlign="center" margin={0}>
@@ -257,7 +241,7 @@ const ProfilePage: FC = () => {
             </Box>
           </Box>
         )}
-      </Box>
+      </CommonWrapper>
 
       <Box display="flex" flexDirection="column" alignItems="center">
         {user?.profile.full_name && (
@@ -280,19 +264,7 @@ const ProfilePage: FC = () => {
         width="100%"
         sx={{marginTop: '32px'}}
       >
-        <Box
-          width="100%"
-          margin="16px 0"
-          display="grid"
-          gridTemplateColumns="repeat(auto-fit, minmax(auto, 1fr))"
-          sx={{
-            '& > .MuiFormControl-root': {margin: 0},
-            '@media (min-width: 1100px)': {
-              gridTemplateColumns: 'repeat(2, minmax(auto, auto))',
-            },
-          }}
-          gap="30px"
-        >
+        <InputsWrapper>
           <CustomTextField
             type="text"
             id="First Name"
@@ -333,29 +305,25 @@ const ProfilePage: FC = () => {
               label: name,
             }))}
           />
-        </Box>
+        </InputsWrapper>
         {isEqual && (
           <Box display="flex" justifyContent="end" paddingTop="15px">
-            <Button
+            <StyledButton
               type="submit"
               disabled={isFetching}
               loading={isFetching}
+              variant="contained"
               sx={{
-                borderRadius: '24px',
-                width: '100%',
                 maxWidth: '410px',
                 height: '48px',
-                backgroundColor: 'rgb(198, 48, 49)',
-                color: '#f5f5f7',
               }}
-              variant="contained"
             >
               {t('Update')}
-            </Button>
+            </StyledButton>
           </Box>
         )}
       </Box>
-    </Box>
+    </CustomMain>
   )
 }
 

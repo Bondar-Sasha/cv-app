@@ -10,6 +10,7 @@ import {TransformedArray} from '@/Features'
 import useFormData from './hooks/useFormData'
 import {MasteryOptions} from './utilits/MasteryOptions'
 import useSkillsCvData from './hooks/useSkillsCvData'
+import {useBreadCrumbsContext} from '@/App'
 
 interface techno {
   category: string
@@ -51,6 +52,7 @@ const UniversalSkillsLogic = ({
 }: UniversalSkillsPageProps) => {
   const {t} = useTranslation()
   const [openAdd, setOpen] = useState(false)
+  const breadcrumb = useBreadCrumbsContext()
 
   const useSkillsHook = forState === 'skills' ? useSkillsData : useSkillsCvData
   const {
@@ -60,6 +62,7 @@ const UniversalSkillsLogic = ({
     transformedSkills,
     userSkillsData,
     refetch,
+    name,
   } = useSkillsHook(userId)
 
   const transformArray: TransformedArray[] = []
@@ -114,6 +117,12 @@ const UniversalSkillsLogic = ({
       console.error(err)
     }
   }
+
+  useEffect(() => {
+    if (name) {
+      breadcrumb.setCurrentBread(name)
+    }
+  })
 
   useEffect(() => {
     if (error) {

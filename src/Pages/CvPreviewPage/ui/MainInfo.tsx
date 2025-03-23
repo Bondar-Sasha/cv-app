@@ -1,12 +1,13 @@
 import {TypographyTitle} from '@/Shared'
 import {
+  CustomBox,
   LeftBox,
   RightBox,
   SectionBox,
   StyledButtonRed,
   SubsectionTitle,
 } from './StyledComponents'
-import {Box, Typography} from '@mui/material'
+import {Typography} from '@mui/material'
 import {FC} from 'react'
 import {Cv, Profile} from 'cv-graphql'
 
@@ -24,7 +25,7 @@ const MainInfo: FC<MainInfoProps> = ({
   userInfo,
 }) => {
   return (
-    <Box sx={{width: '100%'}}>
+    <CustomBox>
       <SectionBox sx={{justifyContent: 'space-between', alignItems: 'center'}}>
         <TypographyTitle
           title={userInfo.full_name ?? ''}
@@ -67,7 +68,7 @@ const MainInfo: FC<MainInfoProps> = ({
           ))}
         </RightBox>
       </SectionBox>
-    </Box>
+    </CustomBox>
   )
 }
 

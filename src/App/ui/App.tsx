@@ -1,4 +1,4 @@
-import {FC, useEffect} from 'react'
+import {FC, useEffect, useState} from 'react'
 import 'react-toastify/dist/ReactToastify.css'
 import {ToastContainer} from 'react-toastify'
 import {ThemeProvider} from '@mui/material'
@@ -13,6 +13,7 @@ import useThemeMode, {ThemeContext} from '../providers/ThemeProvider'
 import i18n from '@/Shared/i18n/i18n'
 import {useTokens} from '../utils'
 import {LoaderBackdrop} from '@/Shared'
+import {BreadContext} from '../providers'
 
 const TOKEN_REFRESH_INTERVAL = 590000
 
@@ -20,6 +21,7 @@ const App: FC = () => {
   const client = useApolloClient()
   const {theme, themeMode, handleChangeTheme} = useThemeMode()
   const {isFetching, accessToken, refetchTokens} = useTokens()
+  const [currentBread, setCurrentBread] = useState('')
 
   useEffect(() => {
     if (accessToken) {
@@ -47,7 +49,9 @@ const App: FC = () => {
     <I18nextProvider i18n={i18n}>
       <ThemeContext.Provider value={{themeMode, handleChangeTheme}}>
         <ThemeProvider theme={theme}>
-          {isFetching ? <LoaderBackdrop loading /> : <AppRoutes />}
+          <BreadContext.Provider value={{currentBread, setCurrentBread}}>
+            {isFetching ? <LoaderBackdrop loading /> : <AppRoutes />}
+          </BreadContext.Provider>
         </ThemeProvider>
       </ThemeContext.Provider>
       <ToastContainer

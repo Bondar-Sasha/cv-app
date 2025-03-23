@@ -4,7 +4,6 @@ import {
   Popover,
   Backdrop,
   Box,
-  Button,
   IconButton,
   SelectChangeEvent,
 } from '@mui/material'
@@ -14,12 +13,14 @@ import {
   CustomSelectComponent,
   CustomTextField,
   LoaderBackdrop,
+  StyledButton,
   useUser,
 } from '@/Shared'
 import {useDepartments, usePositions, useUpdateUserProfile} from '@/Features'
 import {useTranslation} from 'react-i18next'
 import {Navigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
+import {FormWrapper, SelectmWrapper} from './preparedUi'
 
 interface UpdateProfilePopupProps {
   open: boolean
@@ -120,14 +121,7 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
           },
         }}
       >
-        <Box
-          component="form"
-          display="flex"
-          flexDirection="column"
-          maxWidth="900px"
-          width="100%"
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <FormWrapper component="form" onSubmit={handleSubmit(onSubmit)}>
           <Box
             display="flex"
             justifyContent="space-between"
@@ -142,17 +136,7 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
               <CloseIcon />
             </IconButton>
           </Box>
-          <Box
-            margin="16px 0"
-            display="grid"
-            gridTemplateColumns="repeat(auto-fit, minmax(auto, 1fr))"
-            sx={{
-              '@media (min-width: 900px)': {
-                gridTemplateColumns: 'repeat(2, minmax(auto, 410px))',
-              },
-            }}
-            gap="16px"
-          >
+          <SelectmWrapper>
             <CustomTextField
               type="email"
               id="Email"
@@ -222,42 +206,36 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
                 {value: 'Employee', label: 'Employee'},
               ]}
             />
-          </Box>
+          </SelectmWrapper>
           <Box display="flex" justifyContent="end" marginTop="16px">
-            <Button
+            <StyledButton
+              variant="outlined"
               onClick={() => {
                 reset()
                 onClose()
               }}
               loading={isFetching}
-              sx={(theme) => ({
-                borderRadius: '24px',
+              sx={{
                 width: '220px',
-                height: '48px',
-                borderColor: theme.palette.text.primary,
-                color: theme.palette.text.primary,
                 marginRight: '8px',
-              })}
-              variant="outlined"
+                height: '48px',
+              }}
             >
               {t('Cancel')}
-            </Button>
-            <Button
+            </StyledButton>
+            <StyledButton
               type="submit"
               loading={isFetching}
+              variant="contained"
               sx={{
-                borderRadius: '24px',
                 width: '220px',
                 height: '48px',
-                backgroundColor: 'rgb(198, 48, 49)',
-                color: '#f5f5f7',
               }}
-              variant="contained"
             >
               {t('Update')}
-            </Button>
+            </StyledButton>
           </Box>
-        </Box>
+        </FormWrapper>
       </Popover>
     </Backdrop>
   )

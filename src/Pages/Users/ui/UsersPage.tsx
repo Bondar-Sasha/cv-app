@@ -5,7 +5,6 @@ import {
   TableRow,
   TableCell,
   Popover,
-  TableContainer,
   Paper,
   TableFooter,
 } from '@mui/material'
@@ -30,6 +29,7 @@ import {
   CustomIconButton,
   CustomTable,
   CustomTableButton,
+  CustomTableContainer,
   CustomTableHead,
   CustomTdCell,
   CustomThCell,
@@ -141,15 +141,7 @@ const UsersPage: FC = () => {
           setPopup(false)
         }}
       />
-      <TableContainer
-        component={Paper}
-        sx={(theme) => ({
-          backgroundColor: theme.palette.background.default,
-          '&::-webkit-scrollbar': {width: 0},
-          boxShadow: 'none',
-          maxHeight: '100vh',
-        })}
-      >
+      <CustomTableContainer component={Paper}>
         <CustomTable stickyHeader>
           <CustomTableHead>
             <TableRow>
@@ -158,7 +150,6 @@ const UsersPage: FC = () => {
                 sx={{
                   borderBottom: 'none',
                   padding: 0,
-
                   paddingBottom: '7px',
                   '@media (width <= 768px)': {
                     paddingLeft: '0',
@@ -281,7 +272,7 @@ const UsersPage: FC = () => {
           </TableBody>
           <TableFooter sx={{height: '100px'}} />
         </CustomTable>
-      </TableContainer>
+      </CustomTableContainer>
     </main>
   )
 }

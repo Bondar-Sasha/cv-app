@@ -3,7 +3,6 @@ import {
   Popover,
   Backdrop,
   Box,
-  Button,
   TextField,
   IconButton,
   SelectChangeEvent,
@@ -19,13 +18,13 @@ import {SubmitHandler, useForm} from 'react-hook-form'
 import {z} from 'zod'
 import {toast} from 'react-toastify'
 
-import {CustomSelectComponent, CustomTextField} from '@/Shared'
+import {CustomSelectComponent, CustomTextField, StyledButton} from '@/Shared'
 import EnvSelect from './EnvSelect'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {useAddCvProject, useUpdateCvProject} from '../api'
 import {AddCvProjectInput} from 'cv-graphql'
 import {Params, useParams} from 'react-router-dom'
-import {CustomDate} from './StyledElements'
+import {CustomDate, SelectWrapper} from './StyledElements'
 
 interface PreparedProject {
   projectId: string
@@ -188,17 +187,7 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
               <CloseIcon />
             </IconButton>
           </Box>
-          <Box
-            margin="16px 0"
-            display="grid"
-            gridTemplateColumns="repeat(auto-fit, minmax(auto, 1fr))"
-            sx={{
-              '@media (min-width: 900px)': {
-                gridTemplateColumns: 'repeat(2, minmax(auto, 600px))',
-              },
-            }}
-            gap="30px"
-          >
+          <SelectWrapper>
             <CustomSelectComponent
               disabled={!isCreating}
               value={selectedProject}
@@ -249,7 +238,7 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
                 label={t('End Date')}
               />
             </LocalizationProvider>
-          </Box>
+          </SelectWrapper>
           <CustomTextField
             disabled
             multiline
@@ -285,35 +274,29 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
           />
 
           <Box display="flex" justifyContent="end" marginTop="16px">
-            <Button
+            <StyledButton
               disabled={addingLoading || updatingLoading}
               onClick={onClose}
-              sx={(theme) => ({
-                borderRadius: '24px',
-                width: '220px',
-                height: '48px',
-                borderColor: theme.palette.text.primary,
-                color: theme.palette.text.primary,
-                marginRight: '8px',
-              })}
               variant="outlined"
+              sx={{
+                width: '220px',
+                marginRight: '8px',
+                height: '48px',
+              }}
             >
               {t('Cancel')}
-            </Button>
-            <Button
+            </StyledButton>
+            <StyledButton
               disabled={addingLoading || updatingLoading}
               type="submit"
+              variant="contained"
               sx={{
-                borderRadius: '24px',
                 width: '220px',
                 height: '48px',
-                backgroundColor: 'rgb(198, 48, 49)',
-                color: '#f5f5f7',
               }}
-              variant="contained"
             >
               {isCreating ? t('Add') : t('Update')}
-            </Button>
+            </StyledButton>
           </Box>
         </Box>
       </Popover>

@@ -7,6 +7,8 @@ import {
   TableCellProps,
   SxProps,
   TableCell,
+  BoxProps,
+  Table,
 } from '@mui/material'
 import {FC} from 'react'
 
@@ -141,3 +143,13 @@ export const TableCellTechno: FC<StyledTableCellProps> = ({
     </TableCell>
   )
 }
+
+export const CustomBox = styled(Box)<BoxProps>({
+  width: '100%',
+})
+
+export const CustomTable = styled(Table)(({theme}) => ({
+  backgroundColor: theme.palette.background.default,
+  tableLayout: 'fixed',
+  width: '100%',
+}))

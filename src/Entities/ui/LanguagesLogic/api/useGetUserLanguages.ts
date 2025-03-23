@@ -13,6 +13,7 @@ export const GET_USER_LANGUAGES = gql`
   query GetLanguages($userId: ID!) {
     user(userId: $userId) {
       profile {
+        full_name
         languages {
           name
           proficiency

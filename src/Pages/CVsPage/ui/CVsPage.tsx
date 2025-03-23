@@ -1,11 +1,10 @@
-import {LoaderBackdrop, NoFoundCell} from '@/Shared'
-import {Paper, Table, TableBody, TableContainer} from '@mui/material'
+import {LoaderBackdrop, NoFoundCell, useDebounceSearch} from '@/Shared'
+import {Paper, Table, TableBody} from '@mui/material'
 import {useState} from 'react'
 import BackdropForm from './BackdropForm'
 import CustomTableHead from './CustomTableHead'
 import CVRow from './CVRow'
-import {TableBox} from './StyledComponents'
-import {useDebounce} from '../hooks/useDebaunced'
+import {CustomTableContainer, TableBox} from './StyledComponents'
 import {useSorting} from '../hooks/useSorting'
 import {useFetchCVs} from '../api/useGetAllCvs'
 import {Cv} from 'cv-graphql'
@@ -16,7 +15,7 @@ const CVsPage = () => {
   const [isOpenForm, setOpenForm] = useState(false)
   const [searchState, setSearchState] = useState('')
 
-  const debouncedSearchState = useDebounce(searchState)
+  const debouncedSearchState = useDebounceSearch(searchState)
   const {data, loading, refetch, employee} = useFetchCVs()
 
   const filteredCVs: Cv[] =
@@ -36,15 +35,8 @@ const CVsPage = () => {
 
   return (
     <TableBox>
-      <TableContainer
-        component={Paper}
-        sx={(theme) => ({
-          backgroundColor: theme.palette.background.default,
-          boxShadow: 'none',
-          maxHeight: '100vh',
-        })}
-      >
-        <Table sx={{tableLayout: 'fixed', width: '100%'}} stickyHeader>
+      <CustomTableContainer component={Paper}>
+        <Table sx={{width: '100%'}} stickyHeader>
           <CustomTableHead
             setOpenForm={setOpenForm}
             searchState={searchState}
@@ -72,7 +64,7 @@ const CVsPage = () => {
             )}
           </TableBody>
         </Table>
-      </TableContainer>
+      </CustomTableContainer>
 
       {isOpenForm && (
         <BackdropForm

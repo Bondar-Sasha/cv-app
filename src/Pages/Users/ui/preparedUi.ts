@@ -6,6 +6,9 @@ import {
   Table,
   TableCell,
   TableHead,
+  TableContainerProps,
+  BoxProps,
+  TableContainer,
 } from '@mui/material'
 
 export const CustomThCell = styled(TableCell)({
@@ -63,3 +66,29 @@ export const CustomTable = styled(Table)(({theme}) => ({
   },
   color: 'inherit',
 }))
+
+export const FormWrapper = styled(Box)<BoxProps>({
+  display: 'flex',
+  flexDirection: 'column',
+  maxWidth: '900px',
+  width: '100%',
+})
+
+export const SelectmWrapper = styled(Box)<BoxProps>({
+  margin: '16px 0',
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(auto, 1fr))',
+  '@media (min-width: 900px)': {
+    gridTemplateColumns: 'repeat(2, minmax(auto, 410px))',
+  },
+  gap: '16px',
+})
+
+export const CustomTableContainer = styled(TableContainer)<TableContainerProps>(
+  ({theme}) => ({
+    backgroundColor: theme.palette.background.default,
+    '&::-webkit-scrollbar': {width: 0},
+    boxShadow: 'none',
+    maxHeight: '100vh',
+  })
+)

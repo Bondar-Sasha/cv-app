@@ -9,6 +9,7 @@ import layoutStyles from './styles/layout.module.css'
 import {AppRouterMap} from '@/Shared'
 import Aside from './Aside'
 import {ResponsiveBox} from './preparedUi'
+import {useBreadCrumbsContext} from '@/App'
 
 const preparedRoutes: BreadcrumbsRoute[] = Object.keys(AppRouterMap)
   .map((item) => {
@@ -28,6 +29,7 @@ const preparedRoutes: BreadcrumbsRoute[] = Object.keys(AppRouterMap)
 const CommonPageLayout: FC = () => {
   const location = useLocation()
   const {t} = useTranslation()
+  const breadFromContext = useBreadCrumbsContext()
 
   const breadcrumbs = getBreadcrumbs({location, routes: preparedRoutes}).filter(
     ({match}) => match.pathname !== '/'
@@ -36,7 +38,7 @@ const CommonPageLayout: FC = () => {
   return (
     <ResponsiveBox>
       <Aside />
-      <Box boxSizing="border-box" overflow="clip">
+      <Box boxSizing="border-box" overflow="scroll">
         <div className={layoutStyles.main_wrapper}>
           <Box
             component={'header'}
@@ -65,7 +67,18 @@ const CommonPageLayout: FC = () => {
                   underline="hover"
                   color="inherit"
                 >
-                  {isValidElement(breadcrumb) && t(breadcrumb.props.children)}
+                  {breadFromContext.currentBread.length > 0 &&
+                  Number(breadcrumb?.props.children) ? (
+                    <span
+                      style={{
+                        color: 'rgb(198, 48, 49)',
+                      }}
+                    >
+                      {breadFromContext.currentBread}
+                    </span>
+                  ) : (
+                    isValidElement(breadcrumb) && t(breadcrumb.props.children)
+                  )}
                 </CustomLink>
               ))}
             </Breadcrumbs>

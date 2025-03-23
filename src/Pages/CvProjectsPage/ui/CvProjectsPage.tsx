@@ -1,7 +1,7 @@
 import {useCV} from '@/Features'
 import React, {FC, useEffect, useMemo, useState} from 'react'
 import AddIcon from '@mui/icons-material/Add'
-import {Box, Button, TableCell, TableRow} from '@mui/material'
+import {Box, TableCell, TableRow} from '@mui/material'
 import {useTranslation} from 'react-i18next'
 import {Navigate, useNavigate, useParams} from 'react-router-dom'
 
@@ -11,6 +11,8 @@ import MoreIconWithPopover from './MoreIconWithPopover'
 
 import DeleteProjectPopover from './DeleteProjectPopover'
 import {TableForProjects, useProjects} from '@/Widgets'
+import {CustomBox, CustomButton} from './StyledElements'
+import {useBreadCrumbsContext} from '@/App'
 
 interface PopupState {
   projectName: string
@@ -44,6 +46,7 @@ const CvProjectsPage: FC = () => {
   const {user} = useUser()
   const params = useParams<Params>()
   const navigate = useNavigate()
+  const breadcrumb = useBreadCrumbsContext()
   const {data: cv, loading: cvLoading} = useCV(params?.cvId)
   const {data: availableProjects, loading: availableProjectsLoading} =
     useProjects()
@@ -80,6 +83,12 @@ const CvProjectsPage: FC = () => {
   )
 
   useEffect(() => {
+    if (cv) {
+      breadcrumb.setCurrentBread(cv.cv.name)
+    }
+  }, [cv, breadcrumb])
+
+  useEffect(() => {
     if (cvLoading) {
       return
     }
@@ -106,30 +115,16 @@ const CvProjectsPage: FC = () => {
       <TableForProjects
         data={cv.cv.projects || []}
         addButton={
-          <Button
+          <CustomButton
             disabled={availableProjectsForSelect?.length === 0}
             variant="text"
             onClick={() => {
               setPopup({open: true, isCreating: true, projectName: ''})
             }}
-            sx={(theme) => ({
-              color: 'rgb(198, 48, 49)',
-              width: '220px',
-              height: '40px',
-              borderRadius: '20px',
-              display: 'flex',
-              alignItems: 'center',
-              '&:hover': {
-                backgroundColor:
-                  theme.palette.mode === 'light'
-                    ? 'rgb(236, 209, 210)'
-                    : 'rgba(198, 48, 49, 0.08)',
-              },
-            })}
           >
             <AddIcon sx={{color: 'inherit', marginRight: '7px'}} />
             {t('Add project')}
-          </Button>
+          </CustomButton>
         }
       >
         {(project) => {
@@ -184,7 +179,6 @@ const CvProjectsPage: FC = () => {
                       paddingRight: '16px',
                       textAlign: 'justify',
                       opacity: 0.5,
-
                       maxWidth: '300px',
                     }}
                     colSpan={6}
@@ -195,21 +189,7 @@ const CvProjectsPage: FC = () => {
                 {preparedResponsibilities && (
                   <TableRow>
                     <TableCell colSpan={6}>
-                      <Box
-                        sx={(theme) => ({
-                          bgcolor: theme.palette.background.default,
-                          borderRadius: '10px',
-                          height: '20px',
-                          border: '1px solid rgb(189, 189, 189)',
-                          width: 'fit-content',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          padding: ' 0 7px',
-                          maxWidth: '300px',
-                        })}
-                      >
-                        {preparedResponsibilities}
-                      </Box>
+                      <CustomBox>{preparedResponsibilities}</CustomBox>
                     </TableCell>
                   </TableRow>
                 )}

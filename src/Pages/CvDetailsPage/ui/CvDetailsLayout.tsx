@@ -14,12 +14,14 @@ import {
 import {useGetCvDetails} from '../api/useGetCvDetails'
 import {useUpdateCvDetails} from '../api/useUpdateCvDetails'
 import {useTranslation} from 'react-i18next'
+import {useBreadCrumbsContext} from '@/App'
 
 const CvDetailsLayout = () => {
   const {t} = useTranslation()
   const {cvId = ''} = useParams()
-  const {data, loading, error} = useGetCvDetails(cvId)
+  const {data, loading, error, refetch} = useGetCvDetails(cvId)
   const [isDisabled, setIsDisabled] = useState(true)
+  const breadcrumb = useBreadCrumbsContext()
   const [initialValues, setInitialValues] = useState<CvFormType>({
     name: '',
     education: '',
@@ -44,10 +46,11 @@ const CvDetailsLayout = () => {
         education: data.cv.education || '',
         description: data.cv.description,
       }
+      breadcrumb.setCurrentBread(data.cv.name)
       reset(newValues)
       setInitialValues(newValues)
     }
-  }, [data, reset])
+  }, [breadcrumb, data, reset])
 
   const watchedFields = watch()
 
@@ -74,6 +77,7 @@ const CvDetailsLayout = () => {
       },
       onCompleted: () => {
         toast('CV was updated')
+        void refetch()
       },
     }).catch((error) => {
       console.error('Update cv failed', error)
