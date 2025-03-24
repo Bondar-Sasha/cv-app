@@ -1,12 +1,10 @@
-# Calculator Application
+# Curriculum Vitae team
 
 ## Table of Contents
 
 - [Task](#task)
 - [How to run the app](#how-to-run-the-app)
 - [Apps routes](#apps-routes)
-- [Database snapshot](#database-snapshot)
-- [Application stack](#application-stack)
 
 ## Task
 
