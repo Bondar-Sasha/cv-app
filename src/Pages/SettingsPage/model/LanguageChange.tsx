@@ -16,7 +16,7 @@ const LanguageChange = () => {
   return (
     <>
       <CustomSelectComponent
-        value={i18n.language}
+        value={i18n.language.split('-')[0]}
         onChange={handleChangeLanguage}
         options={LanguageOptions}
         label="Language"
