@@ -24,7 +24,7 @@ const ResetPasswordForm = () => {
       void navigate(AppRouterMap.login.path)
       toast('Password has been reset')
     } catch (error) {
-      console.error(error)
+      toast.error((error as Error).message)
     }
   }
 

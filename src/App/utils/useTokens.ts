@@ -29,7 +29,6 @@ interface GetUserArgs {
 interface ReceivedUser {
   user: User
 }
-const userId = localStorage.getItem('userId')
 
 export const useTokens = () => {
   const client = useApolloClient()
@@ -53,7 +52,6 @@ export const useTokens = () => {
         return
       }
       localStorage.setItem('refreshToken', data.updateToken.refresh_token)
-
       return data.updateToken.access_token
     } catch (error) {
       localStorage.removeItem('refreshToken')
@@ -64,9 +62,6 @@ export const useTokens = () => {
   useEffect(() => {
     void (async () => {
       try {
-        if (!userId) {
-          return
-        }
         setIsLoading(true)
         const accessToken = await handleGetTokens()
 
@@ -74,6 +69,7 @@ export const useTokens = () => {
           return
         }
         client.setLink(preparedApolloLink(accessToken))
+        const userId = localStorage.getItem('userId')
         const {data} = await getUser({
           variables: {userId: userId as string | number},
           fetchPolicy: 'cache-and-network',

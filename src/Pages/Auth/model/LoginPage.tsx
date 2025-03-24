@@ -13,7 +13,7 @@ const LoginPage = () => {
         auth: {email: email, password: password},
       },
       onError(error) {
-        toast(error.message)
+        toast.error((error as Error).message)
       },
     }).catch((error) => {
       console.error('Login failed', error)

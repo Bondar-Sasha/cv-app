@@ -38,7 +38,7 @@ const ForgotPasswordForm = () => {
       void navigate(AppRouterMap.login.path)
       toast.success('Check your email inbox')
     } catch (error) {
-      console.error(error)
+      toast.error((error as Error).message)
     }
   }
 
