@@ -28,27 +28,24 @@ const ForgotPasswordForm = () => {
   const [mutateForgot, {loading}] = useForgotPassword()
   const {t} = useTranslation()
 
-  const handleForgot = (email: string) => {
-    mutateForgot({
-      variables: {
-        auth: {email: email},
-      },
-      onCompleted() {
-        void navigate(AppRouterMap.login.path)
-        toast('Check your email inbox')
-      },
-      onError(error) {
-        toast(error.message)
-      },
-    }).catch((error) => {
+  const handleForgot = async (email: string) => {
+    try {
+      await mutateForgot({
+        variables: {
+          auth: {email: email},
+        },
+      })
+      void navigate(AppRouterMap.login.path)
+      toast.success('Check your email inbox')
+    } catch (error) {
       console.error(error)
-    })
+    }
   }
 
   return (
     <CustomForm
       onSubmit={handleSubmit((data) => {
-        handleForgot(data.email)
+        void handleForgot(data.email)
       })}
     >
       <FormControlled>
