@@ -134,7 +134,6 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
       onClose()
     } catch (error) {
       toast.error((error as Error).message)
-
       console.error(error)
     }
   }

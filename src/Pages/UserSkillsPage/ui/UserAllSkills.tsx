@@ -7,7 +7,8 @@ import {toast} from 'react-toastify'
 import {useEffect} from 'react'
 
 const UserAllSkills = () => {
-  const ID = useParams().userId || ''
+  const {userId} = useParams()
+  const ID = userId || ''
 
   const {error, groupedData, loading} = useSkillsData(ID)
 
@@ -15,7 +16,7 @@ const UserAllSkills = () => {
     if (error) {
       toast(error.message)
     }
-  })
+  }, [error])
 
   if (loading) {
     return <LoaderBackdrop loading />

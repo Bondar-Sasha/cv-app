@@ -128,7 +128,7 @@ const UniversalSkillsLogic = ({
     if (error) {
       toast(error.message)
     }
-  })
+  }, [error])
 
   if (loading) {
     return <LoaderBackdrop loading />

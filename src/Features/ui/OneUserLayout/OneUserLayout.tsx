@@ -14,21 +14,21 @@ export interface OneUserLayoutProps {
 export type HeaderLinks = 'profile' | 'skills' | 'languages'
 
 const OneUserLayout: FC<OneUserLayoutProps> = ({path, page, sx}) => {
-  const id = useParams().userId
+  const {userId} = useParams()
 
   const links = [
     {
-      to: AppRouterMap.userProfile.path(id),
+      to: AppRouterMap.userProfile.path(userId),
       label: 'Profile',
       active: path === 'profile',
     },
     {
-      to: AppRouterMap.userSkills.path(id),
+      to: AppRouterMap.userSkills.path(userId),
       label: 'Skills',
       active: path === 'skills',
     },
     {
-      to: AppRouterMap.userLanguages.path(id),
+      to: AppRouterMap.userLanguages.path(userId),
       label: 'Languages',
       active: path === 'languages',
     },

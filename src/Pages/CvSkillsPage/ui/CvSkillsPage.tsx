@@ -7,7 +7,8 @@ import {Mastery} from 'cv-graphql'
 import {toast} from 'react-toastify'
 
 const CvSkillsPage = () => {
-  const cvId = useParams().cvId || ''
+  const {cvId} = useParams()
+  const ID = cvId || ''
 
   const [mutateAddCvSkill] = useAddCvSkill()
   const [mutateDeleteCvSkill] = useDeleteCvSkill()
@@ -24,7 +25,7 @@ const CvSkillsPage = () => {
           skill: {
             name: skill,
             mastery: skillMaster as Mastery,
-            cvId: cvId,
+            cvId: ID,
             categoryId: categoryId,
           },
         },
@@ -46,7 +47,7 @@ const CvSkillsPage = () => {
           skill: {
             name: skill,
             mastery: skillMaster as Mastery,
-            cvId: cvId,
+            cvId: ID,
             categoryId: categoryId,
           },
         },
@@ -62,7 +63,7 @@ const CvSkillsPage = () => {
       await mutateDeleteCvSkill({
         variables: {
           skill: {
-            cvId: cvId,
+            cvId: ID,
             name: [...arr],
           },
         },
@@ -76,7 +77,7 @@ const CvSkillsPage = () => {
   return (
     <UniversalSkillsLogic
       forState="cv"
-      userId={cvId}
+      userId={ID}
       handleDeleteSkill={handleDeleteCvSkill}
       handleAddSkill={handleAddCvSkill}
       handleUpdateSkill={handleUpdateSkill}
