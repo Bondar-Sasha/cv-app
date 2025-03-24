@@ -131,7 +131,7 @@ const ProfilePage: FC = () => {
         position: user.position?.id || '',
       })
     }
-  }, [user, reset])
+  }, [user, reset, breadcrumb])
 
   useEffect(() => {
     if (error) {
