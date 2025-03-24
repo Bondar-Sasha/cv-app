@@ -115,7 +115,7 @@ const ProfilePage: FC = () => {
         refetchQueries: [{query: USER, variables: {userId: user.id}}],
       })
     } catch (error) {
-      console.error(error)
+      toast.error((error as Error).message)
     }
   }
 
