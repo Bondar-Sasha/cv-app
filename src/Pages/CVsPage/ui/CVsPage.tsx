@@ -105,7 +105,7 @@ const CVsPage = () => {
   }, [setFilters])
 
   if (loading) {
-    return <LoaderBackdrop loading={loading} />
+    return <LoaderBackdrop loading />
   }
 
   if (!filteredData) {
