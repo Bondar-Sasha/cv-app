@@ -66,6 +66,7 @@ const CommonPageLayout: FC = () => {
                   key={match.pathname}
                   underline="hover"
                   color="inherit"
+                  sx={{maxWidth: '200px'}}
                 >
                   {breadFromContext.currentBread.length > 0 &&
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
