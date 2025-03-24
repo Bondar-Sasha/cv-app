@@ -1,21 +1,14 @@
 export function getColorProficiency(proficiency: number): string {
-  let color: string
   switch (proficiency) {
     case 100:
-      color = 'rgb(198, 48, 49)'
-      break
+      return 'rgb(198, 48, 49)'
     case 80:
-      color = 'rgb(255, 184, 0)'
-      break
+      return 'rgb(255, 184, 0)'
     case 60:
-      color = 'rgb(46, 125, 50)'
-      break
+      return 'rgb(46, 125, 50)'
     case 40:
-      color = 'rgb(2, 136, 209)'
-      break
+      return 'rgb(2, 136, 209)'
     default:
-      color = 'rgb(118, 118, 118)'
-      break
+      return 'rgb(118, 118, 118)'
   }
-  return color
 }

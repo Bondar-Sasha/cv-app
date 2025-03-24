@@ -24,27 +24,27 @@ export const Container = styled(Box)(({theme}) => ({
 }))
 
 const CvLayout: FC<CvLayoutProps> = ({page}) => {
-  const id = useParams().cvId
+  const {cvId} = useParams()
   const path = useLocation().pathname.split('/').at(-1)
 
   const links = [
     {
-      to: AppRouterMap.CVDetails.path(id),
+      to: AppRouterMap.CVDetails.path(cvId),
       label: 'Details',
       active: path === 'details',
     },
     {
-      to: AppRouterMap.CVSkills.path(id),
+      to: AppRouterMap.CVSkills.path(cvId),
       label: 'Skills',
       active: path === 'skills',
     },
     {
-      to: AppRouterMap.CVProjects.path(id),
+      to: AppRouterMap.CVProjects.path(cvId),
       label: 'Projects',
       active: path === 'projects',
     },
     {
-      to: AppRouterMap.CVPreview.path(id),
+      to: AppRouterMap.CVPreview.path(cvId),
       label: 'Preview',
       active: path === 'preview',
     },

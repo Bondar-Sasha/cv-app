@@ -3,7 +3,8 @@ import {OneUserLayout} from '@/Features'
 import {useParams} from 'react-router-dom'
 
 const UserLanguagesPage = () => {
-  const ID = useParams().userId || ''
+  const {userId} = useParams()
+  const ID = userId || ''
 
   return (
     <OneUserLayout

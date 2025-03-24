@@ -14,21 +14,18 @@ const ResetPasswordForm = () => {
   const [mutateForgot, {loading}] = useResetPassword()
   const {t} = useTranslation()
 
-  const handleForgot = (password: string) => {
-    mutateForgot({
-      variables: {
-        auth: {newPassword: password},
-      },
-      onCompleted() {
-        void navigate(AppRouterMap.login.path)
-        toast('Password has been reset')
-      },
-      onError(error) {
-        toast(error.message)
-      },
-    }).catch((error) => {
+  const handleForgot = async (password: string) => {
+    try {
+      await mutateForgot({
+        variables: {
+          auth: {newPassword: password},
+        },
+      })
+      void navigate(AppRouterMap.login.path)
+      toast('Password has been reset')
+    } catch (error) {
       console.error(error)
-    })
+    }
   }
 
   const {
@@ -45,7 +42,7 @@ const ResetPasswordForm = () => {
   return (
     <CustomForm
       onSubmit={handleSubmit((data) => {
-        handleForgot(data.newPassword)
+        void handleForgot(data.newPassword)
       })}
     >
       <FormControlled>

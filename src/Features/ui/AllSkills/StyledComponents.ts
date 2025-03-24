@@ -56,30 +56,19 @@ export const SkillBar = styled(Box)<{proficiency: number}>(({
   proficiency,
   theme,
 }) => {
-  let color
-  switch (proficiency) {
-    case 100:
-      color = 'rgb(198, 48, 49)'
-      break
-    case 80:
-      color = 'rgb(255, 228, 158)'
-      break
-    case 60:
-      color = 'rgb(175, 205, 177)'
-      break
-    case 40:
-      color = 'rgb(158, 209, 237)'
-      break
-    default:
-      color = 'rgb(202, 202, 202)'
-      break
+  const proficiencyColors: {[key: number]: string} = {
+    100: 'rgb(198, 48, 49)',
+    80: 'rgb(255, 228, 158)',
+    60: 'rgb(175, 205, 177)',
+    40: 'rgb(158, 209, 237)',
+    20: 'rgb(202, 202, 202)',
   }
 
   return {
     flexGrow: 1,
     height: '5px',
     width: '80px',
-    backgroundColor: color,
+    backgroundColor: proficiencyColors[proficiency],
     marginRight: theme.spacing(1),
     transition: 'transform 0.4s linear',
     '&.transform': {

@@ -25,7 +25,8 @@ const SkillItem: FC<SkillItemProps> = ({
   const [transform, setTransform] = useState(false)
   const [reverseTransform, setReverseTransform] = useState(false)
   const myID = getCurrentUserID()
-  const ID = useParams().userId ?? myID
+  const {userId} = useParams()
+  const ID = userId ?? myID
 
   const helpTranform = (state: boolean): void => {
     setTransform(state)

@@ -17,11 +17,12 @@ import {getCurrentUserID} from '@/App'
 import {useCreateCv} from '../api/useCreateCv'
 import {toast} from 'react-toastify'
 import {zodResolver} from '@hookform/resolvers/zod'
+import {ApolloQueryResult} from '@apollo/client'
 
 interface BackdropFormProps {
   setOpen: (open: boolean) => void
   isOpen: boolean
-  refetch: () => void
+  refetch: () => Promise<ApolloQueryResult<unknown>>
 }
 
 const BackdropForm: FC<BackdropFormProps> = ({isOpen, setOpen, refetch}) => {
@@ -42,20 +43,17 @@ const BackdropForm: FC<BackdropFormProps> = ({isOpen, setOpen, refetch}) => {
 
   const [mutateCreateCv] = useCreateCv()
 
-  const handleCreateCv = (formData: CvFormType) => {
-    mutateCreateCv({
-      variables: {cv: {userId, ...formData}},
-      onError: (error) => {
-        toast(error.message)
-      },
-      onCompleted: () => {
-        toast('CV was created')
-        handleClose()
-        refetch()
-      },
-    }).catch((error) => {
+  const handleCreateCv = async (formData: CvFormType) => {
+    try {
+      await mutateCreateCv({
+        variables: {cv: {userId, ...formData}},
+      })
+      await refetch()
+      toast('CV was created')
+      handleClose()
+    } catch (error) {
       console.error('Create cv failed', error)
-    })
+    }
   }
 
   const {

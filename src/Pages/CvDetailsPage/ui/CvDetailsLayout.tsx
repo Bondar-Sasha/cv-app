@@ -68,20 +68,16 @@ const CvDetailsLayout = () => {
   }, [error])
 
   const [mutateUpdate, {data: UpdateData}] = useUpdateCvDetails()
-
-  const handleUpdateCvDetails = (formData: CvFormType) => {
-    mutateUpdate({
-      variables: {cv: {cvId, ...formData}},
-      onError: (error) => {
-        toast(error.message)
-      },
-      onCompleted: () => {
-        toast('CV was updated')
-        void refetch()
-      },
-    }).catch((error) => {
+  const handleUpdateCvDetails = async (formData: CvFormType) => {
+    try {
+      await mutateUpdate({
+        variables: {cv: {cvId, ...formData}},
+      })
+      await refetch()
+      toast.success('CV was updated')
+    } catch (error) {
       console.error('Update cv failed', error)
-    })
+    }
   }
 
   useEffect(() => {

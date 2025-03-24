@@ -6,7 +6,8 @@ import {SkillsPage} from '@/Pages/SkillsPage'
 
 const UserSkillsPage = () => {
   const userID = getCurrentUserID()
-  const ID = useParams().userId || ''
+  const {userId} = useParams()
+  const ID = userId || ''
 
   if (ID === userID) {
     return (
