@@ -238,13 +238,11 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
               />
             </LocalizationProvider>
           </SelectWrapper>
-          <CustomTextField
+          <TextField
             disabled
             multiline
+            value={t(pickedProject?.description || '')}
             autoComplete="off"
-            name="description"
-            register={register}
-            defaultValue={t(pickedProject?.description || '')}
             sx={{
               margin: '16px 0',
               minHeight: '140px',
@@ -254,7 +252,6 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
             }}
             label={t('Description')}
             placeholder={t('Description')}
-            type="text"
           />
           <EnvSelect
             value={pickedProject?.environment || []}

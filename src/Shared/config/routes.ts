@@ -43,12 +43,12 @@ export const AppRouterMap: IAppRouterMap = {
     path: (userId = ':userId') => `/users/${userId}/languages`,
   },
 
-  projects: {label: 'projects', path: '/projects'},
+  projects: {label: 'Projects', path: '/projects'},
   project: {
     label: 'Project',
     path: (projectId = ':projectId') => `/projects/${projectId}`,
   },
-  CVs: {label: 'cvs', path: '/cvs'},
+  CVs: {label: 'CVs', path: '/cvs'},
   CVDetails: {
     label: 'Details',
     path: (cvId = ':cvId') => `/cvs/${cvId}/details`,

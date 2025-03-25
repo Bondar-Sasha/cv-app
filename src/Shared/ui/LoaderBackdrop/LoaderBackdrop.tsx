@@ -8,7 +8,6 @@ const Loader = styled(Backdrop)(({theme}) => ({
   color: theme.palette.error.light,
   backgroundColor: theme.palette.background.default,
   position: 'static',
-  overflow: 'none',
   top: 0,
   left: 0,
   minHeight: '200px',

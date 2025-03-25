@@ -51,7 +51,7 @@ const CvLayout: FC<CvLayoutProps> = ({page}) => {
   ]
 
   return (
-    <Box sx={{position: 'relative'}}>
+    <Box sx={{position: 'relative', overflow: 'hidden'}}>
       <Container>
         <StyledLinkList arrLinks={links} />
       </Container>

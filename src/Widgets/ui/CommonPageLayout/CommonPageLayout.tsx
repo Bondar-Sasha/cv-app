@@ -78,7 +78,8 @@ const CommonPageLayout: FC = () => {
                         color: 'rgb(198, 48, 49)',
                       }}
                     >
-                      {breadFromContext.currentBread}
+                      {breadFromContext.currentBread[0].toUpperCase() +
+                        breadFromContext.currentBread.slice(1)}
                     </Box>
                   ) : (
                     isValidElement(breadcrumb) &&
