@@ -7,17 +7,17 @@ import {AppRouterMap} from '@/Shared'
 const LoginPage = () => {
   const [mutateLogin, {loading}] = useLogin()
 
-  const handleLogIn = (email: string, password: string) => {
-    mutateLogin({
-      variables: {
-        auth: {email: email, password: password},
-      },
-      onError(error) {
-        toast.error((error as Error).message)
-      },
-    }).catch((error) => {
+  const handleLogIn = async (email: string, password: string) => {
+    try {
+      await mutateLogin({
+        variables: {
+          auth: {email: email, password: password},
+        },
+      })
+    } catch (error) {
+      toast.error((error as Error).message)
       console.error('Login failed', error)
-    })
+    }
   }
 
   return (

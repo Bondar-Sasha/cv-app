@@ -69,7 +69,7 @@ const CvPreviewLayout = () => {
     if (data) {
       breadcrumb.setCurrentBread(data.cv.name)
     }
-  })
+  }, [breadcrumb, data])
 
   useEffect(() => {
     if (error || userError) {

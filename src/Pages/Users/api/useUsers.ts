@@ -1,4 +1,5 @@
 import {gql, useQuery} from '@apollo/client'
+import {useMemo} from 'react'
 
 export interface ReceivedUser {
   users: {
@@ -52,25 +53,28 @@ export const USERS = gql`
 
 export const useUsers = () => {
   const {data, ...helpers} = useQuery<ReceivedUser>(USERS)
-  if (!data) {
-    return {data, ...helpers}
-  }
-  const preparedData: PreparedUser[] = data.users.map(
-    ({
-      profile: {last_name, first_name, avatar},
-      department,
-      position,
-      ...userData
-    }) => {
-      return {
-        ...userData,
-        last_name,
-        first_name,
-        avatar,
-        department: department?.name,
-        position: position?.name,
-      }
+  const preparedData: PreparedUser[] | null = useMemo(() => {
+    if (!data) {
+      return null
     }
-  )
+    return data.users.map(
+      ({
+        profile: {last_name, first_name, avatar},
+        department,
+        position,
+        ...userData
+      }) => {
+        return {
+          ...userData,
+          last_name,
+          first_name,
+          avatar,
+          department: department?.name,
+          position: position?.name,
+        }
+      }
+    )
+  }, [data])
+
   return {...helpers, data: preparedData}
 }
