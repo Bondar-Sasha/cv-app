@@ -60,7 +60,7 @@ export const useTokens = () => {
   }, [client, getTokens, refreshToken])
 
   useEffect(() => {
-    void (async () => {
+    const fetchTokensAndUser = async () => {
       try {
         setIsLoading(true)
         const accessToken = await handleGetTokens()
@@ -84,7 +84,8 @@ export const useTokens = () => {
       } finally {
         setIsLoading(false)
       }
-    })()
+    }
+    void fetchTokensAndUser()
   }, [client, getUser, handleGetTokens])
 
   const refetchTokens = useCallback(() => {

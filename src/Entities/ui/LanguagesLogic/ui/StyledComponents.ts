@@ -23,17 +23,15 @@ interface LanguageSpanProps {
 export const LanguageSpan = styled('span', {
   shouldForwardProp: (prop) => prop !== 'willDelete' && prop !== 'disabled',
 })<LanguageSpanProps>(({willDelete, theme, disabled}) => {
-  let color
   if (willDelete) {
-    color = theme.palette.text.primary
-  } else if (disabled) {
-    color = 'rgba(0, 0, 0, 0.26)'
-  } else {
-    color = theme.palette.text.secondary
+    return {color: theme.palette.text.primary}
+  }
+  if (disabled) {
+    return {color: 'rgba(0, 0, 0, 0.26)'}
   }
 
   return {
-    color: color,
+    color: theme.palette.text.secondary,
   }
 })
 

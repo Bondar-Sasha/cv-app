@@ -43,10 +43,7 @@ const useThemeMode = () => {
 
   const getInitialThemeMode = (): AllThemes => {
     const storedTheme = localStorage.getItem('theme') as AllThemes
-    if (storedTheme) {
-      return storedTheme
-    }
-    return 'device'
+    return storedTheme || 'device'
   }
 
   const [themeMode, setThemeMode] = useState<AllThemes>(getInitialThemeMode())

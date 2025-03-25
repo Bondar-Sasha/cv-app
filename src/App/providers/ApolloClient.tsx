@@ -3,7 +3,7 @@ import {setContext} from '@apollo/client/link/context'
 import {onError} from '@apollo/client/link/error'
 
 const httpLink = new HttpLink({
-  uri: 'https://cv-project-js.inno.ws/api/graphql',
+  uri: import.meta.env.VITE_BACKEND_URL,
   fetchOptions: {
     mode: 'cors',
   },

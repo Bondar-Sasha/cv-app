@@ -1,7 +1,6 @@
 import {gql, useQuery} from '@apollo/client'
 import {Language} from 'cv-graphql'
-import {useEffect, useState} from 'react'
-import {LanguageOption} from '../ui/LanguagesPageLogic'
+import {useMemo} from 'react'
 
 export type AllLanguagesResult = {
   languages: [Language]
@@ -18,18 +17,15 @@ export const GET_ALL_LANGUAGES = gql`
 
 export const useGetAllLanguages = () => {
   const {loading, error, data} = useQuery<AllLanguagesResult>(GET_ALL_LANGUAGES)
-  const [languages, setLanguages] = useState<LanguageOption[]>([])
 
-  useEffect(() => {
-    if (data) {
-      const transformArray: LanguageOption[] = data.languages.map(
-        (elem: {name: string}) => ({
-          label: elem.name,
-          value: elem.name,
-        })
-      )
-      setLanguages(transformArray)
+  const languages = useMemo(() => {
+    if (!data) {
+      return []
     }
+    return data.languages.map((elem: {name: string}) => ({
+      label: elem.name,
+      value: elem.name,
+    }))
   }, [data])
 
   return {loading, error, languages}

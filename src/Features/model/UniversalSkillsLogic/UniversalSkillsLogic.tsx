@@ -12,7 +12,7 @@ import {MasteryOptions} from './utilits/MasteryOptions'
 import useSkillsCvData from './hooks/useSkillsCvData'
 import {useBreadCrumbsContext} from '@/App'
 
-interface techno {
+interface Techno {
   category: string
   categoryId: string
   mastery: string
@@ -22,7 +22,7 @@ interface techno {
 
 export interface filterData {
   category: string
-  technologies: [techno]
+  technologies: [Techno]
 }
 
 export type FiltersTechnologies = filterData
@@ -122,7 +122,7 @@ const UniversalSkillsLogic = ({
     if (name) {
       breadcrumb.setCurrentBread(name)
     }
-  })
+  }, [breadcrumb, name])
 
   useEffect(() => {
     if (error) {
@@ -157,7 +157,7 @@ const UniversalSkillsLogic = ({
             setOpen(true)
           }}
         >
-          <AddIcon style={{marginRight: '8px'}} /> {t('Add skill')}
+          <AddIcon sx={{marginRight: '8px'}} /> {t('Add skill')}
         </StyledButton>
       ) : (
         <AllSkills

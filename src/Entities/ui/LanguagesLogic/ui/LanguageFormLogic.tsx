@@ -112,6 +112,7 @@ const LanguageFormLogic: FC<LanguageFormLogicProps> = ({
       />
     )
   }
+  return null
 }
 
 export default LanguageFormLogic
