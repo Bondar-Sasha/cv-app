@@ -22,8 +22,8 @@ import {CustomTableContainer, CustomTblHead, TableBox} from './StyledComponents'
 import {WrapperButton} from '@/Features'
 import {useTranslation} from 'react-i18next'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
-import {Cv} from 'cv-graphql'
 import {Navigate} from 'react-router-dom'
+import {filterFunc} from '../utils/filterFunc'
 
 interface Filters {
   searchState: string
@@ -42,25 +42,6 @@ const THeadItems: THeadItem[] = [
   {id: 'name', label: 'Name'},
   {id: 'education', label: 'Education'},
 ]
-
-const filterFunc = (data?: Cv[] | null) => {
-  return (curFilter: Filters['currentFilter']['id'], filterState: boolean) => {
-    return (str: string): Cv[] | null | undefined => {
-      if (!data || data.length === 0) return data
-
-      return data
-        .filter((cv) => (cv.name || '').includes(str))
-        .sort((a, b) => {
-          const aValue = a[curFilter]?.toLowerCase() || ''
-          const bValue = b[curFilter]?.toLowerCase() || ''
-
-          return filterState
-            ? aValue.localeCompare(bValue)
-            : bValue.localeCompare(aValue)
-        })
-    }
-  }
-}
 
 const CVsPage = () => {
   const {t} = useTranslation()
@@ -185,7 +166,7 @@ const CVsPage = () => {
             {filteredData.length > 0 ? (
               filteredData.map((cv) => (
                 <CVRow
-                  key={cv.id as string | number}
+                  key={cv.id}
                   cv={cv}
                   employee={user?.profile.first_name || ''}
                   refetch={refetch}

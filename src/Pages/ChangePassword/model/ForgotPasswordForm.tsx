@@ -50,13 +50,12 @@ const ForgotPasswordForm = () => {
     >
       <FormControlled>
         <CustomTextField
+          {...register('email')}
           type="email"
           id="email"
           label="Email"
-          name="email"
           autoComplete="email"
           placeholder="example@mail.com"
-          register={register}
           errors={errors}
         />
         <Wrapper margin={'50px auto 0'}>

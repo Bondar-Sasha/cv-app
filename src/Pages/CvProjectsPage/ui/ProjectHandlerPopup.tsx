@@ -260,9 +260,8 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
             sx={{margin: '16px 0'}}
           />
           <CustomTextField
+            {...register('responsibilities')}
             autoComplete="off"
-            name="responsibilities"
-            register={register}
             sx={{margin: '16px 0'}}
             label={t('Responsibilities')}
             placeholder={t('Responsibility')}

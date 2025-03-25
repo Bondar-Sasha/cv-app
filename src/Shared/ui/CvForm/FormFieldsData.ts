@@ -1,6 +1,13 @@
-export const FormFieldsData = [
+interface IFormFieldsData {
+  label: string
+  name: 'name' | 'education' | 'description'
+  autoComplete: string
+  multiline: boolean
+  minRows: number
+}
+
+export const FormFieldsData: IFormFieldsData[] = [
   {
-    id: 'name',
     label: 'Name',
     name: 'name',
     autoComplete: 'name',
@@ -8,7 +15,6 @@ export const FormFieldsData = [
     minRows: 1,
   },
   {
-    id: 'education',
     label: 'Education',
     name: 'education',
     autoComplete: 'education',
@@ -16,7 +22,6 @@ export const FormFieldsData = [
     minRows: 1,
   },
   {
-    id: 'description',
     label: 'Description',
     name: 'description',
     autoComplete: 'description',

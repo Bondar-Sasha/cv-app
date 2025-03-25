@@ -28,14 +28,14 @@ const SkillItem: FC<SkillItemProps> = ({
   const {userId} = useParams()
   const ID = userId ?? myID
 
-  const helpTranform = (state: boolean): void => {
+  const helpTransform = (state: boolean): void => {
     setTransform(state)
     setReverseTransform(!state)
   }
 
   useEffect(() => {
     if (!context?.isEdit) {
-      helpTranform(false)
+      helpTransform(false)
     }
   }, [context?.isEdit])
 
@@ -45,10 +45,10 @@ const SkillItem: FC<SkillItemProps> = ({
         const newSet = new Set(prev)
         if (newSet.has(name)) {
           newSet.delete(name)
-          helpTranform(false)
+          helpTransform(false)
         } else {
           newSet.add(name)
-          helpTranform(true)
+          helpTransform(true)
         }
         return newSet
       })

@@ -39,8 +39,8 @@ const ProjectsSection: FC<ProjectsSectionProps> = ({
         <SubsectionTitle text="Period" />
         <Typography variant="body1">
           {converDate(
-            dataProject.project.start_date ?? '',
-            dataProject.project.end_date ?? ''
+            dataProject.project.start_date,
+            dataProject.project.end_date || ''
           )}
         </Typography>
 

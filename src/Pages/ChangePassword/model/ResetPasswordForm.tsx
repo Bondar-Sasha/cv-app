@@ -47,13 +47,12 @@ const ResetPasswordForm = () => {
     >
       <FormControlled>
         <CustomTextField
+          {...register('newPassword')}
           type="password"
           id="newPassword"
           label="New password"
-          name="newPassword"
           autoComplete="password"
           placeholder="Enter new password"
-          register={register}
           errors={errors}
         />
         <Wrapper margin={'50px auto 0'}>

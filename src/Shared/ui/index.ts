@@ -10,6 +10,7 @@ import CvForm from './CvForm/CvForm'
 import {CvFormType, CvShema} from './CvForm/CvFormShema'
 import SearchInput from './SearchInput/SearchInput'
 import NoFoundCell from './NoFoundCell/NoFoundCell'
+import {FormFieldsData} from './CvForm/FormFieldsData'
 
 export {
   StyledLink,
@@ -26,5 +27,6 @@ export {
   NoFoundCell,
 }
 export type {CvFormType}
+export {FormFieldsData}
 
 export * from './StyledComponents'
