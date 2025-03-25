@@ -34,7 +34,6 @@ const CommonPageLayout: FC = () => {
   const breadcrumbs = getBreadcrumbs({location, routes: preparedRoutes}).filter(
     ({match}) => match.pathname !== '/'
   )
-
   return (
     <ResponsiveBox>
       <Aside />
@@ -68,19 +67,24 @@ const CommonPageLayout: FC = () => {
                   color="inherit"
                   sx={{maxWidth: '200px'}}
                 >
-                  {breadFromContext.currentBread.length > 0 &&
+                  {breadFromContext.currentBread &&
+                  breadFromContext.currentBread.length > 0 &&
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-expect-error
                   Number(breadcrumb?.props.children) ? (
-                    <span
-                      style={{
+                    <Box
+                      component="span"
+                      sx={{
                         color: 'rgb(198, 48, 49)',
                       }}
                     >
                       {breadFromContext.currentBread}
-                    </span>
+                    </Box>
                   ) : (
-                    isValidElement(breadcrumb) && t(breadcrumb.props.children)
+                    isValidElement(breadcrumb) &&
+                    t(
+                      `${breadcrumb.props.children[0].toUpperCase()}${breadcrumb.props.children.slice(1)}`
+                    )
                   )}
                 </CustomLink>
               ))}
