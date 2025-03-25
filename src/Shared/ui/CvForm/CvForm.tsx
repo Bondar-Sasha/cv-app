@@ -22,11 +22,11 @@ const CvForm: FC<CvFormProps> = ({submitMutate, register, errors, buttons}) => {
       <FormControl sx={{width: '100%'}}>
         {FormFieldsData.map((field) => (
           <CustomTextField
-            type="text"
-            key={field.id}
-            register={register}
-            errors={errors}
             {...field}
+            {...register(field.name)}
+            type="text"
+            key={field.name}
+            errors={errors}
           />
         ))}
         <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>{buttons}</Box>

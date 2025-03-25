@@ -3,10 +3,10 @@ import {User} from 'cv-graphql'
 
 import {USER} from '../schemas'
 
-interface GetUserArgs {
+export interface GetUserArgs {
   userId: string
 }
-interface ReceivedUser {
+export interface ReceivedUser {
   user: User
 }
 

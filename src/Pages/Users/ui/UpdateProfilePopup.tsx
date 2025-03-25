@@ -138,40 +138,36 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
           </Box>
           <SelectmWrapper>
             <CustomTextField
+              {...register('email')}
               type="email"
               id="Email"
-              name="email"
               autoComplete="email"
               disabled
-              register={register}
               label="Email"
               placeholder="Email"
             />
             <CustomTextField
+              {...register('password')}
               type="password"
               id="password"
-              name="password"
               autoComplete="password"
               disabled
-              register={register}
               label="Password"
               placeholder="Password"
             />
             <CustomTextField
+              {...register('firstName')}
               type="text"
               id="First Name"
               autoComplete="First Name"
-              name="firstName"
-              register={register}
               label="First Name"
               placeholder="First Name"
             />
             <CustomTextField
+              {...register('lastName')}
               type="text"
               id="Last Name"
               autoComplete="Last Name"
-              name="lastName"
-              register={register}
               label="Last Name"
               placeholder="Last Name"
             />

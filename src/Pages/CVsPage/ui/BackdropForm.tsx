@@ -18,11 +18,14 @@ import {useCreateCv} from '../api/useCreateCv'
 import {toast} from 'react-toastify'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {ApolloQueryResult} from '@apollo/client'
+import {GetUserArgs, ReceivedUser} from '@/Shared/utils/useUser'
 
 interface BackdropFormProps {
   setOpen: (open: boolean) => void
   isOpen: boolean
-  refetch: () => Promise<ApolloQueryResult<unknown>>
+  refetch: (
+    variables?: Partial<GetUserArgs>
+  ) => Promise<ApolloQueryResult<ReceivedUser>>
 }
 
 const BackdropForm: FC<BackdropFormProps> = ({isOpen, setOpen, refetch}) => {

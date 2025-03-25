@@ -31,23 +31,21 @@ const AuthForm: FC<AuthFormProps> = ({handleAuth, action, loading}) => {
     >
       <CustomFormControl>
         <CustomTextField
+          {...register('email')}
           type="email"
           id="email"
           label="Email"
-          name="email"
           autoComplete="email"
           placeholder="example@mail.com"
-          register={register}
           errors={errors}
         />
         <CustomTextField
+          {...register('password')}
           id="password"
           type="password"
           label="Password"
-          name="password"
           autoComplete="password"
           placeholder="Enter your password"
-          register={register}
           errors={errors}
         />
 

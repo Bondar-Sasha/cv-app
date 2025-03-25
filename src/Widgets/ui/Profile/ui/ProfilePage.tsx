@@ -266,23 +266,23 @@ const ProfilePage: FC = () => {
       >
         <InputsWrapper>
           <CustomTextField
+            {...register('firstName')}
             type="text"
             id="First Name"
             label="First Name"
             placeholder="First Name"
             autoComplete="First Name"
             name="firstName"
-            register={register}
             disabled={!isEqual}
           />
           <CustomTextField
+            {...register('lastName')}
             type="text"
             id="Last Name"
             label="Last Name"
             placeholder="Last Name"
             autoComplete="Last Name"
             name="lastName"
-            register={register}
             disabled={!isEqual}
           />
           <CustomSelectComponent
