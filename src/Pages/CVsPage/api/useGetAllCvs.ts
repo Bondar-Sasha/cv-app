@@ -1,7 +1,7 @@
 import {getCurrentUserID} from '@/App'
 import {gql, useQuery} from '@apollo/client'
 import {User} from 'cv-graphql'
-import {useEffect, useState} from 'react'
+import {useEffect, useMemo} from 'react'
 import {toast} from 'react-toastify'
 
 export type IdArgs = {
@@ -32,15 +32,17 @@ export const useFetchCVs = () => {
     variables: {userId},
     fetchPolicy: 'no-cache',
   })
-  const [employee, setEmployee] = useState('')
 
   useEffect(() => {
     if (error) {
       toast.error(error.message)
-    } else if (data) {
-      setEmployee(data.user.email)
     }
-  }, [data, error])
+  }, [error])
+
+  const employee = useMemo(
+    () => (!error && data ? data.user.email : null),
+    [error, data]
+  )
 
   return {data, loading, error, refetch, employee}
 }

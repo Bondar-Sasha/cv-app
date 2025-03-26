@@ -3,13 +3,13 @@ import {
   CustomSelectComponent,
   Form,
   FormBox,
+  StyledButton,
   Title,
 } from '@/Shared'
 import {createPortal} from 'react-dom'
 import {useTranslation} from 'react-i18next'
 import CloseIcon from '@mui/icons-material/Close'
 import {ButtonContainer, Overlay} from './StyledComponents'
-import StyledButtonWrapper from './StyledButtonWrapper'
 import {FC, useState} from 'react'
 import {SelectChangeEvent} from '@mui/material'
 
@@ -97,12 +97,29 @@ const FormOver: FC<FormOverProps> = ({
             label={secondSelectTitle}
           />
           <ButtonContainer>
-            <StyledButtonWrapper onClick={handleClose} title="Cancel" />
-            <StyledButtonWrapper
+            <StyledButton
+              sx={(theme) => ({
+                minWidth: '220px',
+                height: '48px',
+                borderColor: theme.palette.text.secondary,
+              })}
+              variant="outlined"
+              onClick={handleClose}
+            >
+              {t('Cancel')}
+            </StyledButton>
+            <StyledButton
+              sx={(theme) => ({
+                minWidth: '220px',
+                height: '48px',
+                borderColor: theme.palette.text.secondary,
+              })}
               disabled={!firstSelects}
-              title="Confirm"
+              variant="contained"
               onClick={() => void handleMutateData()}
-            />
+            >
+              {t('Confirm')}
+            </StyledButton>
           </ButtonContainer>
         </Form>
       </FormBox>
