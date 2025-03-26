@@ -1,4 +1,4 @@
-import {Box, useTheme} from '@mui/material'
+import {Avatar, useTheme} from '@mui/material'
 import {FC} from 'react'
 
 interface EnvUserLogoProps {
@@ -18,27 +18,17 @@ const EnvUserLogo: FC<EnvUserLogoProps> = ({
 }) => {
   const theme = useTheme()
   return (
-    <Box
-      width={width || 40}
-      height={height || 40}
-      minWidth={width || 40}
-      minHeight={height || 40}
-      borderRadius={width ? width / 2 : 20}
-      bgcolor={bgColor || 'rgb(189, 189, 189)'}
-      fontSize={width ? width / 3 : 20}
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      boxSizing="border-box"
-      color={theme.palette.background.default}
+    <Avatar
       sx={{
-        backgroundImage: src ? `url(${src})` : undefined,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        width: width || 40,
+        height: height || 40,
+        bgcolor: bgColor || 'rgb(189, 189, 189)',
+        color: theme.palette.background.default,
       }}
+      src={src || ''}
     >
       {!src && latter.toUpperCase()}
-    </Box>
+    </Avatar>
   )
 }
 

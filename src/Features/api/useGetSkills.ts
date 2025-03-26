@@ -35,8 +35,9 @@ export const GETSKILLS = gql`
   }
 `
 
-export const useGetSkills = (userId: string) => {
+export const useGetSkills = (userId?: string) => {
   return useQuery<SkillsResult, IdArgs>(GETSKILLS, {
-    variables: {userId},
+    skip: !userId,
+    variables: {userId: userId || ''},
   })
 }

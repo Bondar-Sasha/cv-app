@@ -122,15 +122,18 @@ const ProfilePage: FC = () => {
   const {register, watch, setValue, handleSubmit, reset} = useForm<FormFields>()
 
   useEffect(() => {
-    if (user) {
-      breadcrumb.setCurrentBread(user.profile.full_name as string)
-      reset({
-        firstName: user.profile.first_name || '',
-        lastName: user.profile.last_name || '',
-        department: user.department?.id || '',
-        position: user.position?.id || '',
-      })
+    if (!user) {
+      return
     }
+    if (user.profile.full_name) {
+      breadcrumb.setCurrentBread(user.profile.full_name)
+    }
+    reset({
+      firstName: user.profile.first_name || '',
+      lastName: user.profile.last_name || '',
+      department: user.department?.id || '',
+      position: user.position?.id || '',
+    })
   }, [user, reset, breadcrumb])
 
   useEffect(() => {

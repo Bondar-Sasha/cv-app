@@ -38,7 +38,7 @@ const CommonPageLayout: FC = () => {
     <ResponsiveBox>
       <Aside />
       <Box boxSizing="border-box">
-        <div className={layoutStyles.main_wrapper}>
+        <div className={layoutStyles.mainWrapper}>
           <Box
             component={'header'}
             className={layoutStyles.header}
@@ -67,11 +67,10 @@ const CommonPageLayout: FC = () => {
                   color="inherit"
                   sx={{maxWidth: '200px'}}
                 >
-                  {breadFromContext.currentBread &&
-                  breadFromContext.currentBread.length > 0 &&
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-expect-error
-                  Number(breadcrumb?.props.children) ? (
+                  {breadcrumb &&
+                  typeof breadcrumb === 'object' &&
+                  'props' in breadcrumb &&
+                  Number(breadcrumb.props.children) ? (
                     <Box
                       component="span"
                       sx={{

@@ -10,7 +10,7 @@ import {removeTechnologyByName} from '../utilits/removeTechnologyByName'
 import {useGetSkills} from '@/Features'
 import {transformSkills} from '../utilits/transformSkills'
 
-const useSkillsData = (userId: string) => {
+const useSkillsData = (userId?: string) => {
   const [transformedSkills, setTransformedSkills] = useState<
     TransformedSkill[]
   >([])

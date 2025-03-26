@@ -58,7 +58,7 @@ const THeadItems: THeadItem[] = [
   {id: 'position', label: 'Position'},
 ]
 
-const filterFunc = (data?: PreparedUser[]) => {
+const filterFunc = (data?: PreparedUser[] | null) => {
   return (curFilter: Filters['currentFilter']['id'], filterState: boolean) => {
     return (str: string): PreparedUser[] | null | undefined => {
       return (
