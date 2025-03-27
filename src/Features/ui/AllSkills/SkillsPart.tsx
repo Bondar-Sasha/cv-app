@@ -8,6 +8,7 @@ import {
 import SkillItem from './SkillItem'
 import {Typography} from '@mui/material'
 import {filterData} from '@/Features/model'
+import {Mastery} from 'cv-graphql'
 
 interface SkillPartProps {
   data: filterData
@@ -27,7 +28,7 @@ const SkillsPart: FC<SkillPartProps> = ({data}) => {
             <SkillItem
               name={elem.name}
               proficiency={elem.proficiency}
-              mastery={elem.mastery}
+              mastery={elem.mastery as Mastery}
               categoryId={elem.categoryId}
               category={data.category}
             />
