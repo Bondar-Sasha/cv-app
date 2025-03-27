@@ -36,7 +36,7 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
       'react-refresh/only-export-components': 'off',
-      // 'i18next/no-literal-string': ['error', {markupOnly: true}],
+      "@typescript-eslint/no-unnecessary-type-assertion":"off",
       'no-console': ['error', {allow: ['warn', 'error']}],
       'spaced-comment': ['error', 'always'],
       'multiline-comment-style': ['error', 'starred-block'],

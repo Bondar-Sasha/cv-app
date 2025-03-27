@@ -1,4 +1,5 @@
 import {TransformedArray} from '@/Features'
+import {Mastery} from 'cv-graphql'
 import {useImmer} from 'use-immer'
 
 const useFormData = (transformArray: TransformedArray[]) => {
@@ -6,7 +7,7 @@ const useFormData = (transformArray: TransformedArray[]) => {
     title: '',
     firstSelectValue: '',
     firstSelectTitle: 'Skill',
-    secondSelectValue: '',
+    secondSelectValue: '' as Mastery,
     secondSelectTitle: 'Skill mastery',
     firstSelectOptions: transformArray,
   })
@@ -15,12 +16,12 @@ const useFormData = (transformArray: TransformedArray[]) => {
     setFormData((draft) => {
       draft.title = 'Add skill'
       draft.firstSelectValue = ''
-      draft.secondSelectValue = 'Novice'
+      draft.secondSelectValue = Mastery.Novice
       draft.firstSelectOptions = transformArray
     })
   }
 
-  const handleOpenEdit = (objData: TransformedArray, mastery: string) => {
+  const handleOpenEdit = (objData: TransformedArray, mastery: Mastery) => {
     setFormData((draft) => {
       draft.title = 'Update skill'
       draft.firstSelectValue = objData.value

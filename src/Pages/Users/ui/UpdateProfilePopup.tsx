@@ -68,8 +68,8 @@ const UpdateProfilePopup: FC<UpdateProfilePopupProps> = ({open, onClose}) => {
   }
 
   const selectHandler =
-    (field: keyof FormFields) => (event: SelectChangeEvent<unknown>) => {
-      setValue(field, event.target.value as string)
+    (field: keyof FormFields) => (event: SelectChangeEvent<string>) => {
+      setValue(field, event.target.value)
     }
 
   const onSubmit: SubmitHandler<FormFields> = async ({

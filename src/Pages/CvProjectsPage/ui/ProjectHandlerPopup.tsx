@@ -190,10 +190,10 @@ const ProjectHandlerPopup: FC<ProjectHandlerPopupProps> = ({
             <CustomSelectComponent
               disabled={!isCreating}
               value={selectedProject}
-              onChange={(event: SelectChangeEvent<unknown>) => {
+              onChange={(event: SelectChangeEvent<typeof selectedProject>) => {
                 clearErrors('projectId')
-                onSelect(event.target.value as string)
-                setValue('projectId', event.target.value as string)
+                onSelect(event.target.value)
+                setValue('projectId', event.target.value)
               }}
               helpingText={errors.projectId?.message}
               label={t('Project')}

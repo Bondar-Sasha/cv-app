@@ -1,39 +1,45 @@
 import {
   FormHelperText,
   InputLabel,
+  Select,
   SelectChangeEvent,
   useTheme,
 } from '@mui/material'
-import {CustomFormControl, CustomMenuItem, CustomSelect} from './StyledElement'
+import {CustomFormControl, CustomMenuItem} from './StyledElement'
 import {useTranslation} from 'react-i18next'
-import {FC, forwardRef} from 'react'
+import {forwardRef, ReactNode} from 'react'
 
-interface CustomSelectComponentProps {
-  value: string
-  onChange: (event: SelectChangeEvent<unknown>, child: React.ReactNode) => void
-  options: {value: string; label: string}[]
+interface CustomSelectComponentProps<T> {
+  value: T
+  onChange: (event: SelectChangeEvent<T>, child?: ReactNode) => void
+  options: {value: T; label: string}[]
   label: string
   helpingText?: string
   disabled?: boolean
-  defaultValue?: string
+  defaultValue?: T
 }
 
-const CustomSelectComponent: FC<CustomSelectComponentProps> = forwardRef<
-  HTMLDivElement,
-  CustomSelectComponentProps
->(
-  (
-    {value, onChange, options, label, disabled, defaultValue, helpingText},
-    ref
+const CustomSelectComponent = forwardRef(
+  <T extends string>(
+    {
+      value,
+      onChange,
+      options,
+      label,
+      disabled,
+      defaultValue,
+      helpingText,
+    }: CustomSelectComponentProps<T>,
+    ref: React.Ref<HTMLDivElement>
   ) => {
     const {t} = useTranslation()
     const theme = useTheme()
+
     return (
       <CustomFormControl fullWidth disabled={disabled}>
-        <InputLabel id="custom-select-label">{t(label)}</InputLabel>
-        <CustomSelect
+        <InputLabel>{t(label)}</InputLabel>
+        <Select
           ref={ref}
-          labelId="custom-select-label"
           id="custom-select"
           value={defaultValue && !value ? defaultValue : value}
           label={t(label)}
@@ -46,6 +52,47 @@ const CustomSelectComponent: FC<CustomSelectComponentProps> = forwardRef<
               },
             },
           }}
+          sx={(theme) => ({
+            '& .MuiSelect-select': {
+              boxSizing: 'border-box',
+              fontSize: '1.2rem',
+              lineHight: '1.8rem',
+              paddingTop: '19px',
+            },
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                width: '100%',
+                borderRadius: 0,
+                borderColor: theme.palette.error.main,
+                '&.Mui-focused': {
+                  borderColor: theme.palette.error.main,
+                },
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                borderColor: theme.palette.error.main,
+              },
+              '&.Mui-focused': {
+                boxShadow: 'none',
+              },
+              '& input': {
+                '&:-webkit-autofill': {
+                  fontSize: '1.2rem',
+                  WebkitBoxShadow: `0 0 0 100px ${theme.palette.background.default} inset`,
+                  WebkitTextFillColor: theme.palette.text.primary,
+                },
+                '&:-webkit-autofill:focus': {
+                  WebkitBoxShadow: `0 0 0 100px ${theme.palette.background.default} inset`,
+                  WebkitTextFillColor: theme.palette.text.primary,
+                },
+              },
+            },
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderRadius: '0',
+              '&.Mui-focused': {
+                borderColor: theme.palette.error.main,
+              },
+            },
+          })}
         >
           {options.map((option) => {
             const isHidden = option.value === 'notSelect'
@@ -73,7 +120,7 @@ const CustomSelectComponent: FC<CustomSelectComponentProps> = forwardRef<
               </CustomMenuItem>
             )
           })}
-        </CustomSelect>
+        </Select>
         {helpingText && (
           <FormHelperText sx={{color: theme.palette.error.main}}>
             {t(helpingText)}

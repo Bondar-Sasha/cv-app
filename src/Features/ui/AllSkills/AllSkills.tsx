@@ -7,6 +7,7 @@ import SkillsPart from './SkillsPart'
 import WrapperButton from './WrapperButton'
 import {filterData} from '@/Features/model'
 import {TransformedArray} from '../FormOver/FormOver'
+import {Mastery} from 'cv-graphql'
 
 export interface Skill {
   name: string
@@ -21,8 +22,8 @@ export interface SkillPart {
 
 export interface AllSkillsProps {
   dataObject: filterData[]
-  dataForSelect: Array<unknown>
-  formOpen: (objData: TransformedArray, mastery: string) => void
+
+  formOpen: (objData: TransformedArray, mastery: Mastery) => void
   formOpenAdd: () => void
   deleteFunc: (edit: Set<string>) => void
 }
@@ -32,7 +33,7 @@ interface EditContextProps {
   setIsEdit: React.Dispatch<React.SetStateAction<boolean>>
   edit: Set<string>
   setEdit: React.Dispatch<React.SetStateAction<Set<string>>>
-  formOpen: (objData: TransformedArray, mastery: string) => void
+  formOpen: (objData: TransformedArray, mastery: Mastery) => void
 }
 
 export const EditContext = createContext<EditContextProps | undefined>(

@@ -31,7 +31,7 @@ const SkillsPage = () => {
 
   const handleAddSkill = async (
     skill: string,
-    skillMaster: string,
+    skillMaster: Mastery,
     categoryId: string
   ) => {
     try {
@@ -39,7 +39,7 @@ const SkillsPage = () => {
         variables: {
           skill: {
             name: skill,
-            mastery: skillMaster as Mastery,
+            mastery: skillMaster,
             userId: userID,
             categoryId: categoryId,
           },
@@ -53,7 +53,7 @@ const SkillsPage = () => {
 
   const handleUpdateSkill = async (
     skill: string,
-    skillMaster: string,
+    skillMaster: Mastery,
     categoryId: string
   ) => {
     try {
@@ -61,7 +61,7 @@ const SkillsPage = () => {
         variables: {
           skill: {
             name: skill,
-            mastery: skillMaster as Mastery,
+            mastery: skillMaster,
             userId: userID,
             categoryId: categoryId,
           },
