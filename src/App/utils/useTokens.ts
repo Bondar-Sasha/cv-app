@@ -70,8 +70,11 @@ export const useTokens = () => {
         }
         client.setLink(preparedApolloLink(accessToken))
         const userId = localStorage.getItem('userId')
+        if (!userId) {
+          return
+        }
         const {data} = await getUser({
-          variables: {userId: userId as string | number},
+          variables: {userId},
           fetchPolicy: 'cache-and-network',
         })
         if (!data) {
