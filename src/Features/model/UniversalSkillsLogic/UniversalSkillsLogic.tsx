@@ -5,13 +5,11 @@ import {InnerWrapper} from '@/Pages'
 import {AllSkills, FormOver} from '@/Features'
 import {toast} from 'react-toastify'
 import {useEffect, useState} from 'react'
-import useSkillsData from './hooks/useSkillsData'
 import {TransformedArray} from '@/Features'
-import useFormData from './hooks/useFormData'
 import {MasteryOptions} from './utilits/MasteryOptions'
-import useSkillsCvData from './hooks/useSkillsCvData'
 import {useBreadCrumbsContext} from '@/App'
 import {Mastery} from 'cv-graphql'
+import {useFormData, useSkillsCvData, useSkillsData} from './hooks'
 
 interface Techno {
   category: string
