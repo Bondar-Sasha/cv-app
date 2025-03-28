@@ -1,15 +1,34 @@
 import {TransformedArray} from '@/Features'
-import {Mastery} from 'cv-graphql'
 import {useImmer} from 'use-immer'
+import {Mastery as MasteryCv} from 'cv-graphql'
+
+enum Mastery {
+  Novice = 'Novice',
+  Advanced = 'Advanced',
+  Competent = 'Competent',
+  Proficient = 'Proficient',
+  Expert = 'Expert',
+}
+
+type FormDataTypes = {
+  title: string
+  firstSelectValue: string
+  firstSelectOptions: TransformedArray[]
+  firstSelectTitle: string
+  secondSelectValue: Mastery
+  secondSelectOptions: {value: string; label: string}[]
+  secondSelectTitle: string
+}
 
 const useFormData = (transformArray: TransformedArray[]) => {
-  const [formData, setFormData] = useImmer({
+  const [formData, setFormData] = useImmer<FormDataTypes>({
     title: '',
     firstSelectValue: '',
     firstSelectTitle: 'Skill',
-    secondSelectValue: '' as Mastery,
+    secondSelectValue: Mastery.Novice as MasteryCv.Novice,
     secondSelectTitle: 'Skill mastery',
     firstSelectOptions: transformArray,
+    secondSelectOptions: [],
   })
 
   const handleOpenAdd = () => {
