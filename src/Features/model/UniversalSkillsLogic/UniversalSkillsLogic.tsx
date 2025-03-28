@@ -11,6 +11,7 @@ import useFormData from './hooks/useFormData'
 import {MasteryOptions} from './utilits/MasteryOptions'
 import useSkillsCvData from './hooks/useSkillsCvData'
 import {useBreadCrumbsContext} from '@/App'
+import {Mastery} from 'cv-graphql'
 
 interface Techno {
   category: string
@@ -33,12 +34,12 @@ interface UniversalSkillsPageProps {
   handleDeleteSkill: (arr: Set<string>) => Promise<void>
   handleAddSkill: (
     skill: string,
-    skillMaster: string,
+    skillMaster: Mastery,
     categoryId: string
   ) => Promise<void>
   handleUpdateSkill: (
     skill: string,
-    skillMaster: string,
+    skillMaster: Mastery,
     categoryId: string
   ) => Promise<void>
 }
@@ -77,7 +78,7 @@ const UniversalSkillsLogic = ({
     setOpen(false)
   }
 
-  const handleAdd = async (skill: string, skillMaster: string) => {
+  const handleAdd = async (skill: string, skillMaster: Mastery) => {
     const techno = formData.firstSelectOptions.filter(
       (elem) => elem.label === skill
     )
@@ -102,7 +103,7 @@ const UniversalSkillsLogic = ({
     }
   }
 
-  const handleUpdate = async (skill: string, skillMaster: string) => {
+  const handleUpdate = async (skill: string, skillMaster: Mastery) => {
     const techno = formData.firstSelectOptions.filter(
       (elem) => elem.label === skill
     )
@@ -169,7 +170,6 @@ const UniversalSkillsLogic = ({
             handleOpenEdit(objData, mastery)
             setOpen(true)
           }}
-          dataForSelect={transformedSkills}
           dataObject={groupedData}
           deleteFunc={handleDelete}
         />

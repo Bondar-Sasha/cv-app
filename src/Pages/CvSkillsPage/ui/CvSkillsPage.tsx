@@ -16,7 +16,7 @@ const CvSkillsPage = () => {
 
   const handleAddCvSkill = async (
     skill: string,
-    skillMaster: string,
+    skillMaster: Mastery,
     categoryId: string
   ) => {
     try {
@@ -24,7 +24,7 @@ const CvSkillsPage = () => {
         variables: {
           skill: {
             name: skill,
-            mastery: skillMaster as Mastery,
+            mastery: skillMaster,
             cvId: ID,
             categoryId: categoryId,
           },
@@ -38,7 +38,7 @@ const CvSkillsPage = () => {
 
   const handleUpdateSkill = async (
     skill: string,
-    skillMaster: string,
+    skillMaster: Mastery,
     categoryId: string
   ) => {
     try {
@@ -46,7 +46,7 @@ const CvSkillsPage = () => {
         variables: {
           skill: {
             name: skill,
-            mastery: skillMaster as Mastery,
+            mastery: skillMaster,
             cvId: ID,
             categoryId: categoryId,
           },

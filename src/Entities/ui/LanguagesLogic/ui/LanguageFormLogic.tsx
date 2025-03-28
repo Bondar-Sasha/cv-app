@@ -1,5 +1,5 @@
 import {FormOver} from '@/Features'
-import {LanguageProficiency, Proficiency} from 'cv-graphql'
+import {LanguageProficiency, Mastery, Proficiency} from 'cv-graphql'
 import {toast} from 'react-toastify'
 import {useAddProfileLanguage} from '../api/useAddProfileLanguages'
 import useFormLanguages from '../hooks/useFormLanguages'
@@ -106,7 +106,7 @@ const LanguageFormLogic: FC<LanguageFormLogicProps> = ({
         firstSelectValue={formData.firstSelectValue}
         firstSelectOptions={formData.firstSelectOptions}
         firstSelectTitle={formData.firstSelectTitle}
-        secondSelectValue={formData.secondSelectValue}
+        secondSelectValue={formData.secondSelectValue as Mastery}
         secondSelectOptions={languagesProficiency}
         secondSelectTitle={formData.secondSelectTitle}
       />

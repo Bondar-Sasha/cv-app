@@ -21,7 +21,7 @@
   color: inherit;
 }
 
-.main_wrapper {
+.mainWrapper {
   margin: auto;
   max-width: 1536px;
   display: grid;
@@ -34,13 +34,13 @@
   color: inherit;
 }
 
-.main_wrapper > main {
+.mainWrapper > main {
   background-color: inherit;
   overflow: auto;
   color: inherit;
 }
 
-.main_wrapper > main::-webkit-scrollbar {
+.mainWrapper > main::-webkit-scrollbar {
   display: none;
 }
 
@@ -55,16 +55,16 @@
 }
 
 @media (width > 768px) {
-  .main_wrapper {
+  .mainWrapper {
     padding-left: 44px;
   }
 
-  .main_wrapper > header {
+  .mainWrapper > header {
     width: 100%;
     justify-self: center;
   }
 
-  .main_wrapper > main {
+  .mainWrapper > main {
     width: 100%;
     justify-self: center;
   }
@@ -118,12 +118,12 @@
     padding-left: 44px;
   }
 
-  .main_wrapper > header {
+  .mainWrapper > header {
     width: 100%;
     justify-self: center;
   }
 
-  .main_wrapper > main {
+  .mainWrapper > main {
     width: 100%;
     justify-self: center;
   }
@@ -149,7 +149,7 @@
     padding: 0 20px;
   }
 
-  .main_wrapper {
+  .mainWrapper {
     order: 1;
   }
 }

@@ -10,8 +10,8 @@ const LanguageChange = () => {
     await i18n.changeLanguage(lng)
   }
 
-  const handleChangeLanguage = async (event: SelectChangeEvent<unknown>) => {
-    await changeLanguage(event.target.value as string)
+  const handleChangeLanguage = async (event: SelectChangeEvent<string>) => {
+    await changeLanguage(event.target.value)
   }
   return (
     <>

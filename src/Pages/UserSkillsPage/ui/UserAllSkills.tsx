@@ -1,16 +1,15 @@
 import SkillsPart from '@/Features/ui/AllSkills/SkillsPart'
 import useSkillsData from '@/Features/model/UniversalSkillsLogic/hooks/useSkillsData'
-import {LoaderBackdrop} from '@/Shared'
+import {LoaderBackdrop, Params} from '@/Shared'
 import {Box} from '@mui/material'
 import {useParams} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {useEffect} from 'react'
 
 const UserAllSkills = () => {
-  const {userId} = useParams()
-  const ID = userId || ''
+  const {userId} = useParams<Params>()
 
-  const {error, groupedData, loading} = useSkillsData(ID)
+  const {error, groupedData, loading} = useSkillsData(userId)
 
   useEffect(() => {
     if (error) {

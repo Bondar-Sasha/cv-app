@@ -11,14 +11,14 @@ export interface ReceivedUser {
 }
 
 export const useUser = (userId?: string) => {
-  const id = userId || localStorage.getItem('userId') || ''
+  const id = userId || localStorage.getItem('userId') 
   const {data, ...fetchingUserMetrics} = useQuery<ReceivedUser, GetUserArgs>(
     USER,
     {
       skip: !id,
       fetchPolicy: 'cache-and-network',
       variables: {
-        userId: id,
+        userId: id!,
       },
     }
   )

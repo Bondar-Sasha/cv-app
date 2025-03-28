@@ -12,9 +12,9 @@ interface UserRowProps {
   email: string
   department: string
   position: string
-  first_name: string
-  last_name: string
-  avatar: string
+  first_name?: string
+  last_name?: string
+  avatar?: string
 }
 
 const UserRow: FC<UserRowProps> = memo(
@@ -42,8 +42,8 @@ const UserRow: FC<UserRowProps> = memo(
             <EnvUserLogo latter={email[0]} />
           )}
         </CustomTdCell>
-        <CustomTdCell>{t(first_name)}</CustomTdCell>
-        <CustomTdCell>{t(last_name)}</CustomTdCell>
+        <CustomTdCell>{t(first_name || '')}</CustomTdCell>
+        <CustomTdCell>{t(last_name || '')}</CustomTdCell>
         <CustomTdCell>{t(email)}</CustomTdCell>
         <CustomTdCell>{t(department)}</CustomTdCell>
         <CustomTdCell>{t(position)}</CustomTdCell>

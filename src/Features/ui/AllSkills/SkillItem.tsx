@@ -5,11 +5,12 @@ import {EditContext} from './AllSkills'
 import {TransformedArray} from '../FormOver/FormOver'
 import {useParams} from 'react-router-dom'
 import {getCurrentUserID} from '@/App'
+import {Mastery} from 'cv-graphql'
 
 export interface SkillItemProps {
   name: string
   proficiency: number
-  mastery: string
+  mastery: Mastery
   categoryId: string
   category: string
 }

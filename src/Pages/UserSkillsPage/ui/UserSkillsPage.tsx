@@ -7,9 +7,8 @@ import {SkillsPage} from '@/Pages/SkillsPage'
 const UserSkillsPage = () => {
   const userID = getCurrentUserID()
   const {userId} = useParams()
-  const ID = userId || ''
 
-  if (ID === userID) {
+  if (userId === userID) {
     return (
       <OneUserLayout
         path="skills"

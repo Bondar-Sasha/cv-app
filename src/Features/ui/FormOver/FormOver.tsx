@@ -12,15 +12,16 @@ import CloseIcon from '@mui/icons-material/Close'
 import {ButtonContainer, Overlay} from './StyledComponents'
 import {FC, useState} from 'react'
 import {SelectChangeEvent} from '@mui/material'
+import {Mastery} from 'cv-graphql'
 
 interface FormOverProps {
   onClose: () => void
   title: string
-  mutateFunc: (skill: string, skillMaster: string) => void
+  mutateFunc: (skill: string, skillMaster: Mastery) => void
   firstSelectValue: string
   firstSelectOptions: TransformedArray[]
   firstSelectTitle: string
-  secondSelectValue: string
+  secondSelectValue: Mastery
   secondSelectOptions: {value: string; label: string}[]
   secondSelectTitle: string
 }
@@ -45,21 +46,21 @@ const FormOver: FC<FormOverProps> = ({
 }) => {
   const {t} = useTranslation()
   const [firstSelects, setFirstSelects] = useState(firstSelectValue)
-  const [secondSelects, setSecondSelects] = useState(secondSelectValue)
+  const [secondSelects, setSecondSelects] = useState<Mastery>(secondSelectValue)
 
   const handleClose = () => {
     onClose()
   }
 
-  const handleChangeFirstSelect = (event: SelectChangeEvent<unknown>) => {
-    const value = event.target.value as string
+  const handleChangeFirstSelect = (event: SelectChangeEvent<string>) => {
+    const value = event.target.value as Mastery
     if (!isNaN(Number(value))) {
       return
     }
     setFirstSelects(value)
   }
-  const handleChangeSecondSelect = (event: SelectChangeEvent<unknown>) => {
-    const value = event.target.value as string
+  const handleChangeSecondSelect = (event: SelectChangeEvent<string>) => {
+    const value = event.target.value as Mastery
     setSecondSelects(value)
   }
 

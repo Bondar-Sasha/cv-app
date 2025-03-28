@@ -26,9 +26,9 @@ export interface PreparedUser {
 
   position?: string
 
-  first_name: string
-  last_name: string
-  avatar: string
+  first_name?: string
+  last_name?: string
+  avatar?: string
 }
 
 export const USERS = gql`
